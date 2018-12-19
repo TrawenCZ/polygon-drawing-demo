@@ -75,7 +75,7 @@
             <property name="option" value="eol"/>
         </module>
         <module name="NeedBraces">
-            <property name="allowSingleLineStatement" value="true"/>
+            <property name="allowSingleLineStatement" value="false"/>
         </module>
         <module name="RightCurly"/>
 
