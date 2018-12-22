@@ -5,8 +5,9 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
 1.  Upravte třídu `Vertex2D` následujícím způsobem:
     *   Třída bude mít definovaný konstruktor o dvou parametrech `x` a `y`.
     *   Metodu `getInfo()` přejmenujte na `toString()`.
-        Tahle metoda již ve třídě existuje, proto nad hlavičku metody přidejte anotaci `@Override`.
-    *   Odstraňte metody `sumCoordinates` i `move`.
+        Je to standardní metoda, která existuje v každé třídě, proto nad hlavičku metody přidejte anotaci `@Override`.
+        Podrobnosti se dozvíte později.
+    *   Odstraňte metody `sumCoordinates` i `move`. Již nebudou potřeba.
     *   Vytvořte metodu `Vertex2D createMiddle(Vertex2D otherVertex)`, která vytvoří a vrátí bod uprostřed,
         tj. `[2, 3].createMiddle([1, 1])` vytvoří bod `[1.5, 2]`.
         Bod má souřadnice _[(x<sub>1</sub>+x<sub>2</sub>)/2, (y<sub>1</sub>+y<sub>2</sub>)/2]_.
@@ -57,14 +58,12 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
     podtrojúhelníky](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
 6.  Zdokumentujte třídy pomocí [_JavaDoc_](https://en.wikipedia.org/wiki/Javadoc).
-    Vyplňte jméno autora (`@author`) svým celým jménem, nastavte si generování jména automaticky jak je popsáno
+    Jméno musí být ve formátu `@author Jmeno Prijmeni` včetně mezery. Nastavte si generování jména automaticky jak je popsáno
     [zde](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/working-with-ide).
-    Jméno musí být ve formátu `@author Jméno Příjmení` včetně mezery.
-    Pak zkontrolujte, jestli vám přešel checkstyle zavoláním příkazu:
+    Settery, gettery, křekryté metody (`@Override`) a privátní metody nemusíte pomocí javadoc dokumentovat.
+    Checkstyle se spouští automaticky při překladu. Pokud ho chcete spustit samostatně, můžete zavolat příkaz:
 
         mvn clean install -Dcheckstyle.fail=true
-
-    Odevzdaná iterace musí projít **testy** i **checkstyle**.
 
 ### Hinty
 
@@ -73,6 +72,6 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
 - Používejte gettery namísto přímého přístupu.
 - Vytvořte pomocnou privátní metodu `boolean isInRange(int index)` na zjištění jestli je index 0, 1 nebo 2.
 - Při metodě `getVertex(index)` není potřeba klíčové slovo `else`, protože `return` udělá okamžitý návrat z metody.
-- Metodu `toString()` není nutno volat explicitně, při výpisu objektu se zavolá automaticky.
-- Settery, gettery, přetížené (`@Override`) a privátní metody nemusíte komentovat.
-- Metodu `divide` si implementujte nakonec (obsah metody nechte prázdný), radši vyzkoušejte třídu `Demo`.
+- Metoda `toString()` je standardní metoda, která se automaticky volá kdykoliv je třeba převést objekt na text.
+  Není tedy nutno ji volat explicitně, při výpisu objektu pomocí `System.out.println` se zavolá automaticky.
+- Metodu `divide` si implementujte nakonec (obsah metody nechte prázdný), raději nejprve vyzkoušejte třídu `Demo`.
