@@ -33,8 +33,14 @@ Iterace pro seznámení se s objekty a zapouzdřením.
         [1.0, 1.0]
         ~~~~
 
+3.  Zdokumentujte obě třídy pomocí [_JavaDoc_](https://en.wikipedia.org/wiki/Javadoc).
+    V této chvíli nám ještě nejde o absolutní správnost dokumentace, ale je nutné, aby prošel *checkstyle*.
+    U dokumentace tříd proto vyplňte autora (`@author`) se svým celým jménem. Dokumentaci metod si nechte vygenerovat a buďto ji vyplňte, 
+    nebo vyplnění nechte na příště.
+
 4.  Otestujte třídy pomocí testovacích tříd v balíčku **src/test/java**.
     Po úspěšném otestování odevzdejte do odevzdávárny nebo na git a nechte zkontrolovat cvičícím.
+    Odevzdaná iterace musí projít *testy* i *checkstyle*!
 
 ### Hinty
 
