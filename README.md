@@ -1,21 +1,23 @@
 ## První iterace
 
-Iterace pro seznámění se s objekty a zapouzdřením.
+Iterace pro seznámení se s objekty a zapouzdřením.
 
-1.  Vytvořte třídu `Vertex2D` představující bod ve 2D prostoru se souřadnicemi x a y.
+1.  Vytvořte třídu `Vertex2D` představující bod ve 2D prostoru se souřadnicemi *X* a *Y*.
     *   Třída bude v balíku `cz.muni.fi.pb162.project.geometry` (příslušný balík musíte vytvořit).
-    *   Třída bude mít dva atributy typu `double`, ve kterých si bude uchovávat hodnoty souřadnic `x` a `y`.
+    *   Třída bude mít dva atributy typu `double`, ve kterých si bude uchovávat hodnoty souřadnic *X* a *Y*.
         Jejich implicitní hodnota bude 0.
-    *   Konstruktory zatím neřešte.
+    *   Konstruktory zatím nevytvářejte.
     *   Přidejte do třídy tzv. _gettery_ a _settery_, konkrétně metody:
         *   `double getX()` a `double getY()` pro získání hodnot atributů,
         *   `void setX(double newX)` a `void setY(double newY)` pro nastavení hodnot atributů.
-    *   Metoda `String getInfo()` vrátí pro bod na souřadnicích x=2.0, y=3.0 vrátí **10 znaků** (včetně mezery):
+    *   Metoda `String getInfo()` vrátí formátovaný popis souřadnic podle následujícího příkladu:
+        Pro bod na souřadnicích x=2.0, y=3.0 vrátí **10 znaků** (včetně mezery):
         `[2.0, 3.0]`.
-    *   Metoda `double sumCoordinates()` vrátí součet souřadnic x a y.
+    *   Metoda `double sumCoordinates()` vrátí součet souřadnic *X* a *Y*.
     *   Metoda `void move(Vertex2D vertex)` vezme jiný 2D bod jako vstupní parametr a posune vrchol o `vertex` souřadnice.
         Například, zavolání `[2, 3].move([1, 1])` posune vrchol `[2, 3]` na souřadnice `[3, 4]`.
     *   Nastavte viditelnost atributů a metod tak, aby splňovaly podmínky zapouzdření.
+    *   Doplňte nezbytný javadoc. U getterů a setterů se javadoc psát nebusí, protože jejich účel i použití jsou zřejmé.
 
 2.  Upravte spustitelnou třídu `Demo`.
     *   Třídu nechte v balíku `cz.muni.fi.pb162.project`.
@@ -36,8 +38,9 @@ Iterace pro seznámění se s objekty a zapouzdřením.
 
 ### Hinty
 
-- Defaultní hodnota typu `double` je 0.
-- Gettery a settery mají pravidla pro jejich pojmenování, tj. atributy se musí jmenovat `x` a `y`.
+- Defaultní hodnota atributů typu `double` je `0.0`.
+- Gettery a settery mají jasná pravidla pro jejich pojmenování s ohledem na názvy příslušných atributů. 
+  A protože názvy getterů a setterů jsou dány zadáním, je třeba od nich odvodit i názvy příslušných atributů.
 - Pro zapouzdření obvykle platí: atributy jsou privátní, metody jsou veřejné.
 - Třídu `Vertex2D` je nutno **naimportovat** do třídy `Demo`, protože se nachází v jiném balíku.
 - Ujistěte se, že spouštíte **všechny** testy.
