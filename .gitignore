@@ -13,6 +13,8 @@
 !polygon-ok.txt
 !pom.xml
 !.gitlab-ci.yml
+!*.png
+!*.jpg
 # etc.
 
 
