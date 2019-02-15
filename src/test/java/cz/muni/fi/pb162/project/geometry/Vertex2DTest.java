@@ -37,6 +37,12 @@ public class Vertex2DTest {
     public void distanceValidInput() {
         double distance = new Vertex2D(-1.2, 1.2).distance(new Vertex2D(1.3, 1.3));
         assertThat(distance).isBetween(2.5, 2.503);
+        distance = new Vertex2D(-1.2, -1.2).distance(new Vertex2D(1.3, 1.3));
+        assertThat(distance).isBetween(3.5, 3.6);
+        distance = new Vertex2D(1.2, 1.2).distance(new Vertex2D(1.3, 1.3));
+        assertThat(distance).isBetween(0.1, 0.15);
+        distance = new Vertex2D(-1.2, -1.2).distance(new Vertex2D(-1.3, -1.3));
+        assertThat(distance).isBetween(0.1, 0.15);
     }
 
     @Test
