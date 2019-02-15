@@ -51,7 +51,7 @@ jednotlivých vrcholů.
         a předá je konstruktoru nadtřídy v podobě pole vrcholů.
     *   Zrušte všechny atributy a metody, které lze zdědit beze změny, kromě metody `toString()`.
     *   Definujte metody rovnosti: dva trojúhelníky jsou stejné, když mají stejné **vrcholy** včetně pořadí.
-        Využijte rovnost nadtřídy. Rovnost platí pouze pro objekty třídy `Triangle`.
+        Využijte rovnost nadtřídy. Pro porovnání tříd použijte `getClass()`, nikoliv `instanceof`. Důvod viz přednáška.
 
 6. Pokud jste implementaci provedli bez chyb, tak po spuštění třídy `Draw` se na obrazovce vykreslí [fialový trojúhelník
    a uvnitř něj fialový polygon](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images)
