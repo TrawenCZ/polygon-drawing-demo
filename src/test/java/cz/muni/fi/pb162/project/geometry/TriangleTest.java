@@ -112,11 +112,11 @@ public class TriangleTest {
     }
 
     private void testWidth(Triangle t) {
-        assertThat(t.getWidth()).isCloseTo(SimpleMathTest.triangleWidth(t), within(0.001));
+        assertThat(t.getWidth()).isCloseTo(SimpleMathTest.polygonWidth(t), within(0.001));
     }
 
     private void testHeight(Triangle t) {
-        assertThat(t.getHeight()).isCloseTo(SimpleMathTest.triangleHeight(t), within(0.001));
+        assertThat(t.getHeight()).isCloseTo(SimpleMathTest.polygonHeight(t), within(0.001));
     }
 
     @Test
