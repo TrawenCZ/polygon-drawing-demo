@@ -72,7 +72,7 @@ Ve skutečnosti každý pravidelný n-úhelník aproximuje kružnici &mdash; č�
 
 ### Hinty
 
-- Metoda `toString()`v enum defaultně vrací název konstanty malými písmeny.
+- Metoda `toString()` v `enum` defaultně vrací název konstanty velkými písmeny.
 - Potřebné matematické funkce a konstanty naleznete ve třídě `java.lang.Math`.
 - Metoda `getVertex(int index)` předpokládá libovolné číslo a nevyžaduje modulo,
   protože goniometrické funkce tak fungují automaticky.
