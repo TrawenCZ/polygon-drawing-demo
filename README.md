@@ -39,8 +39,8 @@ jednotlivých vrcholů.
           pak by šlo vytvořený objekt modifikovat, co nechceme).
     *   Metoda `Vertex2D getVertex(int i)` vrátí i-tý vrchol modulo počet vrcholů.
         V případě záporného vstupního argumentu vyhodí výjimku `IllegalArgumentException` **s popisem chyby**.
-    *   Definujte metody rovnosti. Dva `ArrayPolygony` jsou stejné, pokud jsou všechny indexy vrcholů stejné,
-        tj. mají stejné souřadnice vrcholů se stejným pořadím. Rovnost platí pouze pro objekty třídy `ArrayPolygon`.
+    *   Definujte metody rovnosti. Dva `ArrayPolygony` jsou stejné, pokud jsou všechny indexy vrcholů stejné.
+		Pro porovnání tříd použijte `getClass()`, nikoliv `instanceof`. Důvod viz přednáška.
 
         **Př.** *Následující trojúhelníky **nejsou** stejné*:
         *   [1, 1] [2, 2] [3, 3]
@@ -50,8 +50,6 @@ jednotlivých vrcholů.
     *   Konstruktor zůstane v původní podobě, tj. bude brát tři konkrétní vrcholy jako svoje vstupní argumenty
         a předá je konstruktoru nadtřídy v podobě pole vrcholů.
     *   Zrušte všechny atributy a metody, které lze zdědit beze změny, kromě metody `toString()`.
-    *   Definujte metody rovnosti: dva trojúhelníky jsou stejné, když mají stejné **vrcholy** včetně pořadí.
-        Využijte rovnost nadtřídy. Pro porovnání tříd použijte `getClass()`, nikoliv `instanceof`. Důvod viz přednáška.
 
 6. Pokud jste implementaci provedli bez chyb, tak po spuštění třídy `Draw` se na obrazovce vykreslí [fialový trojúhelník
    a uvnitř něj fialový polygon](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images)
