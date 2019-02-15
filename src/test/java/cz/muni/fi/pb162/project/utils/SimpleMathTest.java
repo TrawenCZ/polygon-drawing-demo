@@ -1,6 +1,7 @@
 package cz.muni.fi.pb162.project.utils;
 
-import cz.muni.fi.pb162.project.geometry.Triangle;
+import cz.muni.fi.pb162.project.geometry.ArrayPolygon;
+import cz.muni.fi.pb162.project.geometry.Polygon;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
 import org.junit.Test;
 
@@ -16,16 +17,22 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 public class SimpleMathTest {
 
-    private Triangle triangle1 = new Triangle(
-            new Vertex2D(50, 50),
-            new Vertex2D(70, 70),
-            new Vertex2D(90, 90)
+    private Polygon triangle1 = new ArrayPolygon(
+            new Vertex2D[] {
+                new Vertex2D(50, 50),
+                new Vertex2D(70, 70),
+                new Vertex2D(80, 80),
+                new Vertex2D(90, 90)
+            }
     );
 
-    private Triangle triangle2 = new Triangle(
-            new Vertex2D(-50, -50),
-            new Vertex2D(-70, -70),
-            new Vertex2D(-90, -90)
+    private Polygon triangle2 = new ArrayPolygon(
+            new Vertex2D[] {
+                new Vertex2D(-50, -50),
+                new Vertex2D(-70, -70),
+                new Vertex2D(-80, -80),
+                new Vertex2D(-90, -90)
+            }
     );
 
     @Test
@@ -52,18 +59,22 @@ public class SimpleMathTest {
         assertThat(SimpleMath.maxY(triangle2)).isEqualTo(maxY(polygonToArray(triangle2)));
     }
 
-    public static double triangleWidth(Triangle t) {
-        Vertex2D[] array = polygonToArray(t);
+    public static double polygonWidth(Polygon p) {
+        Vertex2D[] array = polygonToArray(p);
         return maxX(array) - minX(array);
     }
 
-    public static double triangleHeight(Triangle t) {
-        Vertex2D[] array = polygonToArray(t);
+    public static double polygonHeight(Polygon p) {
+        Vertex2D[] array = polygonToArray(p);
         return maxY(array) - minY(array);
     }
 
-    private static Vertex2D[] polygonToArray(Triangle t) {
-        return new Vertex2D[] { t.getVertex(0), t.getVertex(1), t.getVertex(2) };
+    private static Vertex2D[] polygonToArray(Polygon p) {
+        Vertex2D[] ret = new Vertex2D[p.getNumVertices()];
+        for (int i = 0; i < p.getNumVertices(); i++) {
+            ret[i] = p.getVertex(i);
+        }
+        return ret;
     }
 
     private static double minX(Vertex2D[] array) {
