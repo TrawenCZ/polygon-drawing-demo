@@ -32,8 +32,8 @@ Cvičení zaměřené na statické metody, implementaci a použití rozhraní.
     Přidejte jenom anotaci `@Override`.
 
 5.  V balíku `geometry` vytvořte třídu `Square`, která reprezentuje čtverec otočený o 45°:
-    *   První konstruktor bude obsahovat souřadnice středu opsané kružnice a průměr opsané kružnice.
-    *   Druhý konstruktor bude obsahovat objekt typu `Circumcircle` (souřadnice středu a poloměr).
+    *   První konstruktor vezme jako vstupní parametry souřadnice středu opsané kružnice a **průměr** opsané kružnice.
+    *   Druhý konstruktor vezme jako vstupní parametr objekt typu `Circumcircle` (obsahuje souřadnice středu a **poloměr**) a bude volat první konstruktor.
     *   Třída bude taky implementovat rozhraní `Circumcircle`:
     *   Metoda `Vertex2D getVertex(int index)` vrátí vrchol na daném indexu v pořadí: levý, dolní, pravý, horní.
         Jestli je index mimo rozsah, vrátí metoda `null`.
@@ -67,4 +67,4 @@ Cvičení zaměřené na statické metody, implementaci a použití rozhraní.
 - Při volání `printMeasurement` je nutno přetypovat objekt na rozhraní. Dojde k tzv. "ořezání" metod.
 - Konstruktor `Square` bere konkrétní implementace rozhraní `Circumcircle`, představte si tam např. `Circle`.
 - V `Square` v metodě `toString` se dá použít `Stringbuilder` a pak metoda `String#trim()`.
-- `Snowman` bude obsahovat konstantu udávající kružnic.
+- `Snowman` bude obsahovat konstantu udávající počet kružnic.
