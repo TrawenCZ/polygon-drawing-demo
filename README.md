@@ -17,7 +17,7 @@ Iterace pro seznámení se s objekty a zapouzdřením.
     *   Metoda `void move(Vertex2D vertex)` vezme jiný 2D bod jako vstupní parametr a posune vrchol o `vertex` souřadnice.
         Například, zavolání `[2, 3].move([1, 1])` posune vrchol `[2, 3]` na souřadnice `[3, 4]`.
     *   Nastavte viditelnost atributů a metod tak, aby splňovaly podmínky zapouzdření.
-    *   Doplňte nezbytný javadoc. U getterů a setterů se javadoc psát nebusí, protože jejich účel i použití jsou zřejmé.
+    *   Doplňte nezbytný javadoc. U getterů a setterů se javadoc psát nemusí, protože jejich účel i použití jsou zřejmé.
 
 2.  Upravte spustitelnou třídu `Demo`.
     *   Třídu nechte v balíku `cz.muni.fi.pb162.project`.
