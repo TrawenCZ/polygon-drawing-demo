@@ -27,8 +27,8 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
         Využijte metodu `toString()` ze třídy `Vertex2D`.
 3. Trojúhelník chceme dělit na tři menší trojúhelníky. Implementujte proto následujcí metody.
 
-        ![rozdělený trojúhelník](images/02a.png)
-        *Původní trojúhelník (vlevo) a rozdělený na podtrojúhelníky (vpravo).*
+    ![rozdělený trojúhelník](images/02a.png)
+    *Původní trojúhelník (vlevo) a rozdělený na podtrojúhelníky (vpravo).*
     *   Třída `Triangle` bude obsahovat atribut typu `Triangle[]`.
         Jakmile dojde k rozdělení pomocí metody `divide()`, uloží se do pole tři menší trojúhelníky
         (na obrázku černé).
