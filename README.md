@@ -17,37 +17,35 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
     *   Metoda `Vertex2D getVertex(int index)` vrátí _index_-tý vrchol.
         Jestli je _index_ menší než 0 nebo větší než 2, vrátí metoda hodnotu `null`.
         Když je _index_ 0, vrátí první vrchol, jestli 1 tak druhý, jestli 2 pak třetí.
-    *   To stejné platí pro metodu `void setVertex(int index, Vertex2D vertex)`.
+    *   To stejné platí pro metodu `void setVertex(int index, Vertex2D vertex)`. 
+	    Pokud je _index_ mimo rozsah, metoda nic neudělá.
     *   Metoda `String toString()` vrátí řetězec:
 
         ~~~~
         "Triangle: vertices=[ax, ay] [bx, by] [cx, cy]"
         ~~~~
         Využijte metodu `toString()` ze třídy `Vertex2D`.
-    * Trojúhelník budeme moci rozdělit na tři menší trojúhelníky:
+3. Trojúhelník chceme dělit na tři menší trojúhelníky. Implementujte proto následujcí metody.
 
         ![rozdělený trojúhelník](images/02a.png)
         *Původní trojúhelník (vlevo) a rozdělený na podtrojúhelníky (vpravo).*
-    *   Implementujte proto tyto metody:
-           *   Třída `Triangle` bude obsahovat atribut typu `Triangle[]`.
-               Jakmile dojde k rozdělení pomocí metody `divide()`, uloží se do pole tři menší trojúhelníky
-               (na obrázku černé).
-           *   Metoda `boolean isDivided()` zjistí, jestli již došlo k rozdělení trojúhelníka
-               (menší trojúhelníky byly vytvořeny, tj. nejsou `null`).
-           *   Metoda `Triangle getSubTriangle(int index)` vrátí `index`-tý podtrojúhelník, kde `index` je číslo mezi
-               0 a 2.
-               Pokud je `index` mimo tento rozsah, nebo pokud trojúhelník není dosud rozdělen, vrátí metoda `null`.
-           *   Metoda `boolean divide()` rozdělí trojúhelník, tj. vytvoří tři menší trojúhelníky, uloží je do atributů
-               a vrátí `true`.
-               Pokud již trojúhelník byl rozdělen (`isDivided()` vrátí `true`), metoda nic neprovede a vrátí `false`.
-               Vrcholy menších trojúhelníků jsou vždy v polovině délky stran původního trojúhelníka.
-               Střed hrany (úsečky) má souřadnice _[(x<sub>1</sub>+x<sub>2</sub>)/2, (y<sub>1</sub>+y<sub>2</sub>)/2]_,
-               kde _[x<sub>1</sub>, y<sub>1</sub>]_ a _[x<sub>2</sub>, y<sub>2</sub>]_ jsou vrcholy trojúhelníka.
+    *   Třída `Triangle` bude obsahovat atribut typu `Triangle[]`.
+        Jakmile dojde k rozdělení pomocí metody `divide()`, uloží se do pole tři menší trojúhelníky
+        (na obrázku černé).
+    *   Metoda `boolean isDivided()` zjistí, jestli již došlo k rozdělení trojúhelníka
+        (menší trojúhelníky byly vytvořeny, tj. nejsou `null`).
+    *   Metoda `Triangle getSubTriangle(int index)` vrátí `index`-tý podtrojúhelník, kde `index` je číslo mezi
+        0 a 2.
+        Pokud je `index` mimo tento rozsah, nebo pokud trojúhelník není dosud rozdělen, vrátí metoda `null`.
+    *   Metoda `boolean divide()` rozdělí trojúhelník, tj. vytvoří tři menší trojúhelníky, uloží je do atributů
+        a vrátí `true`.
+        Pokud již trojúhelník byl rozdělen, metoda nic neprovede a vrátí `false`.
+        Vrcholy menších trojúhelníků jsou vždy v polovině délky stran původního trojúhelníka (viz metoda `createMiddle`).
 
-3.  Upravte třídu `Demo` následujícím způsobem:
+4.  Upravte třídu `Demo` následujícím způsobem:
     *   Třídu přesuňte do balíku `cz.muni.fi.pb162.project.demo`.
     *   Zrušte vytváření proměnných i výpis textu.
-    *   Třída vytvoří trojúhelník se souřadnicemi _[-100, 0] [0, 100] [100, -100]_.
+    *   Třída nově vytvoří trojúhelník se souřadnicemi _[-100, 0] [0, 100] [100, -100]_.
     *   Na std. výstup vypíše informace o trojúhelníku. Po spuštění by výstup měl vypadat takto:
 
         ~~~~
