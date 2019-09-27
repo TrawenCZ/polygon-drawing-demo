@@ -3,7 +3,7 @@
 Cvičení zaměřené na přetěžování vlastních konstruktorů a metod.
 
 1.  Ve třídě `Vertex2D`:
-    *   Udělejte třídu `Vertex2D` neměnnou (_immutable_), tj. odstraňte settery a nastavte všechny attributy `final`.
+    *   Udělejte ze třídy `Vertex2D` neměnnou (_immutable_) třídu, tj. odstraňte settery a nastavte všechny atributy jako `final`.
     *   Přidejte metodu `double distance(Vertex2D vertex)`, která vezme jiný 2D bod jako vstupní parametr a vrátí jeho
         eukleidovskou vzdálenost. Vzdálenost bodů se vypočítá jako:
     ![vzorec](images/03a.png)
@@ -15,9 +15,9 @@ Cvičení zaměřené na přetěžování vlastních konstruktorů a metod.
         a _poloměr_ (radius) typu `double`.
         Atributy budou neměnné.
     *   Třída bude mít _bezparametrický konstruktor_, který vytvoří jednotkovou kružnici se středem v počátku
-        souřadného systému (střed `[0, 0]`, poloměr `1`).
+        souřadného systému (tj. střed `[0.0, 0.0]`, poloměr `1.0`).
     *   **Bezparametrický konstruktor bude volat parametrický konstruktor** a předá mu potřebné hodnoty.
-    *   Pro poloměr a střed vygenerujte gettery `getRadius()` a `getCenter()`.
+    *   Pro poloměr a střed vytvořte gettery `getRadius()` a `getCenter()`.
     *   Metoda `toString` bude vracet řetězec ve formátu:
 
             "Circle: center=[<x>, <y>], radius=<radius>"
@@ -33,17 +33,16 @@ Cvičení zaměřené na přetěžování vlastních konstruktorů a metod.
 
             Math.abs(d1-d2) < 0.001
 
-        kde `0.001` je tolerovaná absolutní odchylka a **bude definovaná jako privátní konstanta**.
-    *   Vytvořte přetíženou metodu `boolean divide(int depth)`, která rozdělí trojúhelník na podtrojúhelníky.
+        kde `0.001` je tolerovaná absolutní odchylka a **bude definována jako privátní konstanta**.
+    *   Vytvořte přetíženou metodu `void divide(int depth)`, která rozdělí trojúhelník na podtrojúhelníky.
         Výsledkem bude [_Sierpińského trojúhelník_](http://en.wikipedia.org/wiki/Sierpinski_triangle):
              ![Sierpińského trojúhelník](images/03b.png)
              *Sierpińského trojúhelníky hloubky 0 až 4.*
         *   Parametr `depth` udává hloubku dělení. Nula značí žádné dělení (jsme na konci rekurze), 1 znamená,
             že dojde k jednomu rozdělení původního trojúhelníka, atd.
-        *   Jestli je `depth` nula, rekurze se ukončí vrácením `false` (trojúhelník na úrovni nula je již rozdělen).
-        *   Záporná hodnota je považována za chybu, kterou metoda indikuje tím, že vrátí `false`.
-        *   Metoda použije existující metodu `divide()`, a pak zavolá `divide(int depth)` na svých podtrojúhelnících
-            s parametrem `depth` o jedna nižší a pak vrátí `true`.
+        *   Pokud je `depth` menší nebo rovna nule, k dělení nedojde a metoda skončí.
+		*   Jinak metoda rozdělí trojúhelník pomocí metody `divide()` a rekurzivně se pokusí rozdělit vzniklé podtrojúhelníky
+		    až do požadované hloubky.
     *   Vytvořte konstruktor se 4 parametry, čtvrtý parametr reprezentuje hloubku zanoření.
         Konstruktor zavolá předešlý konstruktor a pak rozdělí trojúhelník.
 
