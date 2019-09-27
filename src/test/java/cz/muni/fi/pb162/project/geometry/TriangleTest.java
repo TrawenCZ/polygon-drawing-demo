@@ -147,19 +147,8 @@ public class TriangleTest {
     }
 
     @Test
-    public void nestedDivisionNegativeInput() {
-        assertThat(triangle.divide(-5)).isFalse();
-        assertThat(triangle.divide(-1)).isFalse();
-    }
-
-    @Test
-    public void nestedDivisionZeroInput() {
-        assertThat(triangle.divide(0)).isFalse();
-    }
-
-    @Test
     public void nestedDivisionDepth1() {
-        assertThat(triangle.divide(1)).isTrue();
+        triangle.divide(1);
         checkDivisionDepth1(triangle);
     }
 
@@ -172,13 +161,13 @@ public class TriangleTest {
     @Test
     public void nestedDivisionDepth2() {
         Triangle second = copyTriangle(triangle);
-        assertThat(second.divide(2)).isTrue();
+        second.divide(2);
         assertNestedDivision2(second);
     }
 
     // TODO cannot check depth 1, problem with equals: checkDivisionDepth1(actual);
     private void assertNestedDivision2(Triangle actual) {
-        assertThat(triangle.divide(1)).isTrue();
+        triangle.divide(1);
 
         // divide second depth manually
         triangle.getSubTriangle(0).divide();
