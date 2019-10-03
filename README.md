@@ -22,7 +22,7 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
     *   Metoda `String toString()` vrátí řetězec:
 
         ~~~~
-        "Triangle: vertices=[x<sub>0</sub>, y<sub>0</sub>] [x<sub>1</sub>, y<sub>1</sub>] [x<sub>2</sub>, y<sub>2</sub>]"
+        "Triangle: vertices=[x0, y0] [x1, y1] [x2, y2]"
         ~~~~
         Využijte metodu `toString()` ze třídy `Vertex2D`.
 3. Trojúhelník chceme dělit na tři menší trojúhelníky. Implementujte proto následujcí metody.
