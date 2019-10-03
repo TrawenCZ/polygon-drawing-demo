@@ -22,7 +22,7 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
     *   Metoda `String toString()` vrátí řetězec:
 
         ~~~~
-        "Triangle: vertices=[ax, ay] [bx, by] [cx, cy]"
+        "Triangle: vertices=[x<sub>0</sub>, y<sub>0</sub>] [x<sub>1</sub>, y<sub>1</sub>] [x<sub>2</sub>, y<sub>2</sub>]"
         ~~~~
         Využijte metodu `toString()` ze třídy `Vertex2D`.
 3. Trojúhelník chceme dělit na tři menší trojúhelníky. Implementujte proto následujcí metody.
@@ -58,7 +58,7 @@ Cvičení zaměřené na základní práci s atributy, metodami a na definici vl
 6.  Zdokumentujte třídy pomocí [_JavaDoc_](https://en.wikipedia.org/wiki/Javadoc).
     Jméno musí být ve formátu `@author Jmeno Prijmeni` včetně mezery. Nastavte si generování jména automaticky jak je popsáno
     [zde](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/working-with-ide).
-    Settery, gettery, křekryté metody (`@Override`) a privátní metody nemusíte pomocí javadoc dokumentovat.
+    Settery, gettery, překryté metody (`@Override`) a privátní metody nemusíte pomocí javadoc dokumentovat.
     Checkstyle se spouští automaticky při překladu. Pokud ho chcete spustit samostatně, můžete zavolat příkaz:
 
         mvn clean install -Dcheckstyle.fail=true
