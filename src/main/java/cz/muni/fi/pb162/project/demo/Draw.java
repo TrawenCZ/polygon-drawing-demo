@@ -101,8 +101,12 @@ public final class Draw extends JFrame {
     private void paintSubTrianglesRecursively(Triangle triangle) {
         for (int i = 0; i < 3; i++) {
             Triangle subTriangle = triangle.getSubTriangle(i);
-            paintTriangle(subTriangle);
-            if (subTriangle.isDivided()) paintSubTrianglesRecursively(subTriangle);
+            if (subTriangle != null) {
+                paintTriangle(subTriangle);
+                if (subTriangle.isDivided()) {
+                    paintSubTrianglesRecursively(subTriangle);
+                }
+            }
         }
     }
 
