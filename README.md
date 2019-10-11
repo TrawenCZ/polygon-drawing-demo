@@ -8,11 +8,10 @@ mnohoúhelníky](http://cs.wikipedia.org/wiki/Pravideln%C3%BD_mnoho%C3%BAheln%C3
 
 ![příklady pravidelných n-úhelníků](images/05a.png)
 
-Jsou to pravidelné hranaté konvexní objekty, které mají všechny strany stejně dlouhé.
-Lze jimi opsat kružnici, která prochází všemi vrcholy.
-Mezi tyto objekty patří např. rovnostranný trojúhelník, čtverec, pravidelný pětiúhelník, atd.
-Dá se mezi ně zařadit i kružnice jakožto n-úhelník s nekonečně mnoha nekonečně malými hranami.
-Ve skutečnosti každý pravidelný n-úhelník aproximuje kružnici &mdash; čím víc hran, tím je aproximace přesnější.
+Jsou to pravidelné hranaté konvexní objekty, které mají všechny strany stejně dlouhé (rovnostranný trojúhelník, čtverec, pravidelný pětiúhelník, atd.).
+Lze jimi opsat kružnici, která prochází všemi vrcholy. Odpovídají tedy naší definici "kruhových objektů" definovaných rozhraním `Circular`.
+Dá se mezi ně zařadit i kružnice jakožto n-úhelník s nekonečně mnoha nekonečně malými hranami 
+(ve skutečnosti každý pravidelný n-úhelník aproximuje kružnici &mdash; čím víc hran, tím je aproximace přesnější).
 
 1. V balíku `geometry` vytvořte výčtový typ `Color`, definujte několik běžných barev.
    Přepište metodu `toString()`tak, že vrátí jméno barvy malými písmeny.
@@ -77,3 +76,7 @@ Ve skutečnosti každý pravidelný n-úhelník aproximuje kružnici &mdash; č�
 - Metoda `getVertex(int index)` předpokládá libovolné číslo a nevyžaduje modulo,
   protože goniometrické funkce tak fungují automaticky.
 - Pro lepší porozumění mnohoúhelníků sněhuláka mrkněte na ukázkový screenshot _Draw_.
+
+### Cílový UML diagram tříd:
+
+![UML diagram tříd](images/05-class-diagram.jpg)
