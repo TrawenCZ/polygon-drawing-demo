@@ -5,7 +5,7 @@ package cz.muni.fi.pb162.project.geometry;
  *
  * @author Radek Oslejsek, Marek Sabo
  */
-public interface RegularPolygon extends Measurable, Circumcircle {
+public interface RegularPolygon extends Measurable, Circular {
 
     /**
      * Returns number of edges of the regular polygon.

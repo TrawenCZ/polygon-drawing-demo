@@ -5,7 +5,7 @@ package cz.muni.fi.pb162.project.geometry;
  *
  * @author Marek Sabo
  */
-public interface Circumcircle {
+public interface Circular {
 
     /**
      * Returns the middle point of the circle.
