@@ -18,7 +18,7 @@ public class CircleTest {
     private static final double RADIUS = 2.5;
     private Circle circle;
 
-    public static void assertCircle(Circumcircle actual, Circumcircle expected) {
+    public static void assertCircle(Circular actual, Circular expected) {
         assertThat(actual.getRadius()).isCloseTo(expected.getRadius(), within(0.001));
         assertThat(actual.getCenter()).isEqualToComparingFieldByField(expected.getCenter());
     }

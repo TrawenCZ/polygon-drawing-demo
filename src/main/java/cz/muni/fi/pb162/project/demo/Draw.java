@@ -1,6 +1,5 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.geometry.Circumcircle;
 import cz.muni.fi.pb162.project.geometry.Snowman;
 import cz.muni.fi.pb162.project.geometry.Square;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
@@ -13,6 +12,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.AbstractMap;
+import cz.muni.fi.pb162.project.geometry.Circular;
 
 /**
  * Class drawing 2D objects.
@@ -96,12 +96,12 @@ public final class Draw extends JFrame {
     }
 
     private void paintSnowman(Snowman snowman) {
-        for(Circumcircle c : snowman.getBalls()) {
+        for(Circular c : snowman.getBalls()) {
             paintCircumcircle(c);
         }
     }
 
-    private void paintCircumcircle(Circumcircle c) {
+    private void paintCircumcircle(Circular c) {
         int radius = (int) Math.rint(c.getRadius());
         int x = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - c.getCenter().getX()) + radius);
         int y = (int) Math.rint(HALF_HEIGHT - c.getCenter().getY()) - radius;
