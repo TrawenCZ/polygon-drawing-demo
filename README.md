@@ -1,9 +1,6 @@
 ## Čtvrtá iterace
 
-Cvičení zaměřené na statické metody, implementaci a použití rozhraní. Cílový UML diagram tříd vypadá následovně:
-
-![UML diagram tříd](images/04-class-diagram.png)
-
+Cvičení zaměřené na statické metody, implementaci a použití rozhraní. 
 
 1.  Vytvořte třídu `SimpleMath` v balíku `cz.muni.fi.pb162.project.utils` obsahující výhradně _statické_ metody (tzv. _utility class_)
     *   `double minX(Triangle triangle)` vrátí nejmenší X-ovou souřadnici.
@@ -71,3 +68,7 @@ Cvičení zaměřené na statické metody, implementaci a použití rozhraní. C
 - Při volání `printMeasurement` je nutno přetypovat objekt na rozhraní. Dojde k tzv. "ořezání" metod.
 - V `Square` v metodě `toString` se dá použít `Stringbuilder` a pak metoda `String#trim()`.
 - `Snowman` bude obsahovat konstantu udávající počet kružnic.
+
+### Cílový UML diagram tříd:
+
+![UML diagram tříd](images/04-class-diagram.png)
