@@ -1,6 +1,5 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.geometry.Circumcircle;
 import cz.muni.fi.pb162.project.geometry.Colored;
 import cz.muni.fi.pb162.project.geometry.GeneralRegularPolygon;
 import cz.muni.fi.pb162.project.geometry.RegularOctagon;
@@ -17,6 +16,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.AbstractMap;
+import cz.muni.fi.pb162.project.geometry.Circular;
 
 /**
  * Class drawing 2D objects.
@@ -141,7 +141,7 @@ public final class Draw extends JFrame {
         }
     }
 
-    private void paintCircumcircle(Circumcircle c) {
+    private void paintCircumcircle(Circular c) {
         int radius = (int) Math.rint(c.getRadius());
         int x = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - c.getCenter().getX()) + radius);
         int y = (int) Math.rint(HALF_HEIGHT - c.getCenter().getY()) - radius;
