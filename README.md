@@ -2,7 +2,7 @@
 
 Cvičení zaměřené na statické metody, implementaci a použití rozhraní. Cílový UML diagram tříd vypadá následovně:
 
-	![UML diagram tříd](images/04-class-diagram.png)
+![UML diagram tříd](images/04-class-diagram.png)
 
 
 1.  Vytvořte třídu `SimpleMath` v balíku `cz.muni.fi.pb162.project.utils` obsahující výhradně _statické_ metody (tzv. _utility class_)
