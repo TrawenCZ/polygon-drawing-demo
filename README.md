@@ -34,7 +34,7 @@ jednotlivých vrcholů.
     *   Souřadnice vrcholů n-úhelníka budou uloženy ve formě pole.
     *   Konstruktor bude mít jako vstupní argument pole vrcholů.
         * Na začátku se ověří, jestli není pole, nebo některý jeho prvek `null`.
-          Pokud není vstupní pole validné, vyhodí výjimku `IllegalArgumentException` s vhodnou zprávou.
+          Pokud není vstupní pole validní, vyhodí výjimku `IllegalArgumentException` s vhodnou zprávou.
         * Konstruktor si vstupní pole zkopíruje (nestačí tedy pouze uložit ukazatel na pole do atributu,
           pak by šlo vytvořený objekt modifikovat, co nechceme).
     *   Metoda `Vertex2D getVertex(int i)` vrátí i-tý vrchol modulo počet vrcholů.
@@ -69,3 +69,7 @@ jednotlivých vrcholů.
   tj. `new ArrayPolygon(...).equals(Triangle(...))` musí vrátit stejný výsledek jako
   `Triangle(...).equals(new ArrayPolygon(...))`.
   I kdyby byly body trojúhelníku i polygonu stejné, `equals` vrací `false`, protože jde o různé třídy.
+
+### Cílový UML diagram tříd:
+
+![UML diagram tříd](images/06-class-diagram.jpg)
