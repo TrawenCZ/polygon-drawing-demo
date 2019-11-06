@@ -60,3 +60,6 @@ Cvičení zaměřené na práci s kolekcemi.
 - Metody `List.of` i `Arrays.asList` vrací nemodifikovatelnou kolekci.
   Pro modifikaci je nutno vytvořit novou kolekci.
 
+### Cílový UML diagram tříd:
+
+![UML diagram tříd](images/07-class-diagram.jpg)
