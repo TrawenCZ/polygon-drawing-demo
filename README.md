@@ -59,3 +59,4 @@ Cvičení zaměřené na práci s kolekcemi.
   Nemodifikovatelnou kolekci nemusíme vracet pouze v případě, kdy vytváříme kolekci přímo v dané metodě.
 - Metody `List.of` i `Arrays.asList` vrací nemodifikovatelnou kolekci.
   Pro modifikaci je nutno vytvořit novou kolekci.
+
