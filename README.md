@@ -25,6 +25,7 @@ Cvičení zaměřené na práci s výjimkami a vnořenými kolekcemi.
         *   Pokud při vytváření polygonu nastane chyba `IllegalArgumentException`,
             metoda výjimku pohltí, odstraní z kolekce všechny vrcholy `null` a zkusí to znovu.
             Metoda propouští výjimku `MissingVerticesException`.
+			*   _Pozn.: Požadované chování porušuje princip používání výjimek. Logičtější a jednodušší by bylo nejprve zkontrolovat a odebrat null vrcholy. Tím by se také předešlo zbytečnému vyhazování výjimky konstruktorem třídy CollectionPolygon. Požadované chování je pouze z důvodu procvičení práce s výjimkami._
     *   Metoda `void tryToDrawPolygons(List<List<Vertex2D>>)` bere seznam seznamů vrcholů
         (tj. seznam polygonů uložených zatím jako kolekce vrcholů).
         *   Metoda se pokusí z každé kolekce vytvořit polygon (`tryToCreatePolygon`)
