@@ -36,7 +36,8 @@ Přejmenování vrcholů ale můžeme zcela změnit topologii bez nutnosti měni
     Pořadí vrcholů v n-úhelníku je dáno jejich pojmenováním (lexikograficky vzestupně).
 
     Třída bude mít **privátní** konstruktor s jedním parametrem -- mapou vrcholů a jejich labelů.
-    Třída se nebude dát dědit (bude finální), protože nemá smysl.
+	
+    Třída se nebude dát dědit (bude finální).
 
     Implementujte nasledující rozhraní (pro více informací viz JavaDoc daného rozhraní).
 
@@ -88,3 +89,7 @@ Přejmenování vrcholů ale můžeme zcela změnit topologii bez nutnosti měni
 
 - Pro primitivní typy existují statické metody pro porovnávání, např. `Double.compare`.
 - Pro statickou interní třídu `Builder` stačí volat `LabeledPolygon.Builder()` namísto `LabeledPolygon().Builder()`.
+
+### Cílový UML diagram tříd:
+
+![UML diagram tříd](images/09-class-diagram.jpg)
