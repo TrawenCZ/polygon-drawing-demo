@@ -2,6 +2,7 @@ package cz.muni.fi.pb162.project.geometry;
 
 import org.junit.Before;
 import org.junit.Test;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
