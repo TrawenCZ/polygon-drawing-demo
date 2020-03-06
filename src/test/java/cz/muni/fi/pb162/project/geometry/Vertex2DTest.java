@@ -5,6 +5,7 @@ import cz.muni.fi.pb162.project.helper.BasicRulesTester;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.regex.Pattern;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
