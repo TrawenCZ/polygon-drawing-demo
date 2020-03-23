@@ -43,8 +43,6 @@ Cvičení zaměřené na statické metody, implementaci a použití rozhraní.
 
             "Square: vertices=[ax, ay] [bx, by] [cx, cy] [dx, dy]"
 
-        přičemž zpráva obsahuje jen 3 mezery mezi vrcholy.
-
 6.  V balíku `geometry` vytvořte třídu `Snowman` (_sněhulák_):
     *   Nás sněhulák se skládá ze **čtyř** jakýchkoliv kruhových (circular) objektů, tj. kružnic, čtverců, atd. postavených na sebe.
         Počet půjde lehce změnit v době překladu. Sněhulák pro jednoduchost nemá ruce. Směrem nahoru se "koule" sněhuláka zmenšují. 
