@@ -31,12 +31,12 @@ Cvičení zaměřené na práci s kolekcemi.
 	    Opět se musí zkontrolovat, že máme alespoň jeden vrchol, takže i tento konstruktor bude volat 
 		konstruktor nadtřídy vytvořený v předchozím bodě.
 
-2. Vytvořte třídu `ColoredPolygon`, který vezme libovolný existující polygon a přidá mu novou vlastnost: barvu.
+3. Vytvořte třídu `ColoredPolygon`, který vezme libovolný existující polygon a přidá mu novou vlastnost: barvu.
     *   Konstruktor bere polygon typu `Polygon` a barvu typu `Color`.
     *   Třída obsahuje gettery na dané atributy `getPolygon` a `getColor`.
     *   Dva barevné polygony jsou stejné, jestli obsahují (logicky) stejný polygon i barvu.
 
-3.  Vytvořte třídu `Paper` implementující rozhraní `Drawable`.
+4.  Vytvořte třídu `Paper` implementující rozhraní `Drawable`.
     Tato třída simuluje papír, na který se dají kreslit barevné polygony. Simuluje ho v tom, že přímo
 	nic nevykresluje, ale polygony, které se mají vykreslit, ukládá spolu s barvou do kolekce jako objekty `ColoredPolygon`.
 	
@@ -57,7 +57,7 @@ Cvičení zaměřené na práci s kolekcemi.
     *   `uniqueVerticesAmount()` vrátí počet vrcholů na papíře bez duplicit.
     *   Více informací najdete v javadocu třídy `Drawable`.
 
-4. Spuštění třídy `Draw`
+5. Spuštění třídy `Draw`
 [vykreslí barevný domeček](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
 ### Hinty
