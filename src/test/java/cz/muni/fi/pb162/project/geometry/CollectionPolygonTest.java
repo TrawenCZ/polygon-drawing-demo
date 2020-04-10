@@ -112,7 +112,7 @@ public class CollectionPolygonTest {
                 .as("Original polygon should not be changed")
                 .isEqualTo(6);
         
-        assertThat(collectionPolygon.withoutLeftmostVertices()).nullValue();
+        assertThat(collectionPolygon.withoutLeftmostVertices()).isNull();
 
         //assertThatIllegalArgumentException()
         //        .isThrownBy(collectionPolygon::withoutLeftmostVertices)
