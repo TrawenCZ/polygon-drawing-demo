@@ -19,7 +19,7 @@ Cvičení zaměřené na práci s výjimkami a vnořenými kolekcemi.
     *   Metoda `drawPolygon(polygon)` bude vyhazovat `TransparentColorException` při kreslení bílou barvou.
         Výjimka bude obsahovat textový popis s názvem dané barvy.
     *   `Paper` bude implementovat rozhraní `PolygonFactory`.
-    *   Metoda `Polygon tryToCreatePolygon(List<Vertex2D>)` se pokusí vytvořit polygon z kolekce vrcholů.
+    *   Metoda `Polygon tryToCreatePolygon(List<Vertex2D>)` se pokusí vytvořit `CollectionPolygon` ze seznamu vrcholů.
         *   Pokud je vstupní argument `null`, metoda vyhodí `NullPointerException`.
         *   Metoda si vstupní kolekci nakopíruje (nebude modifikovat původní kolekci).
         *   Pokud při vytváření polygonu nastane chyba `IllegalArgumentException`,
