@@ -1,50 +1,47 @@
-## Desátá iterace
+## Tenth iteration
 
-Cvičení zaměřené na práci se vstupem a výstupem.
+Exercise focused on working with input and output.
 
-Upravte třídu `LabeledPolygon.Builder` tak, aby implementovala rozhraní `PolygonReadable`.
-Upravte třídu `LabeledPolygon` tak, aby implementovala rozhraní `PolygonWritable`.
+Modify the `LabeledPolygon.Builder` class to implement the `PolygonReadable` interface.
+Modify the `LabeledPolygon` class to implement the `PolygonWritable` interface.
 
-1.  Metoda `read(InputStream)` vezme otevřený vstup obsahující pojmenované vrcholy,
-    vrcholy načte a přidá je k existujícím vrcholům polygonu.
-    Při jakékoliv chybě vstupu/výstupu nebo chybě formátu vstupních dat musí metoda atomicky selhat
-    a vyhodit `IOException`. (atomicky = načítám všechno nebo nic)
-    Formát vstupních dat je následující:
-    *   Vstup je textový.
-    *   Co vrchol, to jeden řádek.
-    *   Každý řádek je ve formátu _"x y nazev vrcholu"_, tj. nejprve souřadnice vrcholu oddělené mezerou
-        a poté název vrcholu (název může obsahovat mezery).
-        Viz např. soubor _polygon-ok.txt_.
+1.  The `read(InputStream)` method takes an open input containing named vertices, reads the vertices, and adds them to the existing vertices of the polygon.
+    For any input/output error or input data format error, the method must atomically fail and throw an `IOException`. (atomically = loading all or nothing)
+    The input data format is as follows:
+    *   The input is text.
+    *   Each vertex is on one line.
+    *   Each line is in the format _"x y vertex name"_, i.e. first the coordinates of the vertex separated by a space
+        and then the name of the vertex (the name can contain spaces).
+        See, for example, the file _polygon-ok.txt_.
 
-2.  Metoda `write(OutputStream)` zapíše vrcholy do daného výstupního proudu.
-    Výstupní formát je stejný jako pro předchozí metodu.
+2.  The `write(OutputStream)` method writes vertices to a given output stream.
+    The output format is the same as for the previous method.
 
-3.  Metody `write(File)` a `read(File)` budou fungovat stejně jako předchozí,
-    budou ale pracovat se souborem namísto vstupně-výstupního proudu.
-    Vyhněte se opakování kódu!
+3.  The `write(File)` and `read(File)` methods will work the same as before,
+    however, they will work with the file instead of the I/O stream.
+    Avoid code repetition!
 
-4.  Vytvořte metodu `writeJson(OutputStream os)`, která bude do výstupního proudu zapisovat mapu ve formátu JSON.
-    *   Využijte externí knižnici [gson](https://github.com/google/gson).
-        Pro maven je potřeba přidat závislost do souboru `pom.xml` v části `<dependencies>`.
-    *   Prečtěte si dokumentaci třídy _Gson_.
-    *   Podle [dokumentace použijte tzv. _pretty print_](https://github.com/google/gson/blob/master/UserGuide.md#compact-vs-pretty-printing-for-json-output-format).
-    *   Objekt typu _Gson_ může být znovu použitý, proto jej stačí vytvořit pouze jednou.
+4.  Create a `writeJson(OutputStream os)` method that will write a map in JSON format to the output stream.
+    *   Use external library [gson](https://github.com/google/gson).
+        For maven, you need to add a dependency to the `pom.xml` file in the `<dependencies>` section.
+    *   Read the _Gson_ class documentation.
+    *   According to [documentation use the so-called _pretty print_](https://github.com/google/gson/blob/master/UserGuide.md#compact-vs-pretty-printing-for-json-output-format).
+    *   An object of type _Gson_ can be reused, so you only need to create it once.
 
-6.  Upravte třídu `Demo` následujícím způsobem:
-    *   Třída vytvoří `LabeledPolygon` ze souboru `polygon-ok.txt`.
-    *   Polygon bude také obsahovat vrchol s názvem `vrchol x` a souřednicemi `[123, 456]`.
-    *   Výstup vypište do výstupního proudu `System.out` v JSON formátu.
-    *   Pro kontrolu, že výstupní proud je stále otevřený pak vypište `Hello World!`.
+6.  Edit the `Demo` class as follows:
+    *   The class creates `LabeledPolygon` from the file `polygon-ok.txt`.
+    *   The polygon will also contain a vertex named `vertex x` with coordinates `[123, 456]`.
+    *   Write the output to the output stream `System.out` in JSON format.
+    *   To check that the output stream is still open then print `Hello World!`.
 
-5.  Spuštěním třídy `Draw` se načte _polygon-ok.txt_ a [vykreslí se na obrazovce
-    ](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
+5.  Running the `Draw` class loads _polygon-ok.txt_ and [draws on the screen](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
-### Hinty
+### Hints
 
-- Zavírejte pouze proudy/soubory, které jste otevřeli.
-- Používejte _try with resources_.
-- Nastudujte si metody `Writer#flush()`, `Reader#ready()`.
-- Vytvoření souboru: `new File("soubor.txt")`.
-- `Demo.main` může vyhodit `IOException`.
-- Namísto `\n` používejte univerzální oddělovač konců řádků, `System.lineSeparator()`. 
-- Testy vytvářejí soubor `polygon-out.txt`.
+- Only close streams/files that you have opened.
+- Use _try with resources_.
+- Study the methods `Writer#flush()`, `Reader#ready()`.
+- Creating a file: `new File("soubor.txt")`.
+- `Demo.main` can throw `IOException`.
+- Instead of `\n`, use the universal line break separator, `System.lineSeparator()`. 
+- The tests create a `polygon-out.txt` file.
