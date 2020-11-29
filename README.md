@@ -1,72 +1,69 @@
-## Čtvrtá iterace
+## Fourth iteration
 
-Cvičení zaměřené na statické metody, implementaci a použití rozhraní. 
+Exercise focused on static methods, implementation and use of interfaces. 
 
-1.  Vytvořte třídu `SimpleMath` v balíku `cz.muni.fi.pb162.project.utils` obsahující výhradně _statické_ metody (tzv. _utility class_)
-    *   `double minX(Triangle triangle)` vrátí nejmenší X-ovou souřadnici.
-    *   `double minY(Triangle triangle)` vrátí nejmenší Y-ovou souřadnici.
-    *   Obdobně pro metody `maxX` a `maxY`.
-    *   Trojúhelník neobsahuje `null` prvky.
+1.  Create the `SimpleMath` class in the `cz.muni.fi.pb162.project.utils` package containing exclusively _static_ methods (so-called _utility class_)
+    *   `double minX(Triangle triangle)` returns the minimum X coordinate.
+    *   `double minY(Triangle triangle)` returns the minimum Y coordinate.
+    *   Similarly for methods `maxX` and `maxY`.
+    *   The triangle does not contain `null` elements.
 
-2.  Upravte třídy `Triangle` a `Circle` tak, aby implementovaly rozhraní `Measurable`.
-    *   Výška/šířka trojúhelníku se vypočítá jako rozdíl maximální a minimální x-ové (u šířky) respektive y-ové
-        (u výšky) souřadnice vrcholů:
+2.  Modify the `Triangle` and  Circle` classes, so they implement the `Measurable` interface.
+    *   The height/width of the triangle is calculated as the difference between the maximum and minimum x (width) and y (height) coordinates of the vertices, respectively:
+        ![width of objects](images/04a.png)
+    *   Use static methods from the `SimpleMath` class.
 
-        ![šířka objektů](images/04a.png)
-    *   Využijte statické metody ze třídy `SimpleMath`.
+3.  In the `utils` package, create the `Gauger` class, which allows you to "measure" objects and print information about their height and width. The class will contain two static overloaded `printMeasurement` methods:
+    *   The first method takes any measurable object (ie any object implementing the `Measurable` interface) and
+        *   prints _"Width: \<w\>"_, to the standard output where \<w\> is the width value,
+        *   on the next line prints _"Height: \<h\>"_, where \<h\> is the height value.
+    *   The second method will work especially for a triangle (object of type `Triangle`). It takes a triangle and
+        *   prints triangle information to standard output, see `toString()` method,
+        *   on the next line prints _"Width: \<w\>"_, to the standard output where \<w\> is again the width value,
+        *   on the next line prints _"Height: \<h\>"_, where \<h\> is again the height value.
+    *   Avoid repeating the code by calling the first variant of the method from the second variant. But be careful that the method won't call itself.
 
-3.  V balíku `utils` vytvořte třídu `Gauger` (_měřidlo_), která umožní "změřit" objekty a vypsat informace o jejich výšce a šířce. Třída bude obsahovat dvě statické přetížené metody `printMeasurement`:
-    *   První metoda vezme libovolný měřitelný objekt (tj. libovolný objekt implementující rozhraní `Measurable`) a
-        *   na standardní výstup vypíše _"Width: \<w\>"_, kde \<w\> je hodnota šířky,
-        *   na další řádek vypíše _"Height: \<h\>"_, kde \<h\> je hodnota výšky.
-    *   Druhá metoda bude speciálně pro trojúhelník (objekt typu `Triangle`). Vezme trojúhelník a
-        *   na standardní výstup vypíše informace o trojúhelníku, viz metoda `toString()`,
-        *   na další řádek vypíše _"Width: \<w\>"_, kde \<w\> je opět hodnota šířky,
-        *   na další řádek vypíše _"Height: \<h\>"_, kde \<h\> je opět hodnota výšky.
-    *   Vyhněte se opakování kódu tím, že druhá varianta metody bude volat tu první. Pozor ale, ať nevolá sebe sama.
-        Došlo by k zacyklení (`StackOverflowException`).
+        There would be a loop (`StackOverflowException`).
 
-4.  Třída `Circle` bude implementovat rozhraní `Circular` - kruhový tvar vyjádřený svým středem a poloměrem.
-    Kružnice přímo představuje kruhový tvar, proto netřeba implementovat žádné nové metody. Je ale nutné přidat anotaci `@Override`.
+4.  The `Circle` class will implement the `Circular` interface - a circular shape expressed by its center and radius.
+    The circle directly represents a circular shape, so there is no need to implement any new methods. However, it is necessary to add annotation `@Override`.
 
-5.  V balíku `geometry` vytvořte třídu `Square`. V našem pojetí nebude čtverec vyjádřený jako čtveřice vrcholů (jako je tomu u trojúhelníku), 
-	ale jako kruhový tvar, jehož vrcholy můžeme kdykoliv vypočítat ze středu a poloměru (opsané kružnice). 
-	Podobnost kruhu a čtverce zní možná trochu podivně, ale na auto si také můžete nasadit "čtveratá" kola namísto "kruhových". 
-	Auto stále pojede, jen to bude o dost víc drncat :-)
-    *   Třída bude implementovat rozhraní `Circular`:
-    *   První konstruktor vezme jako vstupní parametry souřadnice středu opsané kružnice a **průměr** opsané kružnice.
-    *   Druhý konstruktor vezme jako vstupní parametr objekt typu `Circular` (obsahuje souřadnice středu a **poloměr**) a bude volat první konstruktor.
-    *   Metoda `Vertex2D getVertex(int index)` vrátí souřadnice `index`-tého vrcholu. Souřadnice se vypočítají automaticky ze středu a poloměru tak,
-	    že budou reprezentovat čtverec otočený o 45°: Na indexu 0 je levý vrchol, 1 = dolní vrchol, 2 = pravý vrchol a 3 = horní vrchol.
-        Pokud je index mimo rozsah, vrátí metoda `null`.
-    *   Nezapomeňte na metodu `toString()`:
+5.  In the `geometry` package, create the `Square` class. In our view, a square will not be expressed as four vertices (as in a triangle), 
+	but as a circular shape, the vertices of which can be calculated at any time from the center and radius (circumscribed circles). 
+	The similarity between the circle and the square may sound a little strange, but you can also put "square" wheels on the car instead of "round" ones.
+	The car will still go, it'll just rumble a lot more :-)
+    *   The class will implement the `Circular` interface:
+    *   The first constructor takes as input parameters the coordinates of the center of the circumscribed circle and the **diameter** of the circumscribed circle.
+    *   The second constructor will take a `Circular` object (containing the coordinates of the center and **radius**) as an input parameter and will call the first constructor.
+    *   The `Vertex2D getVertex(int index)` method returns the coordinates of the `index`-th vertex. The coordinates are calculated automatically from the center and the radius so that they represent a square rotated by 45°: At index 0 is the left vertex, 1 = lower vertex, 2 = right vertex and 3 = upper vertex.
+        If the index is out of range, the method returns `null`.
+    *   Don't forget the method `toString()`:
 
             "Square: vertices=[ax, ay] [bx, by] [cx, cy] [dx, dy]"
 
-6.  V balíku `geometry` vytvořte třídu `Snowman` (_sněhulák_):
-    *   Nás sněhulák se skládá ze **čtyř** jakýchkoliv kruhových (circular) objektů, tj. kružnic, čtverců, atd. postavených na sebe.
-        Počet půjde lehce změnit v době překladu. Sněhulák pro jednoduchost nemá ruce. Směrem nahoru se "koule" sněhuláka zmenšují. 
-    *   Konstruktor bude jako svůj první parametr brát parametr typu `Circular`, který představuje spodní kouli.
-	*   Jako druhý parametr konstruktoru bude zmenšovací faktor (reálné číslo o rozsahu `(0..1>`). O tento faktor se budou zmenšovat horní části sněhuláka.
-        V případě, že vstupní parametr nebude z požadovaného rozsahu, použije se neveřejná pojmenovaná konstanta `0.8`.
-    *   Celý sněhulák vznikne v konstruktoru. Bude složen z kruhového objektu, který jsme dostali. Nad ním budou kružnice (`Circle`) postupně se zmenšující o daný faktor. 
-	*   Nebojte se kód konstruktoru rozdělit do menších privátních metod.
-    *   Metoda `Circular[] getBalls()` vrátí pole všech "koulí" od nejspodnější po nejvyšší.
+6.  In the `geometry` package, create the `Snowman` class:
+    *   Our snowman consists of any **four** circular objects, ie circles, squares, etc. stacked on top of each other.
+        The number can be easily changed at the time of translation. The snowman has no hands for simplicity. The "balls" of the snowman shrink upwards. 
+    *   The constructor will take as its first parameter a parameter of type `Circular`, which represents the lower sphere.
+	*   The second parameter of the constructor will be the reduction factor (real number of the range `(0..1>`). The upper parts of the snowman will shrink by this factor.
+        If the input parameter is not in the required range, the named non-public constant `0.8` is used.
+    *   The whole snowman is created in the constructor. It will consist of a circular object that we received. Above it will be circles (`Circle`) gradually decreasing by a given factor. 
+	*   Don't be afraid to split the constructor code into smaller private methods.
+    *   The `Circular[] getBalls()` method returns an array of all "spheres" from the lowest to the highest.
 
-7. Demo vytvoří čtverec se středem `[0, 0]`, průměrem kružnice `100` a vypíše o něm informace na standardní výstup.
+7. The demo creates a square with center `[0, 0]`, diameter of circle `100` and writes information about it to standard output.
 
-8. Draw vykreslí [sněhuláka, jehož spodní kružnice má v sobě vepsaný zelený
-   čtverec](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
+8. Draw draws [a snowman whose bottom circle has a green square inscribed in it](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
-### Hinty
+### Hints
 
-- Minimální/maximální hodnota musí být nainicializovaná na první prvek, nebo na konstanty
+- The minimum/maximum value must be initialized to the first element, or to constants
   `Double.POSITIVE_INFINITY`/`Double.NEGATIVE_INFINITY`.
-- Při implementaci metod rozhraní používejte anotaci `@Override`.
-- Při volání `printMeasurement` je nutno přetypovat objekt na rozhraní. Dojde k tzv. "ořezání" metod.
-- V `Square` v metodě `toString` se dá použít `Stringbuilder` a pak metoda `String#trim()`.
-- `Snowman` bude obsahovat konstantu udávající počet kružnic.
+- Use `@Override` annotation when implementing interface methods.
+- When calling `printMeasurement`, it is necessary to cast the object to the interface. There will be so-called methods "trimming".
+- In `Square` in the `toString` method you can use `Stringbuilder` and then the `String#trim()` method.
+- `Snowman` will contain a constant indicating the number of circles.
 
-### Cílový UML diagram tříd:
+### Target UML class diagram:
 
-![UML diagram tříd](images/04-class-diagram.png)
+![UML class diagram](images/04-class-diagram.png)
