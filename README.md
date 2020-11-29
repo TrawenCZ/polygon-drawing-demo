@@ -1,75 +1,72 @@
-## Šestá iterace
+## Sixth iteration
 
-Cvičení zaměřené na práci s polem, rovností, abstraktní třídou a dědičností.
+Exercise focused on working with the field, equality, abstract class, and inheritance.
 
-V předchozích iteracích jsme pracovali s pravidelnými n-úhelníky. Nyní si systém rozšíříme o obecnější tzv. jednoduché n-úhelníky.
-To jsou obecné nepravidelné uzavřené n-úhelníky bez vzájemně se protínajících hran, jak ukazují následující příklady:
+In previous iterations, we worked with regular n-gons. We will now extend the system with more general so-called simple n-gons.
+These are general irregular closed n-gons without intersecting edges, as the following examples show:
 
-![příklady nepravidelných n-úhelníků](images/06a.png)
+![examples of irregular n-gons](images/06a.png)
 
-Přestože pravidelný n-úhelník je speciální případ jednoduchého n-úhelníka, v našem případě budou hierarchie tříd
-_pravidelné n-úhelníky_ a _jednoduché n-úhelníky_ oddělené. Je to z toho důvodu, že pravidelné n-úhelníky máme definovány pomocí
-poloměru opsané kružnice a počtu hran, zatímco jednoduché n-úhelníky musí být z principu definovány pomocí seznamu souřadnic
-jednotlivých vrcholů.
+Although a regular n-gon is a special case of a simple n-gon, in our case there will be class hierarchies of
+_regular n-gons_ and _simple n-gons_ separate. This is because regular n-gons are defined by the radius of the circumscribed circle and the number of edges, while simple n-gons must in principle be defined by a list of coordinates of individual vertices.
 
-1.  Definujte rovnost dvou vrcholů (`Vertex2D`) tak, že dva vrcholy jsou stejné, pokud mají stejné souřadnice.
+1.  Define the equality of two vertices (`Vertex2D`) so that two vertices are the same if they have the same coordinates.
 
-    >   Nezapomeňte, že předefinováním rovnosti máte povinnost předefinovat ještě jednu metodu.
+    >   Remember that by redefining equality, you have an obligation to redefine another method.
 
-2. Metody v `SimpleMath` upravte tak, aby brali jako parametr rozhraní `Polygon`.
-   Rozhraní `Polygon` definuje metody obecného n-úhelníka.
+2. Modify the methods in `SimpleMath` to take the `Polygon` interface as a parameter.
+   The `Polygon` interface defines general n-gon methods.
 
-3.  V balíku `geometry` vytvořte *abstraktní* třídu `SimplePolygon` implementující rozhraní `Polygon`.
-    Třída `SimplePolygon` bude obecná v tom smyslu, že nebude předjímat způsob uložení jednotlivých vrcholů (polem, kolekcí apod.).
-    To nechá až na podtřídy. Bude tedy implementovat pouze následující metody, ostatní zůstanou neimplementované:
-    *   Metoda `getHeight()` vrátí rozdíl mezi největší a nejmenší souřadnicí Y v n-úhelníku.
-        Podobně `getWidth()` pro X-ové souřadnice.
-    *   Metoda `toString()` vrátí řetězec:
+3.  In the `geometry` package, create an *abstract* `SimplePolygon` class that implements the `Polygon` interface.
+    The `SimplePolygon` class will be general in the sense that it will not anticipate how individual vertices will be stored (arrays, collections, etc.).
+    It leaves it down to subclasses. Therefore, it will implement only the following methods, the others will remain unimplemented:
+    *   The `getHeight()` method returns the difference between the largest and smallest Y coordinates in an n-gon.
+        Similarly, `getWidth()` for X coordinates.
+    *   The `toString()` method returns a string:
 
             "Polygon: vertices = [x, y] [x, y] [x, y]"
 
-        kde [x, y] jsou postupně všechny souřadnice vrcholů.
+        where [x, y] are successively all coordinates of the vertices.
 
-4.  Vytvořte neměnnou třídu `ArrayPolygon` rozšiřující třídu `SimplePolygon`.
-    *   Souřadnice vrcholů n-úhelníka budou uloženy ve formě pole.
-    *   Konstruktor bude mít jako vstupní argument pole vrcholů.
-        * Na začátku se ověří, jestli není pole, nebo některý jeho prvek `null`.
-          Pokud není vstupní pole validní, vyhodí výjimku `IllegalArgumentException` s vhodnou zprávou.
-        * Konstruktor si vstupní pole zkopíruje (nestačí tedy pouze uložit ukazatel na pole do atributu,
-          pak by šlo vytvořený objekt modifikovat, co nechceme).
-    *   Metoda `Vertex2D getVertex(int i)` vrátí i-tý vrchol modulo počet vrcholů.
-        V případě záporného vstupního argumentu vyhodí výjimku `IllegalArgumentException` **s popisem chyby**.
-    *   Definujte metody rovnosti. Dva `ArrayPolygony` jsou stejné, pokud jsou všechny indexy vrcholů stejné.
-		Pro porovnání tříd použijte `getClass()`, nikoliv `instanceof`. Důvod viz přednáška.
+4.  Create an immutable `ArrayPolygon` class that extends the `SimplePolygon` class.
+    *   The coordinates of the vertices of the n-gon will be stored in the form of an array.
+    *   The constructor will have an array of vertices as the input argument.
+        * In the beginning, it is checked whether the array or any of its elements are `null`.
+          If the input field is not valid, it throws an `IllegalArgumentException` exception with an appropriate message.
+        * The constructor copies the input field (it is not enough to just store a pointer to the field in the attribute,
+          then the created object could be modified, and we do not want that).
+    *   The `Vertex2D getVertex(int i)` method returns the i-th vertex modulo the number of vertices.
+        In the case of a negative input argument, it throws an `IllegalArgumentException` **exception with an error description**.
+    *   Define equality methods. The two `ArrayPolygons` are the same if all vertex indices are the same.
+		Use `getClass()`, not `instanceof`, to compare classes. Reason: see the lecture.
 
-        **Př.** *Následující trojúhelníky **nejsou** stejné*:
+        **Example** *Following triangles **are not** the same*:
         *   [1, 1] [2, 2] [3, 3]
         *   [3, 3] [1, 1] [2, 2]
 
-5.  Upravte třídu `Triangle` tak, aby rozšiřovala třídu `ArrayPolygon`:
-    *   Konstruktor zůstane v původní podobě, tj. bude brát tři konkrétní vrcholy jako svoje vstupní argumenty
-        a předá je konstruktoru nadtřídy v podobě pole vrcholů.
-    *   Zrušte všechny atributy a metody, které lze zdědit beze změny, kromě metody `toString()`.
+5.  Modify the `Triangle` class to extend the `ArrayPolygon` class:
+    *   The constructor will remain in its original form, ie it will take three specific vertices as its input arguments and pass them to the superclass constructor in the form of an array of vertices.
+    *   Remove all attributes and methods that can be inherited without change, except the `toString()` method.
 
-6. Pokud jste implementaci provedli bez chyb, tak po spuštění třídy `Draw` se na obrazovce vykreslí [fialový trojúhelník
-   a uvnitř něj fialový polygon](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images)
-   (v jeho tvaru nehledejte žádný smysl :wink: ).
+6. If you implemented everything without any errors, then after running the `Draw` class, a [purple triangle will be drawn on the screen
+    and inside it a purple polygon](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images)
+   (make no sense in its shape :wink: ).
 
-### Hinty
+### Hints
 
-- Nezapomeňte v `SimpleMath` upravit i Javadoc.
-- Pro implementaci `SimplePolygon` využijte metod ze `SimpleMath`.
-- **V abstraktní třídě explicitně napište hlavičky abstraktních metod.**
-- Využijte metody z utility třídy `Arrays`, např. _copyOf_ nebo _equals_.
-- Při kopírovaní pole stačí plytká kopie, protože objekty typu `Vertex2D` jsou neměnitelné.
-- Znak modulo je v Javě reprezentován `%`.
-- Privátní atribut = viditelný v rámci stejné třídy; nemusí to být pouze objekt `this`.
-- Pro výčet prvků pole použijte následující syntax: `new Vertex2D[] { /* elements */ }`.
-- Ve třídě `Triangle` pamatujte na kontrakt metody `equals`: metoda musí být symetrická,
-  tj. `new ArrayPolygon(...).equals(Triangle(...))` musí vrátit stejný výsledek jako
+- Don't forget to edit Javadoc in `SimpleMath`.
+- Use the methods from `SimpleMath` to implement `SimplePolygon`.
+- **Explicitly write the headers of the abstract methods in the abstract class.**
+- Use methods from the `Arrays` utility class, such as _copyOf_ or _equals_.
+- When copying an array, a shallow copy is sufficient, as `Vertex2D` objects are immutable.
+- The modulo character is represented in Java by `%`
+- Private attribute = visible within the same class; it doesn't have to be just a `this` object.
+- Use the following syntax to enumerate array elements: `new Vertex2D[] { /* elements */ }`.
+- In the `Triangle` class, remember the contract of the` equals` method: the method must be symmetrical,
+  i.e. `new ArrayPolygon(...).equals(Triangle(...))` must return the same result as
   `Triangle(...).equals(new ArrayPolygon(...))`.
-  I kdyby byly body trojúhelníku i polygonu stejné, `equals` vrací `false`, protože jde o různé třídy.
+  Even if the points of the triangle and the polygon are the same, `equals` returns `false`, because they are different classes.
 
-### Cílový UML diagram tříd:
+### Target UML class diagram:
 
-![UML diagram tříd](images/06-class-diagram.jpg)
+![UML class diagram](images/06-class-diagram.jpg)
