@@ -1,86 +1,77 @@
-## Sedmá iterace
+## Seventh iteration
 
-Cvičení zaměřené na práci s kolekcemi.
+Exercise focused on working with collections.
 
-1.  Vytvořte třídu `CollectionPolygon` rozšiřující třídu `SimplePolygon`, která bude podobná třídě `ArrayPolygon`.
-    Lišit se bude pouze tím, že vrcholy n-úhelníku nebudou uloženy v poli, ale ve vhodné kolekci.
-	*   Vytvořte konstruktor, který jako vstupní parametr bude brát **pole** vrcholů 
-	    (podobně jako tomu bylo u třídy `ArrayPolygon`). Vrcholy si ale uloží do vhodné kolekce.
-    *   Stejně jako minule chceme zabránit tomu, aby vnikl polygon, který by neobsahoval žádný vrchol. 
-	    Proto konstruktor zkontroluje, jestli není vstupní pole prázdné (null, prázdné, nebo samými null prvky).
-		Pokud je prázdné, vyhodí opět konstruktor výjimku `IllegalArgumentException` s popisem.
-    *   Definujte metody rovnosti.
-        Dva polygony jsou stejné, pokud jsou všechny indexy vrcholů stejné,
-        tj. mají stejné souřadnice vrcholů se stejným pořadím.
-    *   Do třídy přidejte metodu `CollectionPolygon withoutLeftmostVertices()`,
-        která vrátí nový polygon bez nejlevějších vrcholů (může jich být víc, viz např. obdélník).
-        Původní polygon zůstane nezměněn. Pokud by nový polygon po odebrání nejlevějších vrcholů již žádné vrcholy 
-		neobsahoval, metoda vrátí `null`.
-		Pozn.: Tato metoda slouží k procvičení práce s kolekcemi. Žádný jiný smysl v ní nehledejte.
+1.  Create a `CollectionPolygon` class that extends the `SimplePolygon` class, which will be similar to the `ArrayPolygon` class.
+    The only difference will be that the vertices of the n-gon will not be stored in the array, but in a suitable collection.
+	*   Create a constructor that will take an **array** of vertices as the input parameter
+(similar to the `ArrayPolygon` class). However, it will store the vertices in a suitable collection.
+    *   As before, we want to prevent the creation of a polygon with no vertex. 
+	    Therefore, the constructor checks if the input field is not empty (empty, null, or filled with null objects).
+		If empty, the constructor throws an `IllegalArgumentException` exception with a description.
+    *   Define equality methods.
+        Two polygons are the same if all vertex indices are the same,
+        i.e. they have the same coordinates of vertices with the same order.
+    *   Add the `CollectionPolygon withoutLeftmostVertices()` method to the class,
+        which returns a new polygon without the leftmost vertices (there can be more, see eg rectangle).
+        The original polygon remains unchanged. If the new polygon no longer contains any vertices after removing the leftmost vertices, the method returns `null`.
+		Note: This method is used to practice working with collections. Look for no other meaning for it.
 		
-2.  Všimněte si, že konstruktory tříd `ArrayPolygon` a `CollectionPolygon` jsou si velmi podobné. 
-    Oba kontrolují správnost vstupního pole. Liší se jen v uložení vrcholů.
-	*   Ve společné nadtřídě `SimplePolygon` vytvoře konstruktor a přesuňte do něj společný kód.
-	    Konstruktor `SimplePolygon` tedy zkontroluje správnost vstupního pole. V případě chyby
-		vyhodí výjimku a tím celý proces vytváření polygonu skončí. Pokud je vše OK, předá se normálně řízení
-		konstruktoru podtřídy. Konstruktory podtříd budou naopak volat konstruktor `SimplePolygon` a 
-		poté si uloží vrcholy do pole respektive kolekce. 
-		Pokud konstruktor `SimplePolygon` selže s výjimkou, selže automaticky i konstruktor podtřídy. 
-		Nemusíte to tedy v podtřídách nijak ošetřovat. Podrobněji si práci s výjimkami procvičíme příště.
-    *   Ve třídě `CollectionPolygon` vytvořte i druhý konstruktor, který bude brát jako parametr *seznam* vrcholů.
-	    Opět se musí zkontrolovat, že máme alespoň jeden vrchol, takže i tento konstruktor bude volat 
-		konstruktor nadtřídy vytvořený v předchozím bodě.
+2.  Note that the constructors of the `ArrayPolygon` and `CollectionPolygon` classes are very similar. 
+    Both check the correctness of the input field. They differ only in the storage of vertices.
+	*   In the common superclass `SimplePolygon`, create a constructor and move the common code to it.
+	    Therefore, the `SimplePolygon` constructor checks the correctness of the input field. In case of an error, it throws an exception and thus the whole process of creating a polygon ends. If everything is OK, control is passed to the
+subclass constructor. Subclass constructors, on the other hand, will call the `SimplePolygon` constructor and then store the vertices in an array or collection, respectively. 
+		If the `SimplePolygon` constructor fails with an exception, the subclass constructor also fails automatically. 
+		So you don't have to deal with it in the subclasses. We will practice working with exceptions in more detail next time.
+    *   In the `CollectionPolygon` class, create a second constructor that will take a *list* of vertices as a parameter.
+	    Again, it must be checked that we have at least one vertex, so this constructor will also call the superclass constructor created in the previous point.
 
-3. Vytvořte třídu `ColoredPolygon`, který vezme libovolný existující polygon a přidá mu novou vlastnost: barvu.
-    *   Konstruktor bere polygon typu `Polygon` a barvu typu `Color`.
-    *   Třída obsahuje gettery na dané atributy `getPolygon` a `getColor`.
-    *   Dva barevné polygony jsou stejné, jestli obsahují (logicky) stejný polygon i barvu.
+3. Create a `ColoredPolygon` class that takes any existing polygon and adds a new property: color.
+    *   The constructor takes a polygon of type `Polygon` and a color of type `Color`.
+    *   The class contains getters for the given attributes `getPolygon` and `getColor`.
+    *   Two colored polygons are the same if they contain (logically) the same polygon and color.
 
-4.  Vytvořte třídu `Paper` implementující rozhraní `Drawable`.
-    Tato třída simuluje papír, na který se dají kreslit barevné polygony. Simuluje ho v tom, že přímo
-	nic nevykresluje, ale polygony, které se mají vykreslit, ukládá spolu s barvou do kolekce jako objekty `ColoredPolygon`.
+4.  Create a `Paper` class that implements the `Drawable` interface.
+    This class simulates paper on which colored polygons can be drawn. It simulates it by not drawing anything directly, but saves the polygons to be rendered together with the color in the collection as `ColoredPolygon` objects.
 	
-    Když na papír nakreslíme stejný polygon (se stejnou barvou) dvakrát, uloží se jenom jednou.
-    Na papír se kreslí barvou a každý polygon je pro jednoduchost jednobarevný.
-    Implicitní barva je černá.
+    When we draw the same polygon (with the same color) on paper twice, it is saved only once.
+    Polygons are drawn on paper in color and each polygon has a single color for simplicity.
+    The default color is black.
 	
-    *   První konstruktor bude bez parametrů.
-    *   Další konstruktor bude brát parametr typu `Drawable` a kolekci nakreslených polygonů si zkopíruje.
-    *   `changeColor(color)` změní barvu, jakou se budou následující polygony kreslit (s jakou barvou se budou ukládat)
-	    Defaultní barva u nové instance papíru je černá. 
-    *   `drawPolygon(polygon)` "namaluje" (tj. uloží) polygon na papír barvou nastavenou v předchozí metodě. 
-	    Pokud by už takový polygon (stejné barvy a tvaru) na papíře (v kolekci) byl, tak se ignoruje.
-	    Pokud je nastavená bílá barva polygon se nekreslí (neuloží), protože na bílém papíře by stejně nebyl vidět.
-    *   `erasePolygon(polygon)` odstraní polygon z papíru (odebere z kolekce).
-    *   `eraseAll()` odstraní všechny polygony z papíru.
-    *   `getAllDrawnPolygons()` vrátí všechny barevné polygony.
-    *   `uniqueVerticesAmount()` vrátí počet vrcholů na papíře bez duplicit.
-    *   Více informací najdete v javadocu třídy `Drawable`.
+    *   The first constructor will be without parameters.
+    *   The next constructor will take a parameter of type `Drawable` and will copy the collection of drawn polygons.
+    *   `changeColor(color)` changes the color in which the following polygons will be drawn (with which color they will be saved).
+	    The default color for a new instance of paper is black. 
+    *   `drawPolygon` "draws" (ie saves) a polygon on paper with the color set in the previous method.
+	    If such a polygon (of the same color and shape) already exists on the paper (in the collection), it is ignored.
+	    If the white color is set, the polygon will not be drawn (saved) because it would not be visible on white paper anyway.
+    *   `erasePolygon(polygon)` removes the polygon from the paper (removes it from the collection).
+    *   `eraseAll()` removes all polygons from the paper.
+    *   `getAllDrawnPolygons()` returns all colored polygons.
+    *   `uniqueVerticesAmount()` returns the number of vertices on the paper without duplication.
+    *   See the `Drawable` class javadoc for more information.
 
-5. Spuštění třídy `Draw`
-[vykreslí barevný domeček](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
+5. Starting the `Draw` class [draws a colored house](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
-### Hinty
+### Hints
 
-- Při výběru mezi seznamem a množinou v `CollectionPolygon` myslete na to, že topologie n-úhelníku je dána pořadím
-  vrcholů a že je povoleno mít více vrcholů se stejnými souřadnicemi
-  (u jednoduchého n-úhelníku se sice nesmí křížit hrany, mohou se ale dotýkat).
-- Proměnné by měly být typu rozhraní, tj. `List` namísto `ArrayList`, `Set` namísto `HashSet`.
-- Abstraktní třída `SimplePolygon` může mít konstruktor, nedá se však přímo instanciovat.
-- Pro konverzi pole na seznam existuje statická metoda `Arrays.asList`.
-- Pro konverzi kolekce na pole existuje metoda `toArray`, která bere jako argument nové pole.
-- Kolekce z Java API mají nadefinovanou rovnost. A mají ji nadefinovanou rozumně. Využijte toho.
-- Getter by neměl modifikovat daný atribut, proto vracejte kolekci jako **nemodifikovatelnou**.
-  Tohle platí obecně, nejenom pro metodu `getAllDrawnPolygons()`!
-  Nemodifikovatelné kolekce vytvoří statické metody `Collections.unmodifiableXXX`.
-  Nemodifikovatelnou kolekci nemusíme vracet pouze v případě, kdy vytváříme kolekci přímo v dané metodě.
-- Metody `List.of` i `Arrays.asList` vrací nemodifikovatelnou kolekci.
-  Pro modifikaci je nutno vytvořit novou kolekci.
-- Pozn.: Třída `ColoredPolygon` představuje mezikrok k tzv. návrhovému vzoru (design pattern) *Decorator*. 
-  Ten přidává nové vlastnosti (zde barvu) k existujícímu objektu tak, že mezi klientský kód (`Paper`) a
-  původní objekt (libovolný `Polygon`) vloží meziobjekt (`ColoredPolygon`). Aby to byl ale skutečný 
-  dekorátor, musela by i třída `ColoredPolygon` implementovat rozhraní `Polygon`.
+- When choosing between a list and a set in `CollectionPolygon`, keep in mind that the topology of the n-gon is determined by the order of the vertices and that it is allowed to have more vertices with the same coordinates.
+  (for a simple n-gon, the edges must not cross, but they can touch).
+- Variables should be of an interface type, ie `List` instead of `ArrayList`, `Set` instead of `HashSet`.
+- The abstract class `SimplePolygon` can have a constructor, but it cannot be instantiated directly.
+- There is a static `Arrays.asList` method for converting an array to a list.
+- To convert a collection to an array, there is a `toArray` method that takes a new array as an argument.
+- Collections from the Java API have defined equality. And they have it defined sensibly. Take advantage of it.
+- The getter should not modify the attribute, so return the collection as **unmodifiable**.
+  This is true in general, not just for the `getAllDrawnPolygons()` method!
+  Non-modifiable collections create static `Collections.unmodifiableXXX` methods.
+  We do not have to return an unmodifiable collection only if we create the collection directly in the given method.
+- Both the `List.of` and `Arrays.asList` methods return an unmodifiable collection.
+  A new collection must be created for modification.
+- Note: The `ColoredPolygon` class is an intermediate step to the so-called design pattern *Decorator*. 
+  It adds new properties (here a color) to an existing object by inserting an intermediate object (`ColoredPolygon`) between the client code (`Paper`) and the original object (any `Polygon`). But for it to be a real decorator, the `ColoredPolygon` class would also have to implement the `Polygon` interface.
 
-### Cílový UML diagram tříd:
+### Target UML class diagram:
 
-![UML diagram tříd](images/07-class-diagram.jpg)
+![UML class diagram](images/07-class-diagram.jpg)
