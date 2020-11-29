@@ -1,75 +1,75 @@
-## Druhá iterace
+## Second iteration
 
-Cvičení zaměřené na základní práci s atributy, metodami a na definici vlastních konstruktorů.
+The exercise focused on basic work with attributes, methods, and on the definition of custom constructors.
 
-1.  Upravte třídu `Vertex2D` následujícím způsobem:
-    *   Třída bude mít definovaný konstruktor o dvou parametrech `x` a `y`.
-    *   Metodu `getInfo()` přejmenujte na `toString()`.
-        Je to standardní metoda, která existuje v každé třídě, proto nad hlavičku metody přidejte anotaci `@Override`.
-        Podrobnosti se dozvíte později.
-    *   Odstraňte metody `sumCoordinates` i `move`. Již nebudou potřeba.
-    *   Vytvořte metodu `Vertex2D createMiddle(Vertex2D otherVertex)`, která vytvoří a vrátí bod uprostřed,
-        tj. `[2, 3].createMiddle([1, 1])` vytvoří bod `[1.5, 2]`.
-        Bod má souřadnice _[(x<sub>1</sub>+x<sub>2</sub>)/2, (y<sub>1</sub>+y<sub>2</sub>)/2]_.
-2.  Vytvořte třídu `Triangle` v balíku `cz.muni.fi.pb162.project.geometry`.
-    *   Trojúhelník se skládá ze tří vrcholů typu `Vertex2D` a bude mít jeden atribut typu **pole vrcholů**.
-    *   Konstruktor bude mít **3 parametry typu `Vertex2D`**.
-    *   Metoda `Vertex2D getVertex(int index)` vrátí _index_-tý vrchol.
-        Jestli je _index_ menší než 0 nebo větší než 2, vrátí metoda hodnotu `null`.
-        Když je _index_ 0, vrátí první vrchol, jestli 1 tak druhý, jestli 2 pak třetí.
-    *   To stejné platí pro metodu `void setVertex(int index, Vertex2D vertex)`. 
-	    Pokud je _index_ mimo rozsah, metoda nic neudělá.
-    *   Metoda `String toString()` vrátí řetězec:
+1.  Modify the `Vertex2D` class as follows:
+    *   The class will have a defined constructor with two parameters `x` and `y`.
+    *   Rename the `getInfo()` method to `toString()`.
+        This is the standard method that exists in every class, therefore add the annotation `@Override` above the method header.
+        You will learn the details later.
+    *   Remove the `sumCoordinates` and `move` methods. They will no longer be needed.
+    *   Create the `Vertex2D createMiddle(Vertex2D otherVertex)` method, which creates and returns a point in the middle,
+        i.e. `[2, 3].createMiddle([1, 1])` creates a point `[1.5, 2]`.
+        Point has coordinates _[(x<sub>1</sub>+x<sub>2</sub>)/2, (y<sub>1</sub>+y<sub>2</sub>)/2]_.
+2.  Create a `Triangle` class in the package `cz.muni.fi.pb162.project.geometry`.
+    *   The triangle consists of three vertices of type `Vertex2D` and will have one attribute of type **array of vertices**.
+    *   The constructor will have **3 parameters of type `Vertex2D`**.
+    *   Method `Vertex2D getVertex(int index)` returns the _index_-th vertex.
+        If the _index_ is less than 0 or greater than 2, the method returns `null`.
+        When the _index_ is 0, it returns the first vertex, if 1 the second, if 2 then the third.
+    *   The same applies for the method `void setVertex(int index, Vertex2D vertex)`. 
+	    If the _index_ is out of range, the method will do nothing.
+    *   Method `String toString()` returns the string:
 
         ~~~~
         "Triangle: vertices=[x0, y0] [x1, y1] [x2, y2]"
         ~~~~
-        Využijte metodu `toString()` ze třídy `Vertex2D`.
-3. Trojúhelník chceme dělit na tři menší trojúhelníky. Implementujte proto následujcí metody.
+        Use the `toString()` method from the class `Vertex2D`.
+3. We want to divide the triangle into three smaller triangles. Therefore, implement the following methods.
 
-    ![rozdělený trojúhelník](images/02a.png)
-    *Původní trojúhelník (vlevo) a rozdělený na podtrojúhelníky (vpravo).*
-    *   Třída `Triangle` bude obsahovat atribut typu `Triangle[]`.
-        Jakmile dojde k rozdělení pomocí metody `divide()`, uloží se do pole tři menší trojúhelníky
-        (na obrázku černé).
-    *   Metoda `boolean isDivided()` zjistí, jestli již došlo k rozdělení trojúhelníka
-        (menší trojúhelníky byly vytvořeny, tj. nejsou `null`).
-    *   Metoda `Triangle getSubTriangle(int index)` vrátí `index`-tý podtrojúhelník, kde `index` je číslo mezi
-        0 a 2.
-        Pokud je `index` mimo tento rozsah, nebo pokud trojúhelník není dosud rozdělen, vrátí metoda `null`.
-    *   Metoda `boolean divide()` rozdělí trojúhelník, tj. vytvoří tři menší trojúhelníky, uloží je do atributů
-        a vrátí `true`.
-        Pokud již trojúhelník byl rozdělen, metoda nic neprovede a vrátí `false`.
-        Vrcholy menších trojúhelníků jsou vždy v polovině délky stran původního trojúhelníka (viz metoda `createMiddle`).
+    ![divided triangle](images/02a.png)
+    *Original triangle (left) and divided into sub-triangles (right).*
+    *   The `Triangle` class will contain an attribute of type `Triangle[]`.
+        When split using the `divide()` method, three smaller triangles are stored in the array
+        (black in the picture).
+    *   The `boolean isDivided()` method determines if a triangle has already been split
+        (smaller triangles were created, ie they are not `null`).
+    *   The `Triangle getSubTriangle(int index)` method returns the `index` sub-triangle, where the `index` is the number between
+         0 and 2.
+        If the `index` is outside this range, or if the triangle is not already divided, the method returns `null`.
+    *   The `boolean divide()` method splits a triangle, ie creates three smaller triangles, stores them in attributes,
+         and returns `true`.
+        If the triangle has already been split, the method will do nothing and return `false`.
+         The vertices of smaller triangles are always half the length of the sides of the original triangle (see method `createMiddle`).
 
-4.  Upravte třídu `Demo` následujícím způsobem:
-    *   Třídu přesuňte do balíku `cz.muni.fi.pb162.project.demo`.
-    *   Zrušte vytváření proměnných i výpis textu.
-    *   Třída nově vytvoří trojúhelník se souřadnicemi _[-100, 0] [0, 100] [100, -100]_.
-    *   Na std. výstup vypíše informace o trojúhelníku. Po spuštění by výstup měl vypadat takto:
+4.  Edit the `Demo` class as follows:
+    *   Move the class to the package `cz.muni.fi.pb162.project.demo`.
+    *   Remove the variable creation and text printing.
+    *   The class newly creates a triangle with coordinates _[-100, 0] [0, 100] [100, -100]_.
+    *   On standard output prints the information about the triangle. Once started, the output should look like this:
 
         ~~~~
         Triangle: vertices=[-100.0, 0.0] [0.0, 100.0] [100.0, -100.0]
         ~~~~
-5.  Správnost implementace si ověřte jednotkovými testy.
-    Pak spustíte třídu `Draw` v balíčku `demo`, zobrazí se vám [trojúhelník se třemi
-    podtrojúhelníky](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
+5.  Verify the correct implementation with unit tests.
+    Then you run the `Draw` class in the `demo` package, you will see [a triangle with three
+    sub-triangles](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
-6.  Zdokumentujte třídy pomocí [_JavaDoc_](https://en.wikipedia.org/wiki/Javadoc).
-    Jméno musí být ve formátu `@author Jmeno Prijmeni` včetně mezery. Nastavte si generování jména automaticky jak je popsáno
-    [zde](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/working-with-ide).
-    Settery, gettery, překryté metody (`@Override`) a privátní metody nemusíte pomocí javadoc dokumentovat.
-    Checkstyle se spouští automaticky při překladu. Pokud ho chcete spustit samostatně, můžete zavolat příkaz:
+6.  Document the classes using [_JavaDoc_](https://en.wikipedia.org/wiki/Javadoc).
+    The name must be in the format `@author FirstName LastName` including space. Set up name generation automatically as described
+    [here](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/working-with-ide).
+    Setters, getters, overrides (`@Override`), and private methods don't need to be documented using javadoc.
+    Checkstyle starts automatically during translation. If you want to run it separately, you can call the command:
 
         mvn clean install -Dcheckstyle.fail=true
 
-### Hinty
+### Hints
 
-- Metoda `createMiddle` je volána nad existujícím objektem, tzv. `this`.
-- Pole vrcholů se vytvoří `Vertex2D[] vertices = new Vertex2D[3];` a práce s prvkem: `vertices[0]`.
-- Používejte gettery namísto přímého přístupu.
-- Vytvořte pomocnou privátní metodu `boolean isInRange(int index)` na zjištění jestli je index 0, 1 nebo 2.
-- Při metodě `getVertex(index)` není potřeba klíčové slovo `else`, protože `return` udělá okamžitý návrat z metody.
-- Metoda `toString()` je standardní metoda, která se automaticky volá kdykoliv je třeba převést objekt na text.
-  Není tedy nutno ji volat explicitně, při výpisu objektu pomocí `System.out.println` se zavolá automaticky.
-- Metodu `divide` si implementujte nakonec (obsah metody nechte prázdný), raději nejprve vyzkoušejte třídu `Demo`.
+- Method `createMiddle` is called over an existing object, so-called `this`.
+- An array of vertices is created with `Vertex2D[] vertices = new Vertex2D[3];` and accessing the element with: `vertices[0]`.
+- Use getters instead of direct access.
+- Create a private helper method `boolean isInRange(int index)` to determine if the index is 0, 1 or 2.
+- The `getVertex(index)` method does not need the `else` keyword, because `return` will make an immediate return from the method.
+- The `toString()` method is a standard method that is called automatically whenever an object needs to be converted to text.
+  It is not necessary to call it explicitly, when printing the object using `System.out.println` it will be called automatically.
+- Implement the `divide` method at the end (leave the content of the method empty), and rather try the `Demo` class first.
