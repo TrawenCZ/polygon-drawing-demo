@@ -5,3 +5,28 @@ build:
     - mvn clean install -B -Dcheckstyle.fail=true
   tags:
     - shared-fi
+  rules:
+    # do not test assignments
+    - if: '$CI_COMMIT_BRANCH == "iteration-01"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-02"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-03"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-04"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-05"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-06"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-07"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-08"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-09"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "iteration-10"'
+      when: never
+    # test everything else
+    - when: always
+
