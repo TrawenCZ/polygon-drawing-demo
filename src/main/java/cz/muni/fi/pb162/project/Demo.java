@@ -4,7 +4,7 @@ package cz.muni.fi.pb162.project;
 /**
  * Class for running main method.
  *
- * @author TODO: put your name here
+ * @author Adam Sliva
  */
 public class Demo {
 
