@@ -13,7 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class DemoTest {
 
-    private static final String EXPECTED_OUTPUT = "Hello world!" + System.lineSeparator();
+    private static final String EXPECTED_OUTPUT = "[3.0, 4.0]" + System.lineSeparator()
+            + "[1.0, 1.0]" + System.lineSeparator();
 
     @Test
     public void testMainOutput() {
