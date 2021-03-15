@@ -1,6 +1,5 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.Demo;
 import cz.muni.fi.pb162.project.helper.OutputTester;
 import org.junit.Test;
 
@@ -13,8 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class DemoTest {
 
-    private static final String EXPECTED_OUTPUT = "[3.0, 4.0]" + System.lineSeparator()
-            + "[1.0, 1.0]" + System.lineSeparator();
+    private static final String EXPECTED_OUTPUT =
+            "Triangle: vertices=[-100.0, 0.0] [0.0, 100.0] [100.0, -100.0]" + System.lineSeparator();
 
     @Test
     public void testMainOutput() {

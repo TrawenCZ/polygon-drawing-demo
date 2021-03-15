@@ -1,10 +1,9 @@
 package cz.muni.fi.pb162.project.geometry;
 
-import cz.muni.fi.pb162.project.helper.BasicRulesTester;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -16,24 +15,10 @@ public class Vertex2DTest {
 
     private static final double X = -1.2;
     private static final double Y = 2.4;
-    private static final double DELTA = 0.001;
 
     @Before
     public void setUp() {
-        vertex2D = createVertex(X, Y);
-    }
-
-    private Vertex2D createVertex(double x, double y) {
-        Vertex2D v = new Vertex2D();
-        v.setX(x);
-        v.setY(y);
-        return v;
-    }
-
-    @Test
-    public void attributesAndMethodsAmount() {
-        BasicRulesTester.attributesAmount(Vertex2D.class, 2);
-        BasicRulesTester.methodsAmount(Vertex2D.class, 7);
+        vertex2D = new Vertex2D(X, Y);
     }
 
     @Test
@@ -43,35 +28,18 @@ public class Vertex2DTest {
     }
 
     @Test
-    public void attributesAre0() {
-        Vertex2D v = new Vertex2D();
-        assertVertex(v, 0.0, 0.0);
+    public void checkToString() {
+        //assertThat(vertex2D.toString()).isEqualTo("[" + X + ", " + Y + "]");
+	assertThat(vertex2D.toString()).matches(Pattern.compile("^\\[" + X + "0*, " + Y + "0*\\]$"));
     }
 
     @Test
-    public void getInfo() {
-        assertThat(vertex2D.getInfo()).isEqualTo("[" + X + ", " + Y + "]");
+    public void createMiddle() {
+        Vertex2D v1 = new Vertex2D(-1.2, 2.4);
+        Vertex2D v2 = new Vertex2D(-0.8, 2.6);
+        Vertex2D res = new Vertex2D(-1, 2.5);
+
+        assertThat(v1.createMiddle(v2)).isEqualToComparingFieldByField(res);
     }
 
-    @Test
-    public void sumCoordinates() {
-        assertThat(vertex2D.sumCoordinates()).isCloseTo(X + Y, within(DELTA));
-    }
-
-    @Test
-    public void moveVertex() {
-        final double XX = -3.3;
-        final double YY = -5.5;
-        Vertex2D negativeVertex = createVertex(XX, YY);
-
-        vertex2D.move(negativeVertex);
-
-        assertVertex(vertex2D, XX + X, YY + Y);
-        assertVertex(negativeVertex, XX, YY);
-    }
-
-    private void assertVertex(Vertex2D v, double x, double y) {
-        assertThat(v.getX()).isCloseTo(x, within(DELTA));
-        assertThat(v.getY()).isCloseTo(y, within(DELTA));
-    }
 }
