@@ -9,6 +9,16 @@ public class Vertex2D {
     private double myX = 0.0;
     private double myY = 0.0;
 
+    /**
+     * Constructing Vertex.
+     *
+     * @param newX Gives X.
+     * @param newY Gives Y.
+     */
+    public Vertex2D(double newX, double newY) {
+        myX = newX;
+        myY = newY;
+    }
     public double getX() {
         return myX;
     }
@@ -25,27 +35,20 @@ public class Vertex2D {
         myY = newY;
     }
 
-    public String getInfo() {
+    @Override
+    public String toString() {
         return "[" + myX + ", " + myY + "]";
     }
 
     /**
-     * Summing coordinates of given vector.
+     * Method creates middle Vertex between two given Vertices.
      *
-     * @return double Summarized X and Y.
-     */
-    public double sumCoordinates() {
-        return myX + myY;
-    }
-
-    /**
-     * Moving coordinates by given vector.
+     * @param vertex Gives second Vertex of which it will creates middle one.
      *
-     * @param vertex Moving by this vertex.
+     * @return New middle Vertex.
      */
-    public void move(Vertex2D vertex) {
-        myX += vertex.getX();
-        myY += vertex.getY();
+    public Vertex2D createMiddle(Vertex2D vertex) {
+        return new Vertex2D((myX + vertex.getX()) / 2, (myY + vertex.getY()) / 2);
     }
 
 
