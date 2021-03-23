@@ -1,5 +1,6 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.helper.BasicRulesTester;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +25,11 @@ public class TriangleTest {
     }
 
     @Test
+    public void finalAttributes() {
+        BasicRulesTester.attributesFinal(Triangle.class);
+    }
+
+    @Test
     public void gettersInRange() {
         assertThat(triangle.getVertex(0)).isEqualToComparingFieldByField(vertex1);
         assertThat(triangle.getVertex(1)).isEqualToComparingFieldByField(vertex2);
@@ -40,15 +46,6 @@ public class TriangleTest {
     }
 
     @Test
-    public void settersOutOfRange() {
-        triangle.setVertex(3, null);
-        triangle.setVertex(-1, null);
-        assertThat(triangle.getVertex(0)).isNotNull();
-        assertThat(triangle.getVertex(1)).isNotNull();
-        assertThat(triangle.getVertex(2)).isNotNull();
-    }
-
-    @Test
     public void toStringMessage() {
         assertThat(triangle.toString()).isEqualTo("Triangle: vertices=[-100.0, -100.0] [0.0, 100.0] [100.0, -100.0]");
 
@@ -60,6 +57,35 @@ public class TriangleTest {
         assertThat(t.toString()).isEqualTo("Triangle: vertices=[-1.2, 0.0] [1.2, 0.0] [0.0, 2.07846097]");
     }
 
+    @Test
+    public void equilateralTriangle() {
+        Triangle t = new Triangle(
+                new Vertex2D(-1.2, 0),
+                new Vertex2D(1.2, 0),
+                new Vertex2D(0, 2.07846097)
+        );
+        assertThat(t.isEquilateral()).isTrue();
+    }
+
+    @Test
+    public void nonEquilateralTriangle1() {
+        Triangle t = new Triangle(
+                new Vertex2D(-10, 0),
+                new Vertex2D(0, 0),
+                new Vertex2D(0, 10)
+        );
+        assertThat(t.isEquilateral()).isFalse();
+    }
+
+    @Test
+    public void nonEquilateralTriangle2() {
+        Triangle t = new Triangle(
+                new Vertex2D(-10, 0),
+                new Vertex2D(3, 2),
+                new Vertex2D(1, 10)
+        );
+        assertThat(t.isEquilateral()).isFalse();
+    }
 
     @Test
     public void checkIfDivided() {
@@ -97,7 +123,10 @@ public class TriangleTest {
     @Test
     public void division() {
         triangle.divide();
+        checkDivisionDepth1(triangle);
+    }
 
+    private void checkDivisionDepth1(Triangle triangle) {
         assertSubTriangles(triangle, new Triangle[]{
                 new Triangle(
                         new Vertex2D(-100.0, -100.0),
@@ -114,6 +143,47 @@ public class TriangleTest {
                         new Vertex2D(50.0, 0.0),
                         new Vertex2D(0.0, -100.0)
                 )
+        });
+    }
+
+    @Test
+    public void nestedDivisionDepth1() {
+        triangle.divide(1);
+        checkDivisionDepth1(triangle);
+    }
+
+    @Test
+    public void nestedDivisionConstructor() {
+        Triangle t = new Triangle(triangle.getVertex(0), triangle.getVertex(1), triangle.getVertex(2), 2);
+        assertNestedDivision2(t);
+    }
+
+    @Test
+    public void nestedDivisionDepth2() {
+        Triangle second = copyTriangle(triangle);
+        second.divide(2);
+        assertNestedDivision2(second);
+    }
+
+    // TODO cannot check depth 1, problem with equals: checkDivisionDepth1(actual);
+    private void assertNestedDivision2(Triangle actual) {
+        triangle.divide(1);
+
+        // divide second depth manually
+        triangle.getSubTriangle(0).divide();
+        triangle.getSubTriangle(1).divide();
+        triangle.getSubTriangle(2).divide();
+
+        assertSubTriangles(actual.getSubTriangle(0), triangle.getSubTriangle(0));
+        assertSubTriangles(actual.getSubTriangle(1), triangle.getSubTriangle(1));
+        assertSubTriangles(actual.getSubTriangle(2), triangle.getSubTriangle(2));
+    }
+
+    private void assertSubTriangles(Triangle actual, Triangle expected) {
+        assertSubTriangles(actual, new Triangle[]{
+                expected.getSubTriangle(0),
+                expected.getSubTriangle(1),
+                expected.getSubTriangle(2)
         });
     }
 
@@ -143,6 +213,10 @@ public class TriangleTest {
         hash += t.getSubTriangle(1).hashCode();
         hash += t.getSubTriangle(2).hashCode();
         return hash;
+    }
+
+    private Triangle copyTriangle(Triangle triangle) {
+        return new Triangle(triangle.getVertex(0), triangle.getVertex(1), triangle.getVertex(2));
     }
 
 }

@@ -1,13 +1,16 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.helper.BasicRulesTester;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Simple Vertex2D tests.
+ *
  * @author Marek Sabo
  */
 public class Vertex2DTest {
@@ -22,7 +25,33 @@ public class Vertex2DTest {
     }
 
     @Test
-    public void gettersAndSetters() {
+    public void finalAttributes() {
+        BasicRulesTester.attributesFinal(Vertex2D.class);
+    }
+
+    @Test
+    public void distanceValidInput() {
+        double distance = new Vertex2D(-1.2, 1.2).distance(new Vertex2D(1.3, 1.3));
+        assertThat(distance).isBetween(2.5, 2.503);
+        distance = new Vertex2D(-1.2, -1.2).distance(new Vertex2D(1.3, 1.3));
+        assertThat(distance).isBetween(3.5, 3.6);
+        distance = new Vertex2D(1.2, 1.2).distance(new Vertex2D(1.3, 1.3));
+        assertThat(distance).isBetween(0.1, 0.15);
+        distance = new Vertex2D(-1.2, -1.2).distance(new Vertex2D(-1.3, -1.3));
+        assertThat(distance).isBetween(0.1, 0.15);
+    }
+
+    @Test
+    public void distanceNullInput() {
+        assertThatCode(
+                () -> assertThat(vertex2D.distance(null)).isEqualTo(-1.0)
+        )
+                .as("Should return -1 as indicator of wrong input")
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    public void getters() {
         assertThat(vertex2D.getX()).isEqualTo(X);
         assertThat(vertex2D.getY()).isEqualTo(Y);
     }

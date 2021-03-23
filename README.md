@@ -1,55 +1,44 @@
-## Second iteration
+## Third iteration
 
-The exercise focused on basic work with attributes, methods, arrays, and on the definition of custom constructors. 
+The exercise focused on overloading custom constructors and methods.
 
-1.  Modify the `Vertex2D` class as follows:
-    *   Enable to create a vertex by directly providing two coordinates, e.g., by calling `new Vertex2D(1.2, 3.8)`.
-    *   Rename the `getInfo()` method to `toString()`.
-        > `toString()` is the standard method that exists in every class (we'll learn later how it is arranged).
-		> Therefore, add the annotation `@Override` above the method header.
+1.  In the class `Vertex2D`:
+    * Make the `Vertex2D` class  _immutable_, i.e., remove the setters and set all attributes as `final`.
+    *   Add the `distance` method, which takes another 2D point as an input parameter and returns its
+        Euclidean distance as `double`. The distance of the points is calculated as:
+    ![formula](images/03a.png)
+    *   If the input argument is `null`, then the method returns` -1.0` as an error indicator (distance is always non-negative).
+	
+	    >> Methods for mathematical operators are in the `Math` class.
+	    >> For instance, the square root is calculated using the static method `Math.sqrt()`.
 
-    *   Remove the `sumCoordinates` and `move` methods. They will no longer be needed.
-	*   Create the `createMiddle` method, which takes one `Vertex2D` as an input parameter, computes the middle point between this given vertex and "me" (a vertex on which the method has been called), and returns the computed vertex. For example, calling the method `createMiddle` on a vertex with coordinates `[2, 3]` and input parameter `[1, 1]` returns a new vertex with coordinates `[1.5, 2]`.
-        > The coordinates of the middle point are computed as _[(x<sub>1</sub>+x<sub>2</sub>)/2, (y<sub>1</sub>+y<sub>2</sub>)/2]_.
-		
-   	    > Do not worry to deal with vertices (objects of the `Vertex2D` class) inside the `Vertex2D` class definition. It may look weird, but it's okay.
-2.  Create a `Triangle` class in the package `cz.muni.fi.pb162.project.geometry`.
-    *   The triangle consists of three vertices (objects of type `Vertex2D`) stored in a single attribute of type **"array of vertices"**.
-    *   The triangle's constructor takes the three vertices as three input parameters.
-	*   Method `Vertex2D getVertex(int index)` returns the _index_-th vertex. If the _index_ is less than 0 or greater than 2, the method returns `null`. When the _index_ is 0, it returns the first vertex, if 1 the second, if 2 then the third.
-    *   The same applies for the method `void setVertex(int index, Vertex2D vertex)`, which stores (replaces) the triangle's vertex. If the _index_ is out of range, the method will do nothing.
-    *   Method `String toString()` returns the string:
+2.  Create a class `Circle` in the package `cz.muni.fi.pb162.project.geometry`.
+    *   The class will have a constructor with two parameters (in this order): _center_ of type `Vertex2D` and _radius_ of type `double`.
+        Attributes will be immutable.
+    *   The class will have a _parametric-free constructor_ that will create a unit circle with the center at the beginning of the coordinate system (i.e., center `[0.0, 0.0]` and radius `1.0`).
+    *   **The parametric-free constructor will call the parametric constructor** and will pass the needed values to it.
+    *   For radius and center, create the getters `getRadius()` and `getCenter()`.
+    *   The `toString` method will return a string in the format:
 
-        ~~~~
-        "Triangle: vertices=[x0, y0] [x1, y1] [x2, y2]"
-        ~~~~
-        Don not duplicate code, use what we already have. In this case, use the `toString()` method from the class `Vertex2D` to implement `toString` of the triangle.
-3. In this step, we want to divide the triangle into three smaller sub-triangles. Therefore, implement the following methods.
+            "Circle: center=[<x>, <y>], radius=<radius>"
 
-    ![divided triangle](images/02a.png)
-    *Original triangle (left) and divided into sub-triangles (right).*
-    *   Sub-triangles are stored in the triangle in a single *"array of triangles"*.
-    *   The triangle is split by calling the `boolean divide()` method. **Three** smaller triangles (black in the picture) are stored in the corresponding attribute and the method returns `true`. If the triangle has already been split, the method will do nothing and return `false`. The vertices of smaller triangles lie in the middle of the edges of the original triangle.
-	    > Don not duplicate code, use what we already have. In this case, use existing method(s) to compute points in the middle of the triangle edges.
-	    
-    *   The `boolean isDivided()` method determines if a triangle has already been split
-        (smaller triangles were created, i.e., they are not `null`).
-    *   The `Triangle getSubTriangle(int index)` method returns the `index` sub-triangle, where the `index` is the number between 0 and 2. If the `index` is outside this range, or the triangle is not already divided, the method returns `null`.
+        where `<x>` and `<y>` are the values of the respective center coordinates and `<radius>` is the radius value.
 
-4.  Edit the `Demo` class as follows:
-    *   Move the class to the package `cz.muni.fi.pb162.project.demo`.
-    *   Remove the variable creation and text printing.
-    *   The class newly creates a triangle with coordinates _[-100, 0] [0, 100] [100, -100]_.
-    *   On standard output prints the information about the triangle. Once started, the output should look like this:
+3.  Edit the `Triangle` class as follows:
+    *   Remove the setter, set the attributes to `final`.
+        The class cannot be immutable because the `divide` method changes the properties of a triangle (the state of a triangle object).
+    *   Add a `boolean isEquilateral()` method that returns `true` if the triangle is equilateral. Because we work with real numbers computed by math expressions, it is not practical to compare side lengths with `d1 == d2`. Even e very small difference makes the lengths different. Therefore, it is more suitable to use a test that considers two real numbers to be identical if they differ only slightly:
 
-        ~~~~
-        Triangle: vertices=[-100.0, 0.0] [0.0, 100.0] [100.0, -100.0]
-        ~~~~
-5.  Verify the correct implementation with unit tests.
-    Then you run the `Draw` class in the `demo` package, you will see [a triangle with three
-    sub-triangles](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
+            Math.abs(d1-d2) < 0.001
 
-6.  Document the classes using [_JavaDoc_](https://en.wikipedia.org/wiki/Javadoc). The name must be in the format `@author FirstName LastName` including space. You can set up name generation automatically as described [here](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/working-with-ide). Setters, getters, overrides (methods annotated with `@Override`), and private methods don't need to be documented using javadoc. checkstyle starts automatically during translation. If you want to run it separately, you can call the command:
+        where `0.001` is the tolerated absolute deviation and **will be defined as the private constant**.
+    *   Create an overloaded `void divide(int depth)` method that divides a triangle into sub-triangles. The result will be [_Sierpiński triangle_](http://en.wikipedia.org/wiki/Sierpinski_triangle):
+             ![Sierpiński triangle](images/03b.png)
+             *Sierpiński triangles of depth 0 to 4.*
+        *   The `depth` parameter specifies the depth of the division. Zero means no division (we are at the end of recursion), 1 means that there will be one division of the original triangle, etc.
+        *   If the `depth` is less than or equal to zero, the division will not occur and the method will end.
+		*   Otherwise, the method splits the triangle using the `divide ()` method and recursively tries to split the resulting sub-triangles until reaching the requested depth.
+    *   Create a constructor with 4 parameters, the fourth parameter represents the division depth. The constructor calls the previous constructor and then splits the triangle.
 
-        mvn clean install -Dcheckstyle.fail=true
+4.  After starting the `Draw` class, [_Sierpiński triangles_ of depth 4 and a red circle will be drawn on the screen](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 

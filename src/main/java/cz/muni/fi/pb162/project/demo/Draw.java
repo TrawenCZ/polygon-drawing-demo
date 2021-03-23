@@ -1,5 +1,6 @@
 package cz.muni.fi.pb162.project.demo;
 
+import cz.muni.fi.pb162.project.geometry.Circle;
 import cz.muni.fi.pb162.project.geometry.Triangle;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
 
@@ -24,18 +25,15 @@ public final class Draw extends JFrame {
     private static final int HALF_WIDTH = PANEL_WIDTH / 2;
     private static final int HALF_HEIGHT = PANEL_HEIGHT / 2;
 
+    private static final Color CIRCLE_COLOR = Color.RED;
     private static final Color TRIANGLE_COLOR = Color.BLUE;
-    private static final Triangle DIVIDED_TRIANGLE = createDividedTriangle();
 
-    private static Triangle createDividedTriangle() {
-        Vertex2D v1 = new Vertex2D(-100, 0);
-        Vertex2D v2 = new Vertex2D(0, 100);
-        Vertex2D v3 = new Vertex2D(100, -100);
-
-        Triangle triangle = new Triangle(v1, v2, v3);
-        triangle.divide();
-        return triangle;
-    }
+    private static final Circle CIRCLE = new Circle(new Vertex2D(0, -40), 200);
+    private static final Triangle DIVIDED_TRIANGLE = new Triangle(
+            new Vertex2D(-160, -160),
+            new Vertex2D(0, 160),
+            new Vertex2D(160, -160),
+            4);
 
     private Graphics graphics;
 
@@ -69,19 +67,14 @@ public final class Draw extends JFrame {
 
         paintCross();
         paintTriangle(DIVIDED_TRIANGLE);
-        paintSubTriangles();
+        paintSubTrianglesRecursively(DIVIDED_TRIANGLE);
+        paintCircle(CIRCLE);
     }
 
     private void paintCross() {
         graphics.setColor(Color.LIGHT_GRAY);
         graphics.drawLine(0, HALF_HEIGHT, PANEL_WIDTH, HALF_HEIGHT);
         graphics.drawLine(HALF_WIDTH, 0, HALF_WIDTH, PANEL_HEIGHT);
-    }
-
-    private void paintSubTriangles() {
-        for (int i = 0; i < 3; i++) {
-            paintTriangle(DIVIDED_TRIANGLE.getSubTriangle(i));
-        }
     }
 
     private void paintTriangle(Triangle triangle) {
@@ -103,5 +96,28 @@ public final class Draw extends JFrame {
         int a1 = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - triangle.getVertex(index).getX()));
         int a2 = (int) Math.rint(HALF_HEIGHT - triangle.getVertex(index).getY());
         return new AbstractMap.SimpleEntry<>(a1, a2);
+    }
+
+    private void paintSubTrianglesRecursively(Triangle triangle) {
+        for (int i = 0; i < 3; i++) {
+            Triangle subTriangle = triangle.getSubTriangle(i);
+            if (subTriangle != null) {
+                paintTriangle(subTriangle);
+                if (subTriangle.isDivided()) {
+                    paintSubTrianglesRecursively(subTriangle);
+                }
+            }
+        }
+    }
+
+    private void paintCircle(Circle c) {
+
+        int radius = (int) Math.rint(c.getRadius());
+        int x = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - c.getCenter().getX()) + radius);
+        int y = (int) Math.rint(HALF_HEIGHT - c.getCenter().getY()) - radius;
+        int diameter = (int) Math.rint(c.getRadius() * 2.0);
+
+        graphics.setColor(CIRCLE_COLOR);
+        graphics.drawOval(x, y, diameter, diameter);
     }
 }
