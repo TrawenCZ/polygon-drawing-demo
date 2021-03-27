@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.within;
  * @author Marek Sabo
  */
 public class TriangleTest {
-
+    
     private Triangle triangle;
 
     private final Vertex2D vertex1 = new Vertex2D(-100, -100);
@@ -34,11 +34,12 @@ public class TriangleTest {
 
     @Test
     public void gettersInRange() {
-        assertThat(triangle.getVertex(0)).isEqualToComparingFieldByField(vertex1);
-        assertThat(triangle.getVertex(1)).isEqualToComparingFieldByField(vertex2);
-        assertThat(triangle.getVertex(2)).isEqualToComparingFieldByField(vertex3);
-
-        assertThat(triangle).isEqualToComparingFieldByField(new Triangle(vertex1, vertex2, vertex3));
+        assertThat(triangle.getVertex(0).getX()).isEqualTo(vertex1.getX());
+        assertThat(triangle.getVertex(0).getY()).isEqualTo(vertex1.getY());
+        assertThat(triangle.getVertex(1).getX()).isEqualTo(vertex2.getX());
+        assertThat(triangle.getVertex(1).getY()).isEqualTo(vertex2.getY());
+        assertThat(triangle.getVertex(2).getX()).isEqualTo(vertex3.getX());
+        assertThat(triangle.getVertex(2).getY()).isEqualTo(vertex3.getY());
     }
 
     @Test
