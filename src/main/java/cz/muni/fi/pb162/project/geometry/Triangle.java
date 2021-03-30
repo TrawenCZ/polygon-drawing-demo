@@ -5,8 +5,9 @@ package cz.muni.fi.pb162.project.geometry;
  * @author Adam Slíva
  */
 public class Triangle {
-    private Vertex2D[] array = new Vertex2D[3];
-    private Triangle[] midArray = new Triangle[3];
+    private final Vertex2D[] array = new Vertex2D[3];
+    private final Triangle[] midArray = new Triangle[3];
+    private static final double TOLERANCE = 0.001;
 
     /**
      * Method for constructing Triangles from Vertices.
@@ -19,6 +20,20 @@ public class Triangle {
         array[0] = vertex1;
         array[1] = vertex2;
         array[2] = vertex3;
+    }
+    /**
+     * Method for constructing Sierpiński Triangles from Vertices and depth.
+     *
+     * @param vertex1 point n.1
+     * @param vertex2 point n.2
+     * @param vertex3 point n.3
+     * @param depth Number of divisions of Triangle.
+     */
+    public Triangle(Vertex2D vertex1, Vertex2D vertex2, Vertex2D vertex3, int depth) {
+        array[0] = vertex1;
+        array[1] = vertex2;
+        array[2] = vertex3;
+        divide(depth);
     }
 
     /**
@@ -63,7 +78,7 @@ public class Triangle {
      * @return Bool based on if triangle has or hasn't already been made.
      */
     public boolean divide() {
-        if (midArray[0] == null) {
+        if (!isDivided()) {
             Triangle triangle1 = new Triangle(array[0],
                     array[0].createMiddle(array[1]), array[0].createMiddle(array[2]));
             midArray[0] = triangle1;
@@ -103,4 +118,22 @@ public class Triangle {
         return midArray[index];
     }
 
+    boolean areDoublesSimilar(double input1, double input2) {
+        return Math.abs(input1 - input2) < TOLERANCE;
+    }
+
+    boolean isEquilateral() {
+        return areDoublesSimilar(array[0].distance(array[1]), array[1].distance(array[2])) &&
+                areDoublesSimilar(array[0].distance(array[2]), array[0].distance(array[1]));
+    }
+
+    void divide(int depth) {
+        if (depth == 0) {
+            return;
+        }
+        divide();
+        for (int i = 0; i < 3 ; i++) {
+            midArray[i].divide(depth - 1);
+        }
+    }
 }
