@@ -1,16 +1,19 @@
 package cz.muni.fi.pb162.project.geometry;
+
+import cz.muni.fi.pb162.project.utils.SimpleMath;
+
 /**
  * Class for creating beautiful Triangles.
  *
  * @author Adam Slíva
  */
-public class Triangle {
+public class Triangle implements Measurable {
     private final Vertex2D[] array = new Vertex2D[3];
     private final Triangle[] midArray = new Triangle[3];
     private static final double TOLERANCE = 0.001;
 
     /**
-     * Method for constructing Triangles from Vertices.
+     * Constructor.
      *
      * @param vertex1 point n.1
      * @param vertex2 point n.2
@@ -135,5 +138,15 @@ public class Triangle {
         for (int i = 0; i < 3 ; i++) {
             midArray[i].divide(depth - 1);
         }
+    }
+
+    @Override
+    public double getWidth() {
+        return SimpleMath.maxX(this) - SimpleMath.minX(this);
+    }
+
+    @Override
+    public double getHeight() {
+        return SimpleMath.maxY(this) - SimpleMath.minY(this);
     }
 }
