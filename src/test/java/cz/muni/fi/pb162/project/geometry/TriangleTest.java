@@ -1,10 +1,13 @@
 package cz.muni.fi.pb162.project.geometry;
 
 import cz.muni.fi.pb162.project.helper.BasicRulesTester;
+import cz.muni.fi.pb162.project.utils.SimpleMath;
+import cz.muni.fi.pb162.project.utils.SimpleMathTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 /**
  * Class testing Triangle implementation.
@@ -12,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Marek Sabo
  */
 public class TriangleTest {
-
+    
     private Triangle triangle;
 
     private final Vertex2D vertex1 = new Vertex2D(-100, -100);
@@ -31,11 +34,12 @@ public class TriangleTest {
 
     @Test
     public void gettersInRange() {
-        assertThat(triangle.getVertex(0)).isEqualToComparingFieldByField(vertex1);
-        assertThat(triangle.getVertex(1)).isEqualToComparingFieldByField(vertex2);
-        assertThat(triangle.getVertex(2)).isEqualToComparingFieldByField(vertex3);
-
-        assertThat(triangle).isEqualToComparingFieldByField(new Triangle(vertex1, vertex2, vertex3));
+        assertThat(triangle.getVertex(0).getX()).isEqualTo(vertex1.getX());
+        assertThat(triangle.getVertex(0).getY()).isEqualTo(vertex1.getY());
+        assertThat(triangle.getVertex(1).getX()).isEqualTo(vertex2.getX());
+        assertThat(triangle.getVertex(1).getY()).isEqualTo(vertex2.getY());
+        assertThat(triangle.getVertex(2).getX()).isEqualTo(vertex3.getX());
+        assertThat(triangle.getVertex(2).getY()).isEqualTo(vertex3.getY());
     }
 
     @Test
@@ -55,6 +59,26 @@ public class TriangleTest {
                 new Vertex2D(0.0, 2.07846097)
         );
         assertThat(t.toString()).isEqualTo("Triangle: vertices=[-1.2, 0.0] [1.2, 0.0] [0.0, 2.07846097]");
+    }
+
+    @Test
+    public void testAllWidths() {
+        testWidth(triangle);
+        testWidth(new Triangle(new Vertex2D(-3, -1), new Vertex2D(-2, -2), new Vertex2D(-1, -1)));
+    }
+
+    @Test
+    public void testAllHeights() {
+        testHeight(triangle);
+        testHeight(new Triangle(new Vertex2D(-3, -1), new Vertex2D(-2, -2), new Vertex2D(-1, -1)));
+    }
+
+    private void testWidth(Triangle t) {
+        assertThat(t.getWidth()).isCloseTo(SimpleMathTest.triangleWidth(t), within(0.001));
+    }
+
+    private void testHeight(Triangle t) {
+        assertThat(t.getHeight()).isCloseTo(SimpleMathTest.triangleHeight(t), within(0.001));
     }
 
     @Test

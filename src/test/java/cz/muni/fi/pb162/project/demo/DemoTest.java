@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DemoTest {
 
     private static final String EXPECTED_OUTPUT =
-            "Triangle: vertices=[-100.0, 0.0] [0.0, 100.0] [100.0, -100.0]" + System.lineSeparator();
+            "Square: vertices=[-50.0, 0.0] [0.0, -50.0] [50.0, 0.0] [0.0, 50.0]" + System.lineSeparator();
 
     @Test
     public void testMainOutput() {

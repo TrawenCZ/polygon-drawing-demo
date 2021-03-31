@@ -1,7 +1,7 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.geometry.Circle;
-import cz.muni.fi.pb162.project.geometry.Triangle;
+import cz.muni.fi.pb162.project.geometry.Snowman;
+import cz.muni.fi.pb162.project.geometry.Square;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
 
 import javax.swing.JFrame;
@@ -12,12 +12,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.AbstractMap;
+import cz.muni.fi.pb162.project.geometry.Circular;
 
 /**
  * Class drawing 2D objects.
  *
  * @author Radek Oslejsek, Marek Sabo
  */
+@SuppressWarnings("SameParameterValue")
 public final class Draw extends JFrame {
 
     private static final int PANEL_WIDTH = 800;
@@ -26,14 +28,10 @@ public final class Draw extends JFrame {
     private static final int HALF_HEIGHT = PANEL_HEIGHT / 2;
 
     private static final Color CIRCLE_COLOR = Color.RED;
-    private static final Color TRIANGLE_COLOR = Color.BLUE;
+    private static final Color SQUARE_COLOR = Color.GREEN;
 
-    private static final Circle CIRCLE = new Circle(new Vertex2D(0, -40), 200);
-    private static final Triangle DIVIDED_TRIANGLE = new Triangle(
-            new Vertex2D(-160, -160),
-            new Vertex2D(0, 160),
-            new Vertex2D(160, -160),
-            4);
+    private static final Square SQUARE = new Square(new Vertex2D(0,-160), 160);
+    private static final Snowman SNOWMAN = new Snowman(SQUARE, 0.8);
 
     private Graphics graphics;
 
@@ -66,9 +64,8 @@ public final class Draw extends JFrame {
         graphics = g;
 
         paintCross();
-        paintTriangle(DIVIDED_TRIANGLE);
-        paintSubTrianglesRecursively(DIVIDED_TRIANGLE);
-        paintCircle(CIRCLE);
+        paintSquare(SQUARE);
+        paintSnowman(SNOWMAN);
     }
 
     private void paintCross() {
@@ -77,41 +74,34 @@ public final class Draw extends JFrame {
         graphics.drawLine(HALF_WIDTH, 0, HALF_WIDTH, PANEL_HEIGHT);
     }
 
-    private void paintTriangle(Triangle triangle) {
+    private AbstractMap.SimpleEntry<Integer, Integer> createLinePoints(Square square, int index) {
+        int a1 = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - square.getVertex(index).getX()));
+        int a2 = (int) Math.rint(HALF_HEIGHT - square.getVertex(index).getY());
+        return new AbstractMap.SimpleEntry<>(a1, a2);
+    }
 
-        if (triangle == null) return;
+    private void paintSquare(Square square) {
 
-        graphics.setColor(TRIANGLE_COLOR);
+        if (square == null) return;
+
+        graphics.setColor(SQUARE_COLOR);
         Polygon polygon = new Polygon();
 
-        for (int i = 0; i <= 2; i++) {
-            AbstractMap.SimpleEntry<Integer, Integer> pair = createTriangleLinePoints(triangle, i);
+        for (int i = 0; i < 4; i++) {
+            AbstractMap.SimpleEntry<Integer, Integer> pair = createLinePoints(square, i);
             polygon.addPoint(pair.getKey(), pair.getValue());
         }
 
         graphics.drawPolygon(polygon);
     }
 
-    private AbstractMap.SimpleEntry<Integer, Integer> createTriangleLinePoints(Triangle triangle, int index) {
-        int a1 = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - triangle.getVertex(index).getX()));
-        int a2 = (int) Math.rint(HALF_HEIGHT - triangle.getVertex(index).getY());
-        return new AbstractMap.SimpleEntry<>(a1, a2);
-    }
-
-    private void paintSubTrianglesRecursively(Triangle triangle) {
-        for (int i = 0; i < 3; i++) {
-            Triangle subTriangle = triangle.getSubTriangle(i);
-            if (subTriangle != null) {
-                paintTriangle(subTriangle);
-                if (subTriangle.isDivided()) {
-                    paintSubTrianglesRecursively(subTriangle);
-                }
-            }
+    private void paintSnowman(Snowman snowman) {
+        for(Circular c : snowman.getBalls()) {
+            paintCircumcircle(c);
         }
     }
 
-    private void paintCircle(Circle c) {
-
+    private void paintCircumcircle(Circular c) {
         int radius = (int) Math.rint(c.getRadius());
         int x = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - c.getCenter().getX()) + radius);
         int y = (int) Math.rint(HALF_HEIGHT - c.getCenter().getY()) - radius;

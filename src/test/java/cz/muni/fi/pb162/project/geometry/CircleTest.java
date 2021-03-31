@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 /**
  * Tests Circle class.
@@ -16,6 +17,11 @@ public class CircleTest {
     private static final Vertex2D CENTER = new Vertex2D(2, 1);
     private static final double RADIUS = 2.5;
     private Circle circle;
+
+    public static void assertCircle(Circular actual, Circular expected) {
+        assertThat(actual.getRadius()).isCloseTo(expected.getRadius(), within(0.001));
+        assertThat(actual.getCenter()).isEqualToComparingFieldByField(expected.getCenter());
+    }
 
     @Before
     public void setUp() {
@@ -36,14 +42,22 @@ public class CircleTest {
 
     @Test
     public void constructorWithoutParameters() {
-        Circle actual = new Circle();
-        assertThat(actual.getRadius()).isEqualTo(1);
-        assertThat(actual.getCenter()).isEqualToComparingFieldByField(new Vertex2D(0, 0));
+        assertCircle(new Circle(), new Circle(new Vertex2D(0, 0), 1));
     }
 
     @Test
     public void toStringMessage() {
         assertThat(circle.toString())
                 .isEqualTo("Circle: center=" + circle.getCenter() + ", radius=" + circle.getRadius());
+    }
+
+    @Test
+    public void width() {
+        assertThat(circle.getWidth()).isEqualTo(2 * RADIUS);
+    }
+
+    @Test
+    public void height() {
+        assertThat(circle.getHeight()).isEqualTo(2 * RADIUS);
     }
 }
