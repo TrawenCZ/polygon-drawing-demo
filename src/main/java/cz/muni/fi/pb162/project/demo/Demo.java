@@ -18,6 +18,6 @@ public class Demo {
      */
     public static void main(String[] args) {
         Square square = new Square(new Vertex2D(0,0), 100);
-        System.out.println(square.toString());
+        System.out.println(square);
     }
 }

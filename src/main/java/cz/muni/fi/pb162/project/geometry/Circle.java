@@ -27,10 +27,12 @@ public class Circle implements Circular, Measurable {
         this(new Vertex2D(0.0,0.0), 1.0);
     }
 
+    @Override
     public Vertex2D getCenter() {
         return center;
     }
 
+    @Override
     public double getRadius() {
         return radius;
     }

@@ -45,7 +45,7 @@ public class Square implements Circular {
         for (int i = 0; i < 4; i++) {
             output.append(this.getVertex(i).toString()).append(" ");
         }
-        return output.substring(0, output.length()-1);
+        return output.toString().trim();
     }
     /**
      * Method for calculating corner Vertices.

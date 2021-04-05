@@ -25,7 +25,7 @@ public class Gauger {
      * @param triangle Gives Triangle to be measured.
      */
     public static void printMeasurement(Triangle triangle) {
-        System.out.println(triangle.toString());
+        System.out.println(triangle);
         printMeasurement((Measurable) triangle);
     }
 }
