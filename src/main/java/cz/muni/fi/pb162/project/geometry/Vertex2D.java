@@ -57,7 +57,6 @@ public class Vertex2D {
         return Math.sqrt(Math.pow(this.myX - vertex.getX(), 2) + Math.pow(this.myY - vertex.getY(), 2));
     }
 
-
 }
 
 
