@@ -12,6 +12,8 @@ import java.util.Arrays;
  */
 public class BasicRulesTester extends Assert {
 
+    public static final double DELTA = 0.001;
+
     public static void attributesFinal(Class clazz) {
         Field[] attributes = BasicRulesTester.getFields(clazz);
         for (Field field : attributes) {

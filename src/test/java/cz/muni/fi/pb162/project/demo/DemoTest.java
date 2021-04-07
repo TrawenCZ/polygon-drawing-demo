@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DemoTest {
 
     private static final String EXPECTED_OUTPUT =
-            "Square: vertices=[-50.0, 0.0] [0.0, -50.0] [50.0, 0.0] [0.0, 50.0]" + System.lineSeparator();
+            "8-gon: center=[0.0, 0.0], radius=1.0, color=black" + System.lineSeparator();
 
     @Test
     public void testMainOutput() {

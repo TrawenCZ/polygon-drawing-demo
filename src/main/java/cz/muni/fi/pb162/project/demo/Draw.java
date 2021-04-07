@@ -1,5 +1,9 @@
 package cz.muni.fi.pb162.project.demo;
 
+import cz.muni.fi.pb162.project.geometry.Colored;
+import cz.muni.fi.pb162.project.geometry.GeneralRegularPolygon;
+import cz.muni.fi.pb162.project.geometry.RegularOctagon;
+import cz.muni.fi.pb162.project.geometry.RegularPolygon;
 import cz.muni.fi.pb162.project.geometry.Snowman;
 import cz.muni.fi.pb162.project.geometry.Square;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
@@ -28,10 +32,12 @@ public final class Draw extends JFrame {
     private static final int HALF_HEIGHT = PANEL_HEIGHT / 2;
 
     private static final Color CIRCLE_COLOR = Color.RED;
-    private static final Color SQUARE_COLOR = Color.GREEN;
+    private static final Color POLYGON_COLOR = Color.BLACK;
 
-    private static final Square SQUARE = new Square(new Vertex2D(0,-160), 160);
-    private static final Snowman SNOWMAN = new Snowman(SQUARE, 0.8);
+    private static final Square SQUARE_BALL = new Square(new Vertex2D(-200, -120), 240);
+    private static final RegularPolygon POLYGON_BALL = new RegularOctagon(new Vertex2D(200, -120), 120);
+    private static final Snowman SNOWMAN_1 = new Snowman(SQUARE_BALL, 0.6);
+    private static final Snowman SNOWMAN_2 = new Snowman(POLYGON_BALL, 0.7);
 
     private Graphics graphics;
 
@@ -64,8 +70,8 @@ public final class Draw extends JFrame {
         graphics = g;
 
         paintCross();
-        paintSquare(SQUARE);
-        paintSnowman(SNOWMAN);
+        paintSnowman(SNOWMAN_1);
+        paintSnowman(SNOWMAN_2);
     }
 
     private void paintCross() {
@@ -74,30 +80,64 @@ public final class Draw extends JFrame {
         graphics.drawLine(HALF_WIDTH, 0, HALF_WIDTH, PANEL_HEIGHT);
     }
 
-    private AbstractMap.SimpleEntry<Integer, Integer> createLinePoints(Square square, int index) {
-        int a1 = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - square.getVertex(index).getX()));
-        int a2 = (int) Math.rint(HALF_HEIGHT - square.getVertex(index).getY());
+    private AbstractMap.SimpleEntry<Integer, Integer> createLinePoints(RegularPolygon polygon, int index) {
+        int a1 = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - polygon.getVertex(index).getX()));
+        int a2 = (int) Math.rint(HALF_HEIGHT - polygon.getVertex(index).getY());
         return new AbstractMap.SimpleEntry<>(a1, a2);
     }
 
-    private void paintSquare(Square square) {
+    private void paintSnowman(Snowman snowman) {
+        for (RegularPolygon regularPolygon : snowman.getBalls()) {
+            paintRegularPolygon(regularPolygon);
+            paintCircumcircle(regularPolygon);
+        }
+    }
 
-        if (square == null) return;
+    private void paintRegularPolygon(RegularPolygon regularPolygon) {
 
-        graphics.setColor(SQUARE_COLOR);
+        setGraphicsPolygonColor(regularPolygon);
         Polygon polygon = new Polygon();
 
-        for (int i = 0; i < 4; i++) {
-            AbstractMap.SimpleEntry<Integer, Integer> pair = createLinePoints(square, i);
+        for (int i = 0; i < regularPolygon.getNumEdges(); i++) {
+            AbstractMap.SimpleEntry<Integer, Integer> pair = createLinePoints(regularPolygon, i);
             polygon.addPoint(pair.getKey(), pair.getValue());
         }
 
         graphics.drawPolygon(polygon);
     }
 
-    private void paintSnowman(Snowman snowman) {
-        for(Circular c : snowman.getBalls()) {
-            paintCircumcircle(c);
+    private void setGraphicsPolygonColor(RegularPolygon regularPolygon) {
+        if (regularPolygon instanceof Colored) {
+            graphics.setColor(convertColor(((Colored) regularPolygon).getColor()));
+        } else {
+            graphics.setColor(POLYGON_COLOR);
+        }
+    }
+
+    /**
+     * Converts enum Color to real color enum.
+     *
+     * @param color enum specific type
+     * @return converted color type
+     */
+    private Color convertColor(cz.muni.fi.pb162.project.geometry.Color color) {
+        switch (color) {
+            case WHITE:
+                return Color.WHITE;
+            case YELLOW:
+                return Color.YELLOW;
+            case ORANGE:
+                return Color.ORANGE;
+            case RED:
+                return Color.RED;
+            case BLUE:
+                return Color.BLUE;
+            case GREEN:
+                return Color.GREEN;
+            case BLACK:
+                return Color.BLACK;
+            default:
+                return POLYGON_COLOR;
         }
     }
 

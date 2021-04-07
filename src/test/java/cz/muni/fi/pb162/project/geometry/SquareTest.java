@@ -1,7 +1,11 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.helper.BasicRulesTester;
 import org.junit.Test;
 
+import java.util.Comparator;
+
+import static cz.muni.fi.pb162.project.helper.BasicRulesTester.DELTA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.within;
 
@@ -19,7 +23,7 @@ public class SquareTest {
     private static final double EDGE_LENGTH = 10;
     private static final double HALF_EDGE = EDGE_LENGTH / 2.0;
 
-    private static final double DELTA = 0.001;
+    private static final Comparator<Double> closeToComparator = (o1, o2) -> Math.abs(o1 - o2) < DELTA ? 0 : -1;
 
     private final Square square1 = new Square(CENTER, EDGE_LENGTH);
     private final Square square2 = new Square(new Circle(CENTER, HALF_EDGE));
@@ -32,26 +36,48 @@ public class SquareTest {
     };
 
     @Test
+    public void classAttributesMethods() {
+        assertThat(square2).isInstanceOf(GeneralRegularPolygon.class);
+        BasicRulesTester.attributesAmount(Square.class, 0);
+        BasicRulesTester.methodsAmount(Square.class, 1);
+    }
+
+    @Test
     public void constructor1() {
-        testGetterOutOfRange(square1);
+        testGetterOutOfRangePositive(square1);
+        testGetterOutOfRangeNegative(square1);
         testGetterInRange(square1);
     }
 
     @Test
     public void constructor2() {
-        testGetterOutOfRange(square2);
+        testGetterOutOfRangePositive(square2);
+        testGetterOutOfRangeNegative(square2);
         testGetterInRange(square2);
     }
 
-    private void testGetterOutOfRange(Square square) {
-        assertThat(square.getVertex(-1)).isNull();
-        assertThat(square.getVertex(4)).isNull();
-        assertThat(square.getVertex(20)).isNull();
+    private void testGetterOutOfRangePositive(Square square) {
+        for (int i = 0; i < 4; i++) {
+            assertThat(square.getVertex(i + 4))
+                    .usingComparatorForType(closeToComparator, Double.class)
+                    .isEqualToComparingFieldByField(square.getVertex(i));
+        }
     }
+
+    private void testGetterOutOfRangeNegative(Square square) {
+        for (int i = -4; i < 0; i++) {
+            assertThat(square.getVertex(i))
+                    .usingComparatorForType(closeToComparator, Double.class)
+                    .isEqualToComparingFieldByField(square.getVertex(i + 4));
+        }
+    }
+
 
     private void testGetterInRange(Square square) {
         for (int i = 0; i < 4; i++) {
-            assertThat(square.getVertex(i)).isEqualToComparingFieldByField(vertices[i]);
+            assertThat(square.getVertex(i))
+                    .usingComparatorForType(closeToComparator, Double.class)
+                    .isEqualToComparingFieldByField(vertices[i]);
         }
     }
 
@@ -67,5 +93,10 @@ public class SquareTest {
         assertThat(square2.getRadius()).isCloseTo(HALF_EDGE, within(DELTA));
     }
 
+    @Test
+    public void toStringMessage() {
+        assertThat(new Square(new Vertex2D(0, 0), 0).toString())
+                .isEqualTo("Square: vertices=[0.0, 0.0] [0.0, 0.0] [0.0, 0.0] [0.0, 0.0]");
+    }
 
 }

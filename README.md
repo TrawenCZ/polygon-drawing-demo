@@ -1,52 +1,69 @@
-## Fourth iteration
+## Fifth iteration
 
-Exercise focused on static methods, implementation and use of interfaces. 
+Exercise focused on working with inheritance, interfaces, and enumeration type.
 
-1.  Create the `SimpleMath` class in the `cz.muni.fi.pb162.project.utils` package containing exclusively _static_ methods (so-called _utility class_)
-    *   `double minX(Triangle triangle)` returns the minimum X coordinate.
-    *   `double minY(Triangle triangle)` returns the minimum Y coordinate.
-    *   Similarly for methods `maxX` and `maxY`.
-    *   For the sake of simplicity, we can suppose that the triangle does not contain `null` elements (you need not to check it).
+2D geometry shapes include [regular polygons](https://en.wikipedia.org/wiki/Regular_polygon).
 
-2.  Modify the `Triangle` and  Circle` classes, so they implement the `Measurable` interface.
-    *   The height/width of a triangle is calculated as the difference between the maximum and minimum x (width) and y (height) coordinates of the vertices, respectively:
-        ![width of objects](images/04a.png)
-    *   Use static methods from the `SimpleMath` class.
+![examples of regular polygons](images/05a.png)
 
-3.  In the `utils` package, create the `Gauger` class, which allows you to "measure" objects and print information about their height and width. The class will contain two static overloaded `printMeasurement` methods:
-    *   The first method takes any measurable object (i.e., any object implementing the `Measurable` interface) and
-        *   prints _"Width: \<w\>"_, to the standard output where \<w\> is the width value,
-        *   on the next line prints _"Height: \<h\>"_, where \<h\> is the height value.
-    *   The second method will work especially for a triangle (object of type `Triangle`). It takes a triangle and
-        *   prints triangle information to standard output, see `toString()` method,
-        *   on the next line prints _"Width: \<w\>"_, to the standard output where \<w\> is again the width value,
-        *   on the next line prints _"Height: \<h\>"_, where \<h\> is again the height value.
-    *   Avoid repeating the code by calling the first variant of the method from the second variant. But be careful that the method won't call itself (there would be a loop ending with the `StackOverflowException`).
+They are regular convex objects that have all sides of the same length (e.g., equilateral triangle, square, regular pentagon, etc.).
+- These objects match our definition of "circular objects" defined in the previous iteration by the `Circular` interface.
+- Another interesting observation is that a circles can be considered an regular polygon with infinitely many infinitesimal edges (from the opposite point of view, any regular polygon approximates a circle &mdash; the more edges, the more accurate the approximation).
 
-	    > When calling `printMeasurement`, it is necessary to cast the object to the interface. There will be so-called methods "trimming".
+Our goal is to propose an object decomposition reflecting these observations. Moreover, we want to color 2D objects.
 
-4.  The `Circle` class will implement the `Circular` interface - a circular shape expressed by its center and radius.
-    The circle directly represents a circular shape, so there is no need to implement any new methods. However, it is necessary to add annotation `@Override`.
+1. In the `geometry` package, create an enumeration type `Color`, define some common colors, e.g., white, red, green, etc. Override the `toString()` method so that it returns the color name **in lowercase**.
+   > By default, the `toString()` method in `enum` returns the name of the constant in uppercase.
 
-5.  In the `geometry` package, create the `Square` class. In our object abstraction, a square will not be expressed as four vertices (as in a triangle), but as a circular shape, the vertices of which can be calculated at any time from the center and radius (circumscribed circles).  The similarity between the circle and the square may sound a little strange, but you can also put "square" wheels on the car instead of "round" ones. The car will still go, it'll just rumble a bit more :-) Therefore:
-    *   The class will implement the `Circular` interface
-    *   The first constructor takes as input parameters the coordinates of the center of the circumscribed circle and the [**diameter**](https://i.redd.it/08brmyoaicq51.jpg) of the circumscribed circle.
-    *   The second constructor will take a `Circular` object (containing the coordinates of the center and [**radius**](https://i.redd.it/08brmyoaicq51.jpg)) as an input parameter and will call the first constructor.
-    *   The `Vertex2D getVertex(int index)` method returns the coordinates of the `index`-th vertex. The coordinates are calculated automatically from the center and the radius so that they represent a square rotated by 45°: At index 0 is the left vertex, 1 = lower vertex, 2 = right vertex and 3 = upper vertex. If the index is out of range, the method returns `null`.
-    *   Don't forget the method `toString()` returning	_"Square: vertices=[ax, ay] [bx, by] [cx, cy] [dx, dy]"_
-	
-6.  In the `geometry` package, create the `Snowman` class:
-    *   Our snowman consists of any **four** circular objects, i.e., circles, squares, etc. stacked on top of each other. However, the number can be easily changed at the compilation time (define it as a public constant). The snowman has no hands for simplicity. The "balls" of the snowman shrink upwards. 
-    *   The constructor will take as its first parameter a parameter of type `Circular`, which represents the lower sphere.
-	*   The second parameter of the constructor will be the reduction factor (real number of the range `(0..1>`). The upper parts of the snowman will shrink by this factor. If the input parameter is not in the required range, the named non-public constant `0.8` is used instead.
-    *   The whole snowman is created in the constructor. It will consist of a circular object that we received. Above it will be circles (`Circle`) gradually decreasing by a given factor. 
-	*   Don't be afraid to split the constructor code into smaller private methods.
-    *   The `Circular[] getBalls()` method returns an array of all "show balls" from the lowest to the highest.
+2. In the `geometry` package, create a `Colored` interface containing `get` and `set` method of the type of the defined enumeration type. The methods will be named `getColor()` and `setColor()`. Describe them properly.
 
-7. The demo creates a square with center `[0, 0]`, diameter of circle `100` and writes information about it to standard output.
+3.  In the `geometry` package, create a `GeneralRegularPolygon` class that implements the `RegularPolygon` and `Colored` interfaces. This class will then serve as a common superclass for all regular polygons.
+    *   A regular polygon is defined by its _center_, _number of edges_, and _radius of a circumscribed circle_.
+        Therefore, the constructor will have exactly these three parameters.
+    *   The default color is black.
+    *   The length of the edges is calculated as:
+        ![formula](images/05b.png),
+        where `R` is the radius of the circumscribed circle and `n` number of edges.
+    *   The width and height of a regular polygon are calculated approximately as the diameter of the circumscribed circle.
+    *   The coordinates of the i-th vertex are calculated according to the following formula: 
+    
+            x = Cx - R * cos(i * 2 * PI / n)
+            y = Cy - R * sin(i * 2 * PI / n)
+            
+        where `C` is the center, `R` is the radius of the circle, `n` is the number of the edges and `i` is the index of the vertex.
+	    > You will find the necessary mathematical functions and constants in the `java.lang.Math` class.
 
-8. Draw draws [a snowman whose bottom circle has a green square inscribed in it](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
+    *   Method `toString` will return:
+    
+            <n>-gon: center=<center>, radius=<radius>, color=<color>
+            
+        where _\<n\>_ is the number of the edges, _\<center\>_ is the center and _\<radius\>_ is the radius of the circumscribed circle and _\<color\>_ is the color of the regular polygon.
+
+4.  In the `geometry` package, create a `RegularOctagon` class (polygon with eight edges) extending the `GeneralRegularPolygon`. The constructor contains only the necessary parameters.
+
+5.  Refactor the `Circle` class to extend the `GeneralRegularPolygon` class.
+    *   The number of the edges of a circle is a constant _maximum integer_ of type `int`.
+    *   The default color of the circle is red.
+    *   The circle can still be constructed by entering the center and radius, as before.
+    *   Clean up the class, i.e., delete all unnecessary attributes and methods inherited from parent class(es).
+    *   The class will contain the original `toString` method.
+    *   An inherited `getEdgeLength()` method would not work properly for a circle because the length of the edges should be 0
+        &mdash; override it.
+
+6.  Refactor the `Square` class to extend the `GeneralRegularPolygon` class, and then clean it up (remove all unnecessary attributes and methods). The `getVertex` method will work as defined in the interface, i.e., the vertex is computed likewise in the other regular polygons.
+
+7.  Edit the `Snowman` class:
+	> For a better understanding of snowman polygons, take a look at the sample _Draw_ screenshot.
+
+    *   The snowman will not be composed of four circumscribed circles, but of **three** regular polygons (drawn by Picasso ;-)
+    *   The constructor will take a parameter of type `RegularPolygon` as its first parameter.
+    *   The `RegularPolygon[] getBalls()` method will then return an array of regular polygons.
+    *   Snowman polygons will have the same number of edges as the bottom (first) polygon.
+
+8. The demo prints a regular octagon with center `[0, 0]` and radius `1`.
+
+9. Draw draws [two snowmen, one from circumscribed circles and one from the given polygons](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
 ### Target UML class diagram:
 
-![UML class diagram](images/04-class-diagram.png)
+![UML class diagram](images/05-class-diagram.jpg)

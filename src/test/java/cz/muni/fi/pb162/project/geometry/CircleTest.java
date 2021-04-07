@@ -29,9 +29,25 @@ public class CircleTest {
     }
 
     @Test
-    public void attributes2AndFinal() {
-        BasicRulesTester.attributesAmount(Circle.class, 2);
-        BasicRulesTester.attributesFinal(Circle.class);
+    public void classAttributesMethods() {
+        assertThat(circle).isInstanceOf(GeneralRegularPolygon.class);
+        BasicRulesTester.attributesAmount(Circle.class, 0);
+        BasicRulesTester.methodsAmount(Circle.class, 2);
+    }
+
+    @Test
+    public void getNumEdgesIsMaxValue() {
+        assertThat(circle.getNumEdges()).isEqualTo(Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void colorIsRed() {
+        assertThat(circle.getColor()).isEqualTo(Color.RED);
+    }
+
+    @Test
+    public void getEdgeLengthIsZero() {
+        assertThat(circle.getEdgeLength()).isEqualTo(0.0);
     }
 
     @Test
