@@ -64,6 +64,11 @@ public class ArrayPolygonTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void emptyArrayInConstructor() {
+        new ArrayPolygon(new Vertex2D[]{});
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void nullInConstructorArray() {
         new ArrayPolygon(new Vertex2D[]{
                 new Vertex2D(-3, -1),
