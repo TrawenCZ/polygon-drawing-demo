@@ -11,9 +11,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <version.maven.plugin.checkstyle>2.17</version.maven.plugin.checkstyle>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <version.maven.plugin.checkstyle>3.0.0</version.maven.plugin.checkstyle>
         <version.plugin.checkstyle>8.5</version.plugin.checkstyle>
         <version.plugin.source>2.4</version.plugin.source>
         <version.junit>4.12</version.junit>
