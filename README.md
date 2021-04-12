@@ -33,14 +33,12 @@ Although a regular n-gon is a special case of a simple n-gon, in our object abst
 
 4.  Create an immutable `ArrayPolygon` class that extends the `SimplePolygon` class.
     *   The coordinates of the vertices of the n-gon are stored in an array.
-	*   The constructor will have an array of vertices as the input argument. The constructor:
-	    * Checks whether the array or any of its elements are `null`.
-		* Checks whether the array is empty.
-		* If one of these situations happen, then the input is invalid and the constructor 
+	*   The constructor will have an array of vertices as the input argument. The array has to valid. Invalid array is `null`,  contains `null` element, or has less than 3 vertices.
+	*   If the input array is invalid the constructor  throws an `IllegalArgumentException` exception with an error description.
 
 		  > To throw an exception, use `throw new IllegalArgumentException("message - what happened");`. We'll learn more about exceptions later on. For now, this is the only way how to prevent the creation of invalid object.
 
-		* If the input is correct, then the constructor copies the input array. It is not enough to just store a pointer to the array in the attribute because the array could be modified by the array provider, violiting ecancapsulation principles.
+	*   If the input is correct, then the constructor copies the input array. It is not enough to just store a pointer to the array in the attribute because the array could be modified by the array provider, violiting ecancapsulation principles.
 
 		  > Use methods from the `Arrays` utility class, such as _copyOf_ or _equals_.
 		  > When copying an array, a shallow copy is sufficient, as `Vertex2D` objects are immutable.
