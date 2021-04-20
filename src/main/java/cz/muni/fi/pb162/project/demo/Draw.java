@@ -1,11 +1,8 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.geometry.Colored;
-import cz.muni.fi.pb162.project.geometry.GeneralRegularPolygon;
-import cz.muni.fi.pb162.project.geometry.RegularOctagon;
-import cz.muni.fi.pb162.project.geometry.RegularPolygon;
-import cz.muni.fi.pb162.project.geometry.Snowman;
-import cz.muni.fi.pb162.project.geometry.Square;
+import cz.muni.fi.pb162.project.geometry.ArrayPolygon;
+import cz.muni.fi.pb162.project.geometry.Polygon;
+import cz.muni.fi.pb162.project.geometry.Triangle;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
 
 import javax.swing.JFrame;
@@ -14,16 +11,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Polygon;
-import java.util.AbstractMap;
-import cz.muni.fi.pb162.project.geometry.Circular;
 
 /**
  * Class drawing 2D objects.
  *
  * @author Radek Oslejsek, Marek Sabo
  */
-@SuppressWarnings("SameParameterValue")
 public final class Draw extends JFrame {
 
     private static final int PANEL_WIDTH = 800;
@@ -31,13 +24,23 @@ public final class Draw extends JFrame {
     private static final int HALF_WIDTH = PANEL_WIDTH / 2;
     private static final int HALF_HEIGHT = PANEL_HEIGHT / 2;
 
-    private static final Color CIRCLE_COLOR = Color.RED;
-    private static final Color POLYGON_COLOR = Color.BLACK;
+    private static final Color POLYGON_COLOR = Color.MAGENTA;
 
-    private static final Square SQUARE_BALL = new Square(new Vertex2D(-200, -120), 240);
-    private static final RegularPolygon POLYGON_BALL = new RegularOctagon(new Vertex2D(200, -120), 120);
-    private static final Snowman SNOWMAN_1 = new Snowman(SQUARE_BALL, 0.6);
-    private static final Snowman SNOWMAN_2 = new Snowman(POLYGON_BALL, 0.7);
+    private static final Polygon TRIANGLE =
+            new Triangle(
+                    new Vertex2D(-200, -200),
+                    new Vertex2D(0, 200),
+                    new Vertex2D(200, -200)
+            );
+
+    private static final Polygon POLYGON = new ArrayPolygon(
+            new Vertex2D[]{
+                    new Vertex2D(-100, -100),
+                    new Vertex2D(-40, 10),
+                    new Vertex2D(50, 20),
+                    new Vertex2D(10, -20),
+                    new Vertex2D(60, -40)
+            });
 
     private Graphics graphics;
 
@@ -70,8 +73,9 @@ public final class Draw extends JFrame {
         graphics = g;
 
         paintCross();
-        paintSnowman(SNOWMAN_1);
-        paintSnowman(SNOWMAN_2);
+        paintPolygon(TRIANGLE);
+        paintPolygon(POLYGON);
+
     }
 
     private void paintCross() {
@@ -80,38 +84,19 @@ public final class Draw extends JFrame {
         graphics.drawLine(HALF_WIDTH, 0, HALF_WIDTH, PANEL_HEIGHT);
     }
 
-    private AbstractMap.SimpleEntry<Integer, Integer> createLinePoints(RegularPolygon polygon, int index) {
-        int a1 = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - polygon.getVertex(index).getX()));
-        int a2 = (int) Math.rint(HALF_HEIGHT - polygon.getVertex(index).getY());
-        return new AbstractMap.SimpleEntry<>(a1, a2);
-    }
+    private void paintPolygon(Polygon polygon) {
+        int arraySize = polygon.getNumVertices() + 1;
+        int[] yVertex = new int[arraySize];
+        int[] xVertex = new int[arraySize];
 
-    private void paintSnowman(Snowman snowman) {
-        for (RegularPolygon regularPolygon : snowman.getBalls()) {
-            paintRegularPolygon(regularPolygon);
-            paintCircumcircle(regularPolygon);
-        }
-    }
-
-    private void paintRegularPolygon(RegularPolygon regularPolygon) {
-
-        setGraphicsPolygonColor(regularPolygon);
-        Polygon polygon = new Polygon();
-
-        for (int i = 0; i < regularPolygon.getNumEdges(); i++) {
-            AbstractMap.SimpleEntry<Integer, Integer> pair = createLinePoints(regularPolygon, i);
-            polygon.addPoint(pair.getKey(), pair.getValue());
+        for (int i = 0; i < arraySize; i++) {
+            Vertex2D vertex = polygon.getVertex(i);
+            xVertex[i] = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - vertex.getX()));
+            yVertex[i] = (int) Math.rint(HALF_HEIGHT - vertex.getY());
         }
 
-        graphics.drawPolygon(polygon);
-    }
-
-    private void setGraphicsPolygonColor(RegularPolygon regularPolygon) {
-        if (regularPolygon instanceof Colored) {
-            graphics.setColor(convertColor(((Colored) regularPolygon).getColor()));
-        } else {
-            graphics.setColor(POLYGON_COLOR);
-        }
+        graphics.setColor(POLYGON_COLOR);
+        graphics.drawPolygon(xVertex, yVertex, arraySize);
     }
 
     /**
@@ -139,15 +124,5 @@ public final class Draw extends JFrame {
             default:
                 return POLYGON_COLOR;
         }
-    }
-
-    private void paintCircumcircle(Circular c) {
-        int radius = (int) Math.rint(c.getRadius());
-        int x = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - c.getCenter().getX()) + radius);
-        int y = (int) Math.rint(HALF_HEIGHT - c.getCenter().getY()) - radius;
-        int diameter = (int) Math.rint(c.getRadius() * 2.0);
-
-        graphics.setColor(CIRCLE_COLOR);
-        graphics.drawOval(x, y, diameter, diameter);
     }
 }

@@ -71,4 +71,29 @@ public class Vertex2DTest {
         assertThat(v1.createMiddle(v2)).isEqualToComparingFieldByField(res);
     }
 
+    @Test
+    public void equalsSame() {
+        assertThat(new Vertex2D(0,0))
+                .isEqualTo(new Vertex2D(0,0));
+        assertThat(new Vertex2D(10.8,-11.2))
+                .isEqualTo(new Vertex2D(10.8,-11.2));
+    }
+
+    @Test
+    public void hashesSame() {
+        assertThat(new Vertex2D(0,0).hashCode())
+                .isEqualTo(new Vertex2D(0,0).hashCode());
+        assertThat(new Vertex2D(10.8,-11.2).hashCode())
+                .isEqualTo(new Vertex2D(10.8,-11.2).hashCode());
+    }
+
+    @Test
+    public void equalsDifferent() {
+        assertThat(new Vertex2D(0,0)).isNotEqualTo(new Vertex2D(0,1));
+        assertThat(new Vertex2D(1,0)).isNotEqualTo(new Vertex2D(0,0));
+        assertThat(new Vertex2D(1,0)).isNotEqualTo(new Circle(vertex2D,0));
+        assertThat(new Vertex2D(0,0)).isNotEqualTo(null);
+    }
+
+
 }

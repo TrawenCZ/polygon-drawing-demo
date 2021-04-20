@@ -7,7 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 /**
  * Class testing Triangle implementation.
@@ -33,6 +35,15 @@ public class TriangleTest {
     }
 
     @Test
+    public void attributesAmount() {
+        BasicRulesTester.attributesAmount(Triangle.class, 1);
+    }
+    @Test
+    public void methodsAmount() {
+        BasicRulesTester.methodsAmount(Triangle.class, 8);
+    }
+
+    @Test
     public void gettersInRange() {
         assertThat(triangle.getVertex(0).getX()).isEqualTo(vertex1.getX());
         assertThat(triangle.getVertex(0).getY()).isEqualTo(vertex1.getY());
@@ -44,9 +55,12 @@ public class TriangleTest {
 
     @Test
     public void gettersOutOfRange() {
-        assertThat(triangle.getVertex(3)).isNull();
-        assertThat(triangle.getVertex(4)).isNull();
-        assertThat(triangle.getVertex(-1)).isNull();
+        assertThat(triangle.getVertex(3)).isSameAs(triangle.getVertex(0));
+        assertThat(triangle.getVertex(4)).isSameAs(triangle.getVertex(1));
+        assertThat(triangle.getVertex(5)).isSameAs(triangle.getVertex(2));
+
+        assertThatThrownBy(() -> triangle.getVertex(-1))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -62,6 +76,31 @@ public class TriangleTest {
     }
 
     @Test
+    public void equalsSame() {
+        assertThat(triangle).isEqualTo(triangle);
+        assertThat(triangle).isEqualTo(new Triangle(vertex1, vertex2, vertex3));
+        assertThat(new Triangle(vertex1, vertex2, vertex3)).isEqualTo(triangle);
+    }
+
+    @Test
+    public void equalsDifferent() {
+        assertThat(triangle).isNotEqualTo(new Triangle(vertex1, vertex2, new Vertex2D(0, 0)));
+        assertThat(triangle).isNotEqualTo(new Triangle(vertex3, vertex1, vertex2));
+    }
+
+    @Test
+    public void notEqualWithParent() {
+        assertThat(triangle).isNotEqualTo(new ArrayPolygon( new Vertex2D[] {vertex1, vertex2, vertex3} ));
+        assertThat(new ArrayPolygon( new Vertex2D[] {vertex1, vertex2, vertex3})).isNotEqualTo(triangle);
+    }
+
+    @Test
+    public void hashCodeSame() {
+        assertThat(triangle.hashCode()).isEqualTo(triangle.hashCode());
+        assertThat(triangle.hashCode()).isEqualTo(new Triangle(vertex1, vertex2, vertex3).hashCode());
+    }
+
+    @Test
     public void testAllWidths() {
         testWidth(triangle);
         testWidth(new Triangle(new Vertex2D(-3, -1), new Vertex2D(-2, -2), new Vertex2D(-1, -1)));
@@ -74,11 +113,11 @@ public class TriangleTest {
     }
 
     private void testWidth(Triangle t) {
-        assertThat(t.getWidth()).isCloseTo(SimpleMathTest.triangleWidth(t), within(0.001));
+        assertThat(t.getWidth()).isCloseTo(SimpleMathTest.polygonWidth(t), within(0.001));
     }
 
     private void testHeight(Triangle t) {
-        assertThat(t.getHeight()).isCloseTo(SimpleMathTest.triangleHeight(t), within(0.001));
+        assertThat(t.getHeight()).isCloseTo(SimpleMathTest.polygonHeight(t), within(0.001));
     }
 
     @Test
