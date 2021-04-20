@@ -1,5 +1,7 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import java.util.Objects;
+
 /**
  * Class for working with vectors.
  *
@@ -57,6 +59,22 @@ public class Vertex2D {
         return Math.sqrt(Math.pow(this.myX - vertex.getX(), 2) + Math.pow(this.myY - vertex.getY(), 2));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Vertex2D vertex2D = (Vertex2D) o;
+        return Double.compare(vertex2D.myX, myX) == 0 && Double.compare(vertex2D.myY, myY) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(myX, myY);
+    }
 }
 
 
