@@ -5,7 +5,7 @@ package cz.muni.fi.pb162.project.geometry;
  * @author Adam Slíva
  */
 public class Circle extends GeneralRegularPolygon {
-    private static final int MAX_INT = Integer.MAX_VALUE;
+    private static final int NUMBER_OF_EDGES = Integer.MAX_VALUE;
     /**
      * Constructing Circle.
      *
@@ -13,7 +13,7 @@ public class Circle extends GeneralRegularPolygon {
      * @param radius Gives radius of circle.
      */
     public Circle(Vertex2D center, double radius) {
-        super(center, MAX_INT, radius);
+        super(center, NUMBER_OF_EDGES, radius);
         this.setColor(Color.RED);
     }
 

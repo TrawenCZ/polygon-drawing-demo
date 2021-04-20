@@ -22,9 +22,11 @@ public class Snowman {
         }
         stack[0] = object;
         for (int i = 1; i < STACK_COUNT; i++) {
-            stack[i] = new GeneralRegularPolygon(new Vertex2D(stack[i - 1].getCenter().getX(),
-                    stack[i - 1].getCenter().getY() + (1 + reduction) * stack[i - 1].getRadius()),
-                    object.getNumEdges(), stack[i - 1].getRadius() * reduction);
+            Vertex2D previousCenter = stack[i - 1].getCenter();
+            double previousRadius = stack[i - 1].getRadius();
+            stack[i] = new GeneralRegularPolygon(new Vertex2D(previousCenter.getX(),
+                    previousCenter.getY() + (1 + reduction) * previousRadius),
+                    object.getNumEdges(), previousRadius * reduction);
         }
     }
 
