@@ -16,8 +16,12 @@ public class ArrayPolygon extends SimplePolygon {
      * @param verticesArray Array of vertices
      */
     public ArrayPolygon(Vertex2D[] verticesArray) {
-        if (verticesArray == null || verticesArray.length < 3 || Arrays.asList(verticesArray).contains(null)) {
-            throw new IllegalArgumentException("Too few vertices or given a null pointer or null value in given array");
+        if (verticesArray == null) {
+            throw new IllegalArgumentException("Given array pointer is a 'null' pointer.");
+        } else if (verticesArray.length < 3) {
+            throw new IllegalArgumentException("Given array of size less than 3.");
+        } else if (Arrays.asList(verticesArray).contains(null)) {
+            throw new IllegalArgumentException("Given array contains 'null' pointer.");
         }
         this.verticesArray = Arrays.copyOf(verticesArray, verticesArray.length);
     }

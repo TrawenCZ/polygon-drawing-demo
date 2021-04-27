@@ -28,7 +28,7 @@ public class Triangle extends ArrayPolygon {
      * @param depth Number of divisions of Triangle.
      */
     public Triangle(Vertex2D vertex1, Vertex2D vertex2, Vertex2D vertex3, int depth) {
-        super(new Vertex2D[] {vertex1, vertex2, vertex3});
+        this(vertex1, vertex2, vertex3);
         divide(depth);
     }
 

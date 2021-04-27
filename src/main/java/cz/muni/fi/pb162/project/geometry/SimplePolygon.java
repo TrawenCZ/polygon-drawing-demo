@@ -7,7 +7,7 @@ import cz.muni.fi.pb162.project.utils.SimpleMath;
  *
  * @author Adam Slíva
  */
-abstract class SimplePolygon implements Polygon {
+public abstract class SimplePolygon implements Polygon {
 
 
     @Override
