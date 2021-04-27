@@ -43,8 +43,8 @@ public class ArrayPolygonTest {
             VERTEX_4,
             VERTEX_5
     };
-    
-    
+
+
     private Vertex2D[] vertices = {
             new Vertex2D(-3, -1),
             new Vertex2D(-2, -2),
@@ -61,14 +61,6 @@ public class ArrayPolygonTest {
     @Test(expected = IllegalArgumentException.class)
     public void nullInConstructor() {
         new ArrayPolygon(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shortArrayInConstructor() {
-        new ArrayPolygon(new Vertex2D[]{
-                new Vertex2D(-3, -1),
-                new Vertex2D(-2, -2)
-        });
     }
 
     @Test(expected = IllegalArgumentException.class)

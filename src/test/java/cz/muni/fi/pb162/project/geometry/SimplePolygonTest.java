@@ -51,6 +51,7 @@ public class SimplePolygonTest {
     private class MockPolygon extends SimplePolygon {
 
         private MockPolygon() {
+            super(VERTICES);
         }
 
         @Override

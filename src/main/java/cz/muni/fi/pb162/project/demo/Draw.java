@@ -1,8 +1,9 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.geometry.ArrayPolygon;
+import cz.muni.fi.pb162.project.geometry.CollectionPolygon;
+import cz.muni.fi.pb162.project.geometry.ColoredPolygon;
+import cz.muni.fi.pb162.project.geometry.Paper;
 import cz.muni.fi.pb162.project.geometry.Polygon;
-import cz.muni.fi.pb162.project.geometry.Triangle;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
 
 import javax.swing.JFrame;
@@ -26,20 +27,47 @@ public final class Draw extends JFrame {
 
     private static final Color POLYGON_COLOR = Color.MAGENTA;
 
-    private static final Polygon TRIANGLE =
-            new Triangle(
-                    new Vertex2D(-200, -200),
-                    new Vertex2D(0, 200),
-                    new Vertex2D(200, -200)
-            );
+    private static final Polygon WALLS =
+            new CollectionPolygon(
+                    new Vertex2D[]{
+                            new Vertex2D(-150, -150),
+                            new Vertex2D(150, -150),
+                            new Vertex2D(150, 150),
+                            new Vertex2D(-150, 150),
+                    });
 
-    private static final Polygon POLYGON = new ArrayPolygon(
+    private static final int A = 45;
+    private static final int B = 100;
+
+    private static final Polygon WINDOW_LEFT = new CollectionPolygon(
             new Vertex2D[]{
-                    new Vertex2D(-100, -100),
-                    new Vertex2D(-40, 10),
-                    new Vertex2D(50, 20),
-                    new Vertex2D(10, -20),
-                    new Vertex2D(60, -40)
+                    new Vertex2D(-A, A),
+                    new Vertex2D(-B, A),
+                    new Vertex2D(-B, B),
+                    new Vertex2D(-A, B),
+            });
+
+    private static final Polygon WINDOW_RIGHT = new CollectionPolygon(
+            new Vertex2D[]{
+                    new Vertex2D(A, A),
+                    new Vertex2D(B, A),
+                    new Vertex2D(B, B),
+                    new Vertex2D(A, B),
+            });
+
+    private static final Polygon DOOR = new CollectionPolygon(
+            new Vertex2D[]{
+                    new Vertex2D(-30, -150),
+                    new Vertex2D(30, -150),
+                    new Vertex2D(30, -20),
+                    new Vertex2D(-30, -20),
+            });
+
+    private static final Polygon ROOF = new CollectionPolygon(
+            new Vertex2D[]{
+                    new Vertex2D(-150, 150),
+                    new Vertex2D(150, 150),
+                    new Vertex2D(0, 250),
             });
 
     private Graphics graphics;
@@ -72,10 +100,19 @@ public final class Draw extends JFrame {
     private void paintScene(Graphics g) {
         graphics = g;
 
-        paintCross();
-        paintPolygon(TRIANGLE);
-        paintPolygon(POLYGON);
+        Paper paper = new Paper();
+        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.BLUE);
+        paper.drawPolygon(DOOR);
+        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.GREEN);
+        paper.drawPolygon(WALLS);
+        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.RED);
+        paper.drawPolygon(WINDOW_LEFT);
+        paper.drawPolygon(WINDOW_RIGHT);
+        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.BLACK);
+        paper.drawPolygon(ROOF);
 
+        paintCross();
+        paintPaper(paper);
     }
 
     private void paintCross() {
@@ -84,7 +121,17 @@ public final class Draw extends JFrame {
         graphics.drawLine(HALF_WIDTH, 0, HALF_WIDTH, PANEL_HEIGHT);
     }
 
-    private void paintPolygon(Polygon polygon) {
+    private void paintPaper(Paper paper) {
+        for (ColoredPolygon cp : paper.getAllDrawnPolygons()) {
+            paintColoredPolygon(cp);
+        }
+    }
+
+    private void paintColoredPolygon(ColoredPolygon coloredPolygon) {
+        paintPolygon(coloredPolygon.getPolygon(), convertColor(coloredPolygon.getColor()));
+    }
+
+    private void paintPolygon(Polygon polygon, Color color) {
         int arraySize = polygon.getNumVertices() + 1;
         int[] yVertex = new int[arraySize];
         int[] xVertex = new int[arraySize];
@@ -95,7 +142,7 @@ public final class Draw extends JFrame {
             yVertex[i] = (int) Math.rint(HALF_HEIGHT - vertex.getY());
         }
 
-        graphics.setColor(POLYGON_COLOR);
+        graphics.setColor(color);
         graphics.drawPolygon(xVertex, yVertex, arraySize);
     }
 

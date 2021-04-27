@@ -1,71 +1,80 @@
-## Sixth iteration
+## Seventh iteration
 
-Exercise focused on working with arrays, equality, abstract classes, and basic exceptions.
+Exercise focused on working with collections.
 
-In previous iterations, we worked with regular n-gons. We will now extend the system with more general so-called simple n-gons.
-These are general irregular closed n-gons without intersecting edges, as the following examples show:
+1.  Create a `CollectionPolygon` class that extends the `SimplePolygon` class, which will be similar to the `ArrayPolygon` class.
+    The only difference is that the vertices of the n-gon will not be stored in the array, but in a suitable collection.
 
-![examples of irregular n-gons](images/06a.png)
+	*   Create a constructor that will take an **array** of vertices as the input parameter
+(similar to the `ArrayPolygon` class). However, it will store the vertices in a suitable collection.
 
-Although a regular n-gon is a special case of a simple n-gon, in our object abstraction there will be class hierarchies of regular n-gons_ and _simple n-gons_ separate. This is because regular n-gons are defined by the radius of the circumscribed circle and the number of edges, while simple n-gons must in principle be defined by a list of coordinates of individual vertices.
+        > When choosing between a list and a set, keep in mind that the topology of the n-gon is determined by the order of the vertices and that it is allowed to have more vertices with the same coordinates (for a simple n-gon, the edges must not cross, but they can touch).
 
-1.  Define the equality of two vertices (`Vertex2D`) so that two vertices are the same if they have the same coordinates.
+		> Variables should be of an interface type, i.e., `List` instead of `ArrayList`, `Set` instead of `HashSet`.
 
-    >   Remember that by redefining equality, you have an obligation to redefine another method.
+    *   As before, we want to prevent the creation of a polygon with no vertex. Therefore, the constructor checks if the input field is not empty (empty, null, or filled with null objects). If empty, the constructor throws an `IllegalArgumentException` exception with a description.
+    
+    *   Define equality methods. Two polygons are the same if all vertex indices are the same, i.e., they have the same coordinates of vertices with the same order.
+    
+		> Collections from the Java API have defined equality. And they have it defined sensibly. Take advantage of it.
+		
+		> For the sake of simplicity, we omit the situation when the polygons are geometrically the same, but they differ in the order of the vertices. In this case, they are considered different.
+		
+    *   Add the `CollectionPolygon withoutLeftmostVertices()` method to the class,  which returns a new polygon without the leftmost vertices (there can be more, see, e.g., rectangle).
+        The original polygon remains unchanged. If the new polygon no longer contains any vertices after removing the leftmost vertices, the method returns `null`.
+	    > This method is used to practice working with collections. Look for no other meaning for it.
+		
+2.  Note that the constructors of the `ArrayPolygon` and `CollectionPolygon` classes are very similar. 
+    Both check the correctness of the input field. They differ only in the storage of vertices.
 
-2. Modify the methods in `SimpleMath` to take the `Polygon` interface as a parameter. The `Polygon` interface defines general n-gon methods.
+	*   In the common superclass `SimplePolygon`, create a constructor and move the common code to it.
+	    Therefore, the `SimplePolygon` constructor checks the correctness of the input field. In case of an error, it throws an exception and thus the whole process of creating a polygon ends. If everything is OK, control is passed to the subclass constructor. Subclass constructors, on the other hand, will call the `SimplePolygon` constructor and then store the vertices in an array or collection, respectively.  If the `SimplePolygon` constructor fails with an exception, the subclass constructor also fails automatically. So, you don't have to deal with it in the subclasses. We will practice working with exceptions in more detail next time.
 
-    > Don't forget to update Javadoc.
-
-3.  In the `geometry` package, create an *abstract* `SimplePolygon` class that implements the `Polygon` interface. The `SimplePolygon` class will be general in the sense that it will not anticipate how individual vertices will be stored (arrays, collections, etc.). It leaves it down to subclasses. Therefore, it will implement only the following methods, the others will remain unimplemented:
-
-	> Explicitly write the headers of the abstract methods in the abstract class.
-
-	*   The `getHeight()` method returns the difference between the largest and smallest Y coordinates in an n-gon. Similarly, `getWidth()` for X coordinates.
-	
-    	> Use the methods from `SimpleMath` to implement `SimplePolygon`.
-	
-    *   The `toString()` method returns a string:
-
-            "Polygon: vertices = [x, y] [x, y] [x, y]"
-
-        where [x, y] are successively all coordinates of the vertices.
-
-4.  Create an immutable `ArrayPolygon` class that extends the `SimplePolygon` class.
-    *   The coordinates of the vertices of the n-gon are stored in an array.
-	*   The constructor will have an array of vertices as the input argument. The array has to valid. Invalid array is `null`,  contains `null` element, or has less than 3 vertices.
-	*   If the input array is invalid the constructor  throws an `IllegalArgumentException` exception with an error description.
-
-		  > To throw an exception, use `throw new IllegalArgumentException("message - what happened");`. We'll learn more about exceptions later on. For now, this is the only way how to prevent the creation of invalid object.
-
-	*   If the input is correct, then the constructor copies the input array. It is not enough to just store a pointer to the array in the attribute because the array could be modified by the array provider, violiting ecancapsulation principles.
-
-		  > Use methods from the `Arrays` utility class, such as _copyOf_ or _equals_.
-		  > When copying an array, a shallow copy is sufficient, as `Vertex2D` objects are immutable.
-
-    *   The `Vertex2D getVertex(int i)` method returns the i-th vertex modulo the number of vertices.
-        In the case of a negative input argument, it throws an `IllegalArgumentException` exception with an error description (see the hint above).
-
-		> The modulo character is represented in Java by `%`
-
-    *   Define equality methods. The two `ArrayPolygons` are the same if all vertex indices are the same. Use `getClass()`, not `instanceof`, to compare classes. Reason: see the lecture.
-
-        > Remember the contract of the` equals` method: the method must be symmetrical, i.e., `new ArrayPolygon(...).equals(new Triangle(...))` must return the same result as `new Triangle(...).equals(new ArrayPolygon(...))`. Even if the points of the triangle and the polygon are the same, `equals` returns `false`, because they are different classes.
+        > The abstract class `SimplePolygon` can have a constructor, but it cannot be instantiated directly.
         
-        **Example** *Following triangles **are not** the same*:
-        *   [1, 1] [2, 2] [3, 3]
-        *   [3, 3] [1, 1] [2, 2]
-        
-5.  Modify the `Triangle` class to extend the `ArrayPolygon` class:
-    *   The constructor will remain in its original form, i.e, it will take three specific vertices as its input arguments and pass them to the superclass constructor in the form of an array of vertices.
+		> There is a static `Arrays.asList` method for converting an array to a list. 
+		
+		> Both the `List.of` and `Arrays.asList` methods return an unmodifiable collection. A new collection must be created for modification.
+		
+    *   In the `CollectionPolygon` class, create a second constructor that will take a *list* of vertices as a parameter.  Again, it must be checked that we have at least one vertex, so this constructor will also call the superclass constructor created in the previous point.
+    
+		> To convert a collection to an array, there is a `toArray` method that takes a new array as an argument.
 
-	    >  Use the following syntax to enumerate array elements: `new Vertex2D[] { /* elements */ }`
+3. Create a `ColoredPolygon` class that takes any existing polygon and adds a new property: color.
 
-    *   Remove all attributes and methods that can be inherited without change, except the `toString()` method.
+    *   The constructor takes a polygon of type `Polygon` and a color of type `Color`.
+    *   The class contains getters for the given attributes `getPolygon` and `getColor`.
+    *   Two colored polygons are the same if they contain (logically) the same polygon and color.
+
+4.  Create a `Paper` class that implements the `Drawable` interface. This class simulates paper on which colored polygons can be drawn. It simulates it by not drawing anything directly, but saves the polygons to be rendered together with the color in the collection as `ColoredPolygon` objects.
 	
-6. If you implemented everything without any errors, then after running the `Draw` class, a [purple triangle will be drawn on the screen and inside it a purple polygon](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images)
-   (make no sense in its shape :wink: ).
+	> Note: The `ColoredPolygon` class is an intermediate step to the so-called design pattern *Decorator*. It adds new properties (here a color) to an existing object by inserting an intermediate object (`ColoredPolygon`) between the client code (`Paper`) and the original object (any `Polygon`). But for it to be a real decorator, the `ColoredPolygon` class would also have to implement the `Polygon` interface.
+	
+    When we draw the same polygon (with the same color) on paper twice, it is saved only once. Polygons are drawn on the paper in color and each polygon has a single color for simplicity. The default color is black.
+	
+    *   The first constructor will be without parameters.
+    
+    *   The next constructor will take a parameter of type `Drawable` and will copy the collection of drawn polygons.
+    
+    *   `changeColor(color)` changes the color in which the following polygons will be drawn (with which color they will be saved).  The default color for a new instance of paper is black. 
+    
+    *   `drawPolygon` "draws" (ie saves) a polygon on paper with the color set in the previous method.
+	    If such a polygon (of the same color and shape) already exists on the paper (in the collection), it is ignored. If the white color is set, the polygon will not be drawn (saved) because it would not be visible on white paper anyway.
+
+    *   `erasePolygon(polygon)` removes the polygon from the paper (removes it from the collection).
+
+    *   `eraseAll()` removes all polygons from the paper.
+
+    *   `getAllDrawnPolygons()` returns all colored polygons.
+
+		> Preserve encapsulation. Don't allow the external code to modify list returned by the getter! The getter has to return the collection as **unmodifiable**. This is a general rule, not just for the `getAllDrawnPolygons()` method. To "switch" the collection into the modifiable version use static `Collections.unmodifiableXXX` methods. We do not have to return an unmodifiable collection ONLY IF we create and return a copy of the original collection in the method.
+		
+    *   `uniqueVerticesAmount()` returns the number of vertices on the paper without duplication.
+    
+    *   See the `Drawable` class javadoc for more information.
+
+5. Starting the `Draw` class [draws a colored house](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
 ### Target UML class diagram:
 
-![UML class diagram](images/06-class-diagram.jpg)
+![UML class diagram](images/07-class-diagram.jpg)
