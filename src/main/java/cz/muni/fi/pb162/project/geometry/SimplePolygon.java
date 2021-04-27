@@ -1,6 +1,7 @@
 package cz.muni.fi.pb162.project.geometry;
 
 import cz.muni.fi.pb162.project.utils.SimpleMath;
+import java.util.Arrays;
 
 /**
  * Class for operations with simple Polygons.
@@ -9,6 +10,20 @@ import cz.muni.fi.pb162.project.utils.SimpleMath;
  */
 public abstract class SimplePolygon implements Polygon {
 
+    /**
+     * Constructor.
+     *
+     * @param arrayOfVertices Gives array of vertices from which it will create Polygon.
+     */
+    public SimplePolygon(Vertex2D[] arrayOfVertices) {
+        if (arrayOfVertices == null) {
+            throw new IllegalArgumentException("Given array pointer is a 'null' pointer.");
+        } else if (arrayOfVertices.length < 1) {
+            throw new IllegalArgumentException("Given array is empty.");
+        } else if (Arrays.asList(arrayOfVertices).contains(null)) {
+            throw new IllegalArgumentException("Given array contains 'null' pointer.");
+        }
+    }
 
     @Override
     public double getWidth() {
