@@ -12,14 +12,13 @@ import java.util.Set;
  */
 public class Paper implements Drawable {
     private Color color = Color.BLACK;
-    private Set<ColoredPolygon> objectSet;
+    private Set<ColoredPolygon> objectSet = new HashSet<>();;
 
     /**
      * Constructor.
      *
      */
     public Paper() {
-        this.objectSet = new HashSet<>();
     }
 
     /**
@@ -28,7 +27,6 @@ public class Paper implements Drawable {
      * @param object Gives Drawable object to be copied to the new Paper.
      */
     public Paper(Drawable object) {
-        this();
         this.objectSet = Set.copyOf(object.getAllDrawnPolygons());
     }
 
@@ -39,7 +37,7 @@ public class Paper implements Drawable {
 
     @Override
     public void drawPolygon(Polygon polygon) {
-        if (color != Color.WHITE) {
+        if (this.color != Color.WHITE) {
             this.objectSet.add(new ColoredPolygon(polygon, color));
         }
     }
