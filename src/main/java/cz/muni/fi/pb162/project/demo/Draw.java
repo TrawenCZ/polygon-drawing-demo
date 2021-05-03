@@ -1,6 +1,6 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.geometry.CollectionPolygon;
+import cz.muni.fi.pb162.project.exception.EmptyDrawableException;
 import cz.muni.fi.pb162.project.geometry.ColoredPolygon;
 import cz.muni.fi.pb162.project.geometry.Paper;
 import cz.muni.fi.pb162.project.geometry.Polygon;
@@ -12,6 +12,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class drawing 2D objects.
@@ -27,50 +29,59 @@ public final class Draw extends JFrame {
 
     private static final Color POLYGON_COLOR = Color.MAGENTA;
 
-    private static final Polygon WALLS =
-            new CollectionPolygon(
-                    new Vertex2D[]{
+    private static final List<Vertex2D> WALLS = LList.of(
                             new Vertex2D(-150, -150),
                             new Vertex2D(150, -150),
                             new Vertex2D(150, 150),
-                            new Vertex2D(-150, 150),
-                    });
+                            new Vertex2D(-150, 150)
+                    );
 
     private static final int A = 45;
     private static final int B = 100;
 
-    private static final Polygon WINDOW_LEFT = new CollectionPolygon(
-            new Vertex2D[]{
+    private static final List<Vertex2D> WINDOW_LEFT = LList.of(
                     new Vertex2D(-A, A),
                     new Vertex2D(-B, A),
                     new Vertex2D(-B, B),
-                    new Vertex2D(-A, B),
-            });
+                    new Vertex2D(-A, B)
+            );
 
-    private static final Polygon WINDOW_RIGHT = new CollectionPolygon(
-            new Vertex2D[]{
+    private static final List<Vertex2D> WINDOW_RIGHT = LList.of(
                     new Vertex2D(A, A),
                     new Vertex2D(B, A),
                     new Vertex2D(B, B),
-                    new Vertex2D(A, B),
-            });
+                    new Vertex2D(A, B)
+            );
 
-    private static final Polygon DOOR = new CollectionPolygon(
-            new Vertex2D[]{
+    private static final List<Vertex2D> DOOR = LList.of(
                     new Vertex2D(-30, -150),
                     new Vertex2D(30, -150),
                     new Vertex2D(30, -20),
-                    new Vertex2D(-30, -20),
-            });
+                    new Vertex2D(-30, -20)
+            );
 
-    private static final Polygon ROOF = new CollectionPolygon(
-            new Vertex2D[]{
+    private static final List<Vertex2D> ROOF = LList.of(
                     new Vertex2D(-150, 150),
                     new Vertex2D(150, 150),
-                    new Vertex2D(0, 250),
-            });
+                    new Vertex2D(0, 250)
+            );
+
+    private static final List<List<Vertex2D>> COLLECTION = LList.of(
+                    WALLS,
+                    WINDOW_LEFT,
+                    WINDOW_RIGHT,
+                    Arrays.asList(new Vertex2D(0, 0), null, null),
+                    DOOR,
+                    ROOF);
 
     private Graphics graphics;
+
+    private static class LList {
+        @SafeVarargs
+        static<E> List<E> of(E... elements) {
+            return Arrays.asList(elements);
+        }
+    }
 
     /**
      * Draws 2D objects.
@@ -99,17 +110,13 @@ public final class Draw extends JFrame {
 
     private void paintScene(Graphics g) {
         graphics = g;
-
         Paper paper = new Paper();
-        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.BLUE);
-        paper.drawPolygon(DOOR);
-        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.GREEN);
-        paper.drawPolygon(WALLS);
-        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.RED);
-        paper.drawPolygon(WINDOW_LEFT);
-        paper.drawPolygon(WINDOW_RIGHT);
-        paper.changeColor(cz.muni.fi.pb162.project.geometry.Color.BLACK);
-        paper.drawPolygon(ROOF);
+
+        try {
+            paper.tryToDrawPolygons(COLLECTION);
+        } catch (EmptyDrawableException e) {
+            e.printStackTrace();
+        }
 
         paintCross();
         paintPaper(paper);

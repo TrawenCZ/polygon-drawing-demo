@@ -1,5 +1,8 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.exception.EmptyDrawableException;
+import cz.muni.fi.pb162.project.exception.TransparentColorException;
+
 import java.util.Collection;
 
 /**
@@ -23,8 +26,9 @@ public interface Drawable {
      * If the current color is white, the polygon is not drawn.
      *
      * @param polygon polygon to be drawn
+     * @throws TransparentColorException when polygon should be drawn with a white color
      */
-    void drawPolygon(Polygon polygon);
+    void drawPolygon(Polygon polygon) throws TransparentColorException;
 
     /**
      * Erases the polygon.
@@ -35,8 +39,10 @@ public interface Drawable {
 
     /**
      * Erases the whole paper. The pencil color is not changed.
+     *
+     * @throws EmptyDrawableException when drawable is already empty
      */
-    void eraseAll();
+    void eraseAll() throws EmptyDrawableException;
 
     /**
      * Returns collection of all drawn polygons which are not erased.

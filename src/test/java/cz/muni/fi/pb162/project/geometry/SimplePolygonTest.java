@@ -1,11 +1,13 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.exception.MissingVerticesException;
 import cz.muni.fi.pb162.project.helper.BasicRulesTester;
 import cz.muni.fi.pb162.project.utils.SimpleMath;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests SimplePolygon class.
@@ -46,6 +48,21 @@ public class SimplePolygonTest {
     @Test
     public void toStringMessage() {
         assertThat(polygon.toString()).isEqualTo("Polygon: vertices = [-3.0, -1.0] [-2.0, -2.0] [-4.0, -1.0]");
+    }
+
+    @Test
+    public void missingVertices() {
+        assertThatThrownBy(() -> new SimplePolygon(new Vertex2D[] { VERTICES[0], VERTICES[1] }) {
+            @Override
+            public Vertex2D getVertex(int index) {
+                return null;
+            }
+
+            @Override
+            public int getNumVertices() {
+                return 0;
+            }
+        }).isExactlyInstanceOf(MissingVerticesException.class);
     }
 
     private class MockPolygon extends SimplePolygon {

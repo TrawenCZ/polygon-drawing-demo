@@ -1,5 +1,6 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.exception.MissingVerticesException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests polygon stored in a collection.
@@ -100,23 +103,12 @@ public class CollectionPolygonTest {
         assertThat(collectionPolygon.getNumVertices()).isEqualTo(5);
         collectionPolygon = collectionPolygon.withoutLeftmostVertices();
         assertThat(collectionPolygon.getNumVertices()).isEqualTo(3);
-        collectionPolygon = collectionPolygon.withoutLeftmostVertices();
-        assertThat(collectionPolygon.getNumVertices()).isEqualTo(2);
-        collectionPolygon = collectionPolygon.withoutLeftmostVertices();
-        assertThat(collectionPolygon.getNumVertices()).isEqualTo(1);
-        assertThat(collectionPolygon.getVertex(0)).isEqualTo(new Vertex2D(3, 4));
-        //collectionPolygon = collectionPolygon.withoutLeftmostVertices();
-        //assertThat(collectionPolygon.getNumVertices()).isEqualTo(0);
+        assertThatThrownBy(collectionPolygon::withoutLeftmostVertices)
+                .isInstanceOf(MissingVerticesException.class);
 
         assertThat(this.collectionPolygon.getNumVertices())
                 .as("Original polygon should not be changed")
                 .isEqualTo(6);
-        
-        assertThat(collectionPolygon.withoutLeftmostVertices()).isNull();
-
-        //assertThatIllegalArgumentException()
-        //        .isThrownBy(collectionPolygon::withoutLeftmostVertices)
-        //        .withMessageContaining("empty");
     }
 
 }
