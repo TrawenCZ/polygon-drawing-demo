@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Adam Slíva
  */
 public class CollectionPolygon extends SimplePolygon {
-    private final ArrayList<Vertex2D> verticesArrayList;
+    private final List<Vertex2D> verticesArrayList;
 
     /**
      * Contructor.
@@ -71,7 +71,7 @@ public class CollectionPolygon extends SimplePolygon {
      */
     public CollectionPolygon withoutLeftmostVertices() {
         double minimumX = SimpleMath.minX(new ArrayPolygon(verticesArrayList.toArray(new Vertex2D[0])));
-        ArrayList<Vertex2D> newPolygonArray = new ArrayList<>();
+        List<Vertex2D> newPolygonArray = new ArrayList<>();
         for (Vertex2D vertex : this.verticesArrayList) {
             if (vertex.getX() == minimumX) {
                 continue;

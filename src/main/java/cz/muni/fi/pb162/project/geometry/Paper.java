@@ -27,7 +27,7 @@ public class Paper implements Drawable {
      * @param object Gives Drawable object to be copied to the new Paper.
      */
     public Paper(Drawable object) {
-        this.objectSet = Set.copyOf(object.getAllDrawnPolygons());
+        this.objectSet = new HashSet<>(object.getAllDrawnPolygons());
     }
 
     @Override
