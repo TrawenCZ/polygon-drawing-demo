@@ -1,5 +1,6 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.exception.MissingVerticesException;
 import cz.muni.fi.pb162.project.utils.SimpleMath;
 
 import java.util.ArrayList;
@@ -19,8 +20,9 @@ public class CollectionPolygon extends SimplePolygon {
      * Contructor.
      *
      * @param arrayOfVertices Gives array of vertices to be converted.
+     * @throws MissingVerticesException From super when some vertex is missing.
      */
-    public CollectionPolygon(Vertex2D[] arrayOfVertices) {
+    public CollectionPolygon(Vertex2D[] arrayOfVertices) throws MissingVerticesException {
         super(arrayOfVertices);
         this.verticesArrayList = new ArrayList<>(Arrays.asList(arrayOfVertices));
     }
