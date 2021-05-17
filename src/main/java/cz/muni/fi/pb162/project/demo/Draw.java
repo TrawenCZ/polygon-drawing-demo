@@ -1,8 +1,6 @@
 package cz.muni.fi.pb162.project.demo;
 
-import cz.muni.fi.pb162.project.exception.EmptyDrawableException;
-import cz.muni.fi.pb162.project.geometry.ColoredPolygon;
-import cz.muni.fi.pb162.project.geometry.Paper;
+import cz.muni.fi.pb162.project.geometry.LabeledPolygon;
 import cz.muni.fi.pb162.project.geometry.Polygon;
 import cz.muni.fi.pb162.project.geometry.Vertex2D;
 
@@ -12,8 +10,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Class drawing 2D objects.
@@ -27,61 +23,7 @@ public final class Draw extends JFrame {
     private static final int HALF_WIDTH = PANEL_WIDTH / 2;
     private static final int HALF_HEIGHT = PANEL_HEIGHT / 2;
 
-    private static final Color POLYGON_COLOR = Color.MAGENTA;
-
-    private static final List<Vertex2D> WALLS = LList.of(
-                            new Vertex2D(-150, -150),
-                            new Vertex2D(150, -150),
-                            new Vertex2D(150, 150),
-                            new Vertex2D(-150, 150)
-                    );
-
-    private static final int A = 45;
-    private static final int B = 100;
-
-    private static final List<Vertex2D> WINDOW_LEFT = LList.of(
-                    new Vertex2D(-A, A),
-                    new Vertex2D(-B, A),
-                    new Vertex2D(-B, B),
-                    new Vertex2D(-A, B)
-            );
-
-    private static final List<Vertex2D> WINDOW_RIGHT = LList.of(
-                    new Vertex2D(A, A),
-                    new Vertex2D(B, A),
-                    new Vertex2D(B, B),
-                    new Vertex2D(A, B)
-            );
-
-    private static final List<Vertex2D> DOOR = LList.of(
-                    new Vertex2D(-30, -150),
-                    new Vertex2D(30, -150),
-                    new Vertex2D(30, -20),
-                    new Vertex2D(-30, -20)
-            );
-
-    private static final List<Vertex2D> ROOF = LList.of(
-                    new Vertex2D(-150, 150),
-                    new Vertex2D(150, 150),
-                    new Vertex2D(0, 250)
-            );
-
-    private static final List<List<Vertex2D>> COLLECTION = LList.of(
-                    WALLS,
-                    WINDOW_LEFT,
-                    WINDOW_RIGHT,
-                    Arrays.asList(new Vertex2D(0, 0), null, null),
-                    DOOR,
-                    ROOF);
-
     private Graphics graphics;
-
-    private static class LList {
-        @SafeVarargs
-        static<E> List<E> of(E... elements) {
-            return Arrays.asList(elements);
-        }
-    }
 
     /**
      * Draws 2D objects.
@@ -110,16 +52,18 @@ public final class Draw extends JFrame {
 
     private void paintScene(Graphics g) {
         graphics = g;
-        Paper paper = new Paper();
 
-        try {
-            paper.tryToDrawPolygons(COLLECTION);
-        } catch (EmptyDrawableException e) {
-            e.printStackTrace();
-        }
+        LabeledPolygon polygon = new LabeledPolygon.Builder()
+                .addVertex("A", new Vertex2D(-100, -100))
+                .addVertex("D", new Vertex2D(100, 100))
+                .addVertex("F", new Vertex2D(-100, 100))
+                .addVertex("C", new Vertex2D(100, -100))
+                .addVertex("B", new Vertex2D(0, 0))
+                .addVertex("E", new Vertex2D(0, 0))
+                .build();
 
         paintCross();
-        paintPaper(paper);
+        paintPolygon(polygon);
     }
 
     private void paintCross() {
@@ -128,55 +72,35 @@ public final class Draw extends JFrame {
         graphics.drawLine(HALF_WIDTH, 0, HALF_WIDTH, PANEL_HEIGHT);
     }
 
-    private void paintPaper(Paper paper) {
-        for (ColoredPolygon cp : paper.getAllDrawnPolygons()) {
-            paintColoredPolygon(cp);
-        }
-    }
+    private void paintPolygon(Polygon polygon) {
 
-    private void paintColoredPolygon(ColoredPolygon coloredPolygon) {
-        paintPolygon(coloredPolygon.getPolygon(), convertColor(coloredPolygon.getColor()));
-    }
+        int[] yVertex = new int[polygon.getNumVertices() + 1];
+        int[] xVertex = new int[polygon.getNumVertices() + 1];
 
-    private void paintPolygon(Polygon polygon, Color color) {
-        int arraySize = polygon.getNumVertices() + 1;
-        int[] yVertex = new int[arraySize];
-        int[] xVertex = new int[arraySize];
-
-        for (int i = 0; i < arraySize; i++) {
-            Vertex2D vertex = polygon.getVertex(i);
-            xVertex[i] = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH - vertex.getX()));
-            yVertex[i] = (int) Math.rint(HALF_HEIGHT - vertex.getY());
+        for (int i = 0; i <= polygon.getNumVertices(); i++) {
+            xVertex[i] = PANEL_WIDTH - ((int) Math.rint(HALF_WIDTH -
+                    polygon.getVertex(i % polygon.getNumVertices()).getX()));
+            yVertex[i] = (int) Math.rint(HALF_HEIGHT - polygon.getVertex(i % polygon.getNumVertices()).getY());
         }
 
-        graphics.setColor(color);
-        graphics.drawPolygon(xVertex, yVertex, arraySize);
+        graphics.setColor(Color.BLUE);
+        graphics.drawPolygon(xVertex, yVertex, polygon.getNumVertices() + 1);
+
+        if (polygon instanceof LabeledPolygon) {
+            LabeledPolygon labeledPolygon = (LabeledPolygon) polygon;
+
+            graphics.setColor(Color.RED);
+            int j = 0;
+            int labelDistance = 15;
+            for (String label : labeledPolygon.getLabels()) {
+                int x = (xVertex[j] < HALF_WIDTH) ? xVertex[j] + labelDistance : xVertex[j] + labelDistance;
+                int y = yVertex[j];
+                graphics.drawString(label, x, y);
+                j++;
+                labelDistance *= -1;
+            }
+        }
+
     }
 
-    /**
-     * Converts enum Color to real color enum.
-     *
-     * @param color enum specific type
-     * @return converted color type
-     */
-    private Color convertColor(cz.muni.fi.pb162.project.geometry.Color color) {
-        switch (color) {
-            case WHITE:
-                return Color.WHITE;
-            case YELLOW:
-                return Color.YELLOW;
-            case ORANGE:
-                return Color.ORANGE;
-            case RED:
-                return Color.RED;
-            case BLUE:
-                return Color.BLUE;
-            case GREEN:
-                return Color.GREEN;
-            case BLACK:
-                return Color.BLACK;
-            default:
-                return POLYGON_COLOR;
-        }
-    }
 }

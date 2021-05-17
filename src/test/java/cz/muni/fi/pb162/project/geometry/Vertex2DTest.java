@@ -1,9 +1,14 @@
 package cz.muni.fi.pb162.project.geometry;
 
+import cz.muni.fi.pb162.project.comparator.VertexInverseComparator;
 import cz.muni.fi.pb162.project.helper.BasicRulesTester;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
+
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -95,5 +100,39 @@ public class Vertex2DTest {
         assertThat(new Vertex2D(0,0)).isNotEqualTo(null);
     }
 
+    @Test
+    public void naturalOrderAscending() {
+        // given
+        Vertex2D v1a1 = new Vertex2D(1, 1);
+        Vertex2D v1a2 = new Vertex2D(1, 2);
+        Vertex2D v2a2 = new Vertex2D(2, 2);
+        // then
+        Assertions.assertThat(v1a1)
+                .isLessThan(v1a2)
+                .isLessThan(v2a2);
+        Assertions.assertThat(v1a2).isLessThan(v2a2);
+    }
+
+    @Test
+    public void inverseComparator() {
+        // given
+        SortedSet<Vertex2D> sortedSet = new TreeSet<Vertex2D>(new VertexInverseComparator());
+        sortedSet.add(new Vertex2D(1, 1));
+        sortedSet.add(new Vertex2D(0, 0));
+        sortedSet.add(new Vertex2D(-1, 1));
+        sortedSet.add(new Vertex2D(0, 1));
+        sortedSet.add(new Vertex2D(1, 0));
+        sortedSet.add(new Vertex2D(0.99, 23));
+        // then
+        Assertions.assertThat(sortedSet)
+                .containsExactly(
+                        new Vertex2D(1, 1),
+                        new Vertex2D(1, 0),
+                        new Vertex2D(0.99, 23),
+                        new Vertex2D(0, 1),
+                        new Vertex2D(0, 0),
+                        new Vertex2D(-1, 1)
+                );
+    }
 
 }
