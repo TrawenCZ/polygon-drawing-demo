@@ -93,7 +93,7 @@ public class Paper implements Drawable, PolygonFactory {
             return new CollectionPolygon(copyOfVertices);
         } catch (IllegalArgumentException e) {
             copyOfVertices.removeIf(Objects::isNull);
-            return tryToCreatePolygon(copyOfVertices);
+            return new CollectionPolygon(copyOfVertices);
         }
     }
 
