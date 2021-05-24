@@ -1,0 +1,6 @@
+0.0 -100.0 vrchol b
+-100.0 0.0 vrchol a
+0.0 100.0 vrchol c
+-100.0 100.0 vrchol d
+-100.0 200.0 vrchol d
+-100.0 200.0 vrchol e

@@ -1,0 +1,4 @@
+-1.0 1.0 vrchol f
+-1.0 vrchol g
+-1,0 1,0 vrchol g
+vrchol g -1.0 1.0

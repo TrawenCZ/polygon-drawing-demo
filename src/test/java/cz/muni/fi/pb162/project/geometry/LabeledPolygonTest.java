@@ -158,6 +158,23 @@ public class LabeledPolygonTest {
     }
 
     @Test
+    public void getSortedVerticesOtherComparator() {
+        Comparator<Vertex2D> comparator = Comparator.comparingDouble(Vertex2D::getX);
+
+        LabeledPolygon polygon = new LabeledPolygon.Builder()
+                .addVertex("B", new Vertex2D(1, 0))
+                .addVertex("C", new Vertex2D(1, 4))
+                .addVertex("A", new Vertex2D(0, 0))
+                .build();
+
+        assertThat(polygon.getSortedVertices(comparator))
+                .containsExactly(
+                        new Vertex2D(0, 0),
+                        new Vertex2D(1, 0)
+                        );
+    }
+
+    @Test
     public void duplicateVertices() {
         LabeledPolygon polygon = new LabeledPolygon.Builder()
                 .addVertex("A", new Vertex2D(-20, 20))
