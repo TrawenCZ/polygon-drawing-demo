@@ -8,8 +8,8 @@ import java.util.Objects;
  * @author Adam Slíva
  */
 public class Vertex2D implements Comparable<Vertex2D> {
-    private final double myX;
-    private final double myY;
+    private final double x;
+    private final double y;
 
     /**
      * Constructing Vertex.
@@ -18,20 +18,20 @@ public class Vertex2D implements Comparable<Vertex2D> {
      * @param newY Gives Y.
      */
     public Vertex2D(double newX, double newY) {
-        this.myX = newX;
-        this.myY = newY;
+        this.x = newX;
+        this.y = newY;
     }
     public double getX() {
-        return myX;
+        return x;
     }
 
     public double getY() {
-        return myY;
+        return y;
     }
 
     @Override
     public String toString() {
-        return "[" + myX + ", " + myY + "]";
+        return "[" + x + ", " + y + "]";
     }
 
     /**
@@ -42,7 +42,7 @@ public class Vertex2D implements Comparable<Vertex2D> {
      * @return New middle Vertex.
      */
     public Vertex2D createMiddle(Vertex2D vertex) {
-        return new Vertex2D((myX + vertex.getX()) / 2, (myY + vertex.getY()) / 2);
+        return new Vertex2D((x + vertex.getX()) / 2, (y + vertex.getY()) / 2);
     }
 
     /**
@@ -56,7 +56,7 @@ public class Vertex2D implements Comparable<Vertex2D> {
         if (vertex == null) {
             return -1.0;
         }
-        return Math.sqrt(Math.pow(this.myX - vertex.getX(), 2) + Math.pow(this.myY - vertex.getY(), 2));
+        return Math.sqrt(Math.pow(this.x - vertex.getX(), 2) + Math.pow(this.y - vertex.getY(), 2));
     }
 
     @Override
@@ -68,12 +68,12 @@ public class Vertex2D implements Comparable<Vertex2D> {
             return false;
         }
         Vertex2D vertex2D = (Vertex2D) o;
-        return Double.compare(vertex2D.myX, myX) == 0 && Double.compare(vertex2D.myY, myY) == 0;
+        return Double.compare(vertex2D.x, x) == 0 && Double.compare(vertex2D.y, y) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(myX, myY);
+        return Objects.hash(x, y);
     }
 
     /**
