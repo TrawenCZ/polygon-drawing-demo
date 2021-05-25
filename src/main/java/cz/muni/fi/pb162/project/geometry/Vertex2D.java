@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @author Adam Slíva
  */
-public class Vertex2D {
+public class Vertex2D implements Comparable<Vertex2D> {
     private final double myX;
     private final double myY;
 
@@ -74,6 +74,21 @@ public class Vertex2D {
     @Override
     public int hashCode() {
         return Objects.hash(myX, myY);
+    }
+
+    /**
+     * Method for comparing vertexes by X and Y coordinates.
+     *
+     * @param another Another vertex to be compared to the one from the class.
+     *
+     * @return Integer from which other methods determine output.
+     */
+    public int compareTo(Vertex2D another) {
+        int output = Double.compare(this.getX(), another.getX());
+        if (output == 0) {
+            return Double.compare(this.getY(), another.getY());
+        }
+        return output;
     }
 }
 
