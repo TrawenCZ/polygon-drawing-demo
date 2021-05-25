@@ -2,7 +2,6 @@ package cz.muni.fi.pb162.project.demo;
 
 import cz.muni.fi.pb162.project.geometry.LabeledPolygon;
 import cz.muni.fi.pb162.project.geometry.Polygon;
-import cz.muni.fi.pb162.project.geometry.Vertex2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,6 +9,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Class drawing 2D objects.
@@ -22,6 +23,8 @@ public final class Draw extends JFrame {
     private static final int PANEL_HEIGHT = 600;
     private static final int HALF_WIDTH = PANEL_WIDTH / 2;
     private static final int HALF_HEIGHT = PANEL_HEIGHT / 2;
+
+    private static final String POLYGON_OK_TXT = "polygon-ok.txt";
 
     private Graphics graphics;
 
@@ -53,17 +56,19 @@ public final class Draw extends JFrame {
     private void paintScene(Graphics g) {
         graphics = g;
 
-        LabeledPolygon polygon = new LabeledPolygon.Builder()
-                .addVertex("A", new Vertex2D(-100, -100))
-                .addVertex("D", new Vertex2D(100, 100))
-                .addVertex("F", new Vertex2D(-100, 100))
-                .addVertex("C", new Vertex2D(100, -100))
-                .addVertex("B", new Vertex2D(0, 0))
-                .addVertex("E", new Vertex2D(0, 0))
-                .build();
+        LabeledPolygon.Builder builder = new LabeledPolygon.Builder();
+
+        try(FileInputStream fis = new FileInputStream(POLYGON_OK_TXT)) {
+            builder.read(fis);
+        } catch (IOException e) {
+            System.out.println("Exception was thrown!");
+            e.printStackTrace();
+            return;
+        }
+
 
         paintCross();
-        paintPolygon(polygon);
+        paintPolygon(builder.build());
     }
 
     private void paintCross() {
@@ -93,11 +98,10 @@ public final class Draw extends JFrame {
             int j = 0;
             int labelDistance = 15;
             for (String label : labeledPolygon.getLabels()) {
-                int x = (xVertex[j] < HALF_WIDTH) ? xVertex[j] + labelDistance : xVertex[j] + labelDistance;
-                int y = yVertex[j];
+                int x = xVertex[j];
+                int y = (j % 2 == 0) ? yVertex[j] : yVertex[j] + labelDistance;
                 graphics.drawString(label, x, y);
                 j++;
-                labelDistance *= -1;
             }
         }
 

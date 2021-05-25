@@ -1,85 +1,47 @@
-## Ninth iteration
+## Tenth iteration
 
-Exercise focused on working with ordered collections (and lambda expressions).
+Exercise focused on working with input and output.
 
-In previous iterations, we created several variants of simple n-gons, whose topology (the order of interconnection of vertices by edges) was given by the order of vertices.
-Now let's create an n-gon with named vertices.
-The topology will be given by the alphabetical order of the names of the vertices.
-By changing the names of the vertices, we can easily change the topology of the n-gon.
+Modify the `LabeledPolygon.Builder` class to implement the `PolygonReadable` interface.
+Modify the `LabeledPolygon` class to implement the `PolygonWritable` interface.
 
-Let's look at an example. In the following image, the left is an n-gon with six vertices.
-The numbers at the vertices represent the order in which the vertices were defined and the topology is given by their order.
-If the topology is given by naming the vertices, then the same result is achieved by naming vertices 1-6 with the letters A-F (picture in the middle).
-However, renaming vertices can completely change the topology without having to change the order of the n-gon vertices themselves (picture on the right).
+1.  The `read(InputStream)` method takes an open input containing named vertices, reads the vertices, and adds them to the existing vertices of the polygon.
+    For any input/output error or input data format error, the method must atomically fail and throw an `IOException`. (atomically = loading all or nothing)
+    The input data format is as follows:
+    *   The input is text.
+    *   Each vertex is on one line.
+    *   Each line is in the format _"x y vertex name"_, i.e. first the coordinates of the vertex separated by a space
+        and then the name of the vertex (the name can contain spaces).
+        See, for example, the file _polygon-ok.txt_.
 
-![topology](images/09a.png)
+2.  The `write(OutputStream)` method writes vertices to a given output stream.
+    The output format is the same as for the previous method.
 
-1.  Define the natural order on the `Vertex2D` class according to the `equals() `method,
-    i.e. it is sorted according to the X coordinate in ascending order and in case of a match it is sorted by Y in ascending order.
+3.  The `write(File)` and `read(File)` methods will work the same as before,
+    however, they will work with the file instead of the I/O stream.
+    Avoid code repetition!
 
-2.  Create `VertexInverseComparator` for the `Vertex2D` class in the package `cz.muni.fi.pb162.project.comparator`.
-    The comparator will sort the vertices by **descending**, first sort by X coordinate descending, and in case of a match, sort Y by descending.
+4.  Create a `writeJson(OutputStream os)` method that will write a map in JSON format to the output stream.
+    *   Use external library [gson](https://github.com/google/gson).
+        For maven, you need to add a dependency to the `pom.xml` file in the `<dependencies>` section.
+    *   Read the _Gson_ class documentation.
+    *   According to [documentation use the so-called _pretty print_](https://github.com/google/gson/blob/master/UserGuide.md#compact-vs-pretty-printing-for-json-output-format).
+    *   An object of type _Gson_ can be reused, so you only need to create it once.
 
-3.  Use a **sorted map** to create a `LabeledPolygon` class extending the `SimplePolygon` class.
-    This class will be similar to the `ArrayPolygon` and `CollectionPolygon` classes, except that the vertices are stored under their names.
+6.  Edit the `Demo` class as follows:
+    *   The class creates `LabeledPolygon` from the file `polygon-ok.txt`.
+    *   The polygon will also contain a vertex named `vertex x` with coordinates `[123, 456]`.
+    *   Write the output to the output stream `System.out` in JSON format.
+    *   To check that the output stream is still open then print `Hello World!`.
 
-    The vertices are named by any text string (usually one letter) and *the name of the vertex is unique within the n-gon*.
-    However, an n-gon can contain two differently named vertices with the same coordinates
-    (see the situation in the example above).
-
-    The order of vertices in an n-gon is given by their naming (lexicographically ascending).
-
-    The class will have a **private** constructor with one parameter - a map of vertices and their labels.
-	
-    The class will not be inheritable (will be final).
-
-    Implement the following interfaces (for more information, see the JavaDoc of the interface).
-
-    Methods from the `Polygon` interface:
-    *   `Vertex2D getVertex(int index)` returns the index-th vertex with respect to the order given by the vertex naming.
-        For example, if we have vertices "A", "B" and "C", then the zero vertex is "A",
-        the first vertex "B", the second vertex "C", the third vertex again "A" (modulo) etc.
-    *   `int getNumVertices()` returns the number of vertices in the collection.
-
-    Implement the `Labelable` interface:
-    *   `Vertex2D getVertex(String label)` returns the coordinates of the vertex named `label`.
-        Method throws `IllegalArgumentException` if such vertex does not exist.
-    *   `getLabels()` returns a collection of vertex names arranged lexicographically **ascending**.
-    *   `getLabels(Vertex2D vertex)` returns all vertex names with `vertex` coordinates.
-        If no such vertex exists, it returns an empty collection.
-
-    Implement the `Sortable` interface:
-    *   `Collection<Vertex2D> getSortedVertices()` returns vertices sorted by natural order without duplication.
-    *   `Collection<Vertex2D> getSortedVertices(Comparator<Vertex2D> comparator)` takes any 2D vertex comparator and returns vertices sorted by that comparator without duplication.
-
-    Finally, the `Collection<Vertex2D> duplicateVertices()` method returns a set of vertices that are stored multiple times under different names in the polygon.
-> If we do not return a new collection, we need to return the collection as unmodifiable.
-
-4. Create a **nested** class `Builder`, ie `LabeledPolygon.Builder`.
-   The class will be static, ie no instance of the `LabeledPolygon` class is required to use it.
-   This class will take care of creating the polygon.
-   *   The class will implement the `Buildable` interface.
-   *   The `Builder addVertex(String label, Vertex2D vert)` method saves the vertex under the given name.
-       The name or the vertex cannot be `null`, otherwise the method will fail with a suitable exception.
-       If a vertex already exists in the n-gon under the given name, it will be replaced by a new one.
-   *   The `LabeledPolygon build()` method returns a new `LabeledPolygon` instance filled with vertices.
-   *   Usage:
-       ```java
-       LabeledPolygon polygon = new LabeledPolygon.Builder()
-            .addVertex("A", new Vertex2D(2, 5))
-            .addVertex("B", new Vertex2D(3, 1))
-            .addVertex("C", new Vertex2D(1, 3))
-            .build();
-       ```
-
-5.  If you performed the implementation without errors, then after running the `Draw` class, a [polygon with named vertices will be drawn on the screen](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images)
-    similar to the middle polygon above.
+5.  Running the `Draw` class loads _polygon-ok.txt_ and [draws on the screen](https://gitlab.fi.muni.cz/pb162/pb162-course-info/wikis/draw-images).
 
 ### Hints
 
-- For primitive types, there are static comparison methods, such as `Double.compare`.
-- For the static internal class `Builder`, just call `LabeledPolygon.Builder()` instead of `LabeledPolygon().Builder()`.
-
-### Target UML class diagram:
-
-![UML class diagram](images/09-class-diagram.jpg)
+- Only close streams/files that you have opened.
+- Use _try with resources_.
+- Study the methods `Writer#flush()`, `Reader#ready()`.
+- Creating a file: `new File("soubor.txt")`.
+- `Demo.main` can throw `IOException`.
+- Instead of `\n`, use the universal line break separator, `System.lineSeparator()`. 
+- The tests create a `polygon-out.txt` file.
