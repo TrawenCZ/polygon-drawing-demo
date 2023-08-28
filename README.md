@@ -1,3 +1,9 @@
+## Author's note
+- this project was made during FI MUNI Java Introduction course in multiple iterations
+- there may be parts of code, which were provided me as an assignment
+
+
+
 ## Ninth iteration
 
 Exercise focused on working with ordered collections (and lambda expressions).
